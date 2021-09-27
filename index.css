@@ -1,13 +1,14 @@
 body{
     font-family: 'Noto Sans Mono', monospace;
+    font-size: 14px;
 }
 
 .div-projects{
   background-image: url(ai_background.png);
 }
 
-.bd-placeholder-img {
-  font-size: 1.125rem;
+/* .bd-placeholder-img {
+  font-size: 1.105rem;
   text-anchor: middle;
   -webkit-user-select: none;
   -moz-user-select: none;
@@ -16,11 +17,11 @@ body{
 
 @media (min-width: 768px) {
   .bd-placeholder-img-lg {
-    font-size: 3.5rem;
+    font-size: 2.5rem;
   }
 }
 
-
+ */
 
 .hdg-1 {
   font-family: "Press Start 2P", sans-serif;

@@ -679,6 +679,32 @@
         </div> <!-- .container -->
     </section>
 
+    <!-- ===================== FORBES RECONHECIMENTO ===================== -->
+    <section class="py-5" id="forbes" data-aos="fade-up">
+        <div class="container">
+            <h2 class="section-title hdg-1 anim" data-text="Reconhecimento pela Forbes">
+                Reconhecimento pela Forbes
+            </h2>
+            <p class="section-subtitle">
+                Fui convidado a participar de um evento de destaque, reunindo os melhores CIOs/CTOs do Brasil.
+            </p>
+            <div class="text-center">
+                <!-- Imagem 800x480 -->
+                <img src="forbes_bruno.png" alt="Bruno no evento da Forbes" 
+                     class="img-fluid mt-3"
+                     style="max-width: 800px; width: 100%; height: auto;" />
+            </div>
+            <p class="mt-4">
+                Receber esse convite foi uma honra que reforça meu compromisso com a inovação 
+                e a liderança em TI. Mesmo não tendo recebido uma premiação, estar ao lado dos 
+                principais nomes da tecnologia no Brasil foi um passo importante na minha 
+                trajetória profissional e um reconhecimento do trabalho contínuo que venho 
+                desenvolvendo como CIO/CTO. Esse tipo de visibilidade me motiva a seguir buscando 
+                soluções que gerem impacto real no mercado e na vida das pessoas.
+            </p>
+        </div>
+    </section>
+
     <!-- ===================== BIG NUMBERS ===================== -->
     <section class="big-numbers" data-aos="fade-up">
         <div class="container">
@@ -1027,17 +1053,31 @@
 
     <!-- Script para criar a animação 3D no background do Hero com interação sutil -->
     <script>
-        /* === Exemplo de script JS para Three.js com rotação padrão,
-     interação do usuário e leve deformação no círculo. === */
+        /* === Exemplo de script JS para Three.js com:
+        1) rotação contínua base
+        2) interação do usuário (mouse/touch)
+        3) leve deformação quando o usuário interage
+        4) sem perder a rotação padrão === */
 
+        // Variáveis principais
         let scene, camera, renderer;
         let sphere, groupParticles;
 
-        // Rotação alvo (ao mover mouse ou tocar)
-        let targetRotationX = 0;
-        let targetRotationY = 0;
+        // -- Rotação base (sempre girando, mesmo sem interação)
+        let baseRotX = 0;
+        let baseRotY = 0;
 
-        // Fatores de escala para a leve deformação
+        // -- Offset que será somado por causa do movimento do usuário
+        let offsetX = 0;
+        let offsetY = 0;
+
+        // -- Alvo do offset (quando o usuário move/toca)
+        let targetOffsetX = 0;
+        let targetOffsetY = 0;
+
+        // -- Fatores de escala (leve deformação)
+        let currentScaleX = 1;
+        let currentScaleY = 1;
         let targetScaleX = 1;
         let targetScaleY = 1;
 
@@ -1108,55 +1148,67 @@
             renderer.setSize(window.innerWidth, window.innerHeight);
         }
 
+        /* ======= Interação via mouse ======= */
         function handleMouseMove(e) {
             // Converte a posição do mouse para um range [-0.5, 0.5]
             let x = e.clientX / window.innerWidth - 0.5;
             let y = e.clientY / window.innerHeight - 0.5;
 
-            // Define rotação alvo
-            targetRotationX = y * 0.3;
-            targetRotationY = x * 0.3;
+            // Fatores para rotação
+            targetOffsetX = y * 0.3;
+            targetOffsetY = x * 0.3;
 
             // Leve deformação na escala
             targetScaleX = 1 + x * 0.1;
             targetScaleY = 1 - y * 0.1;
         }
 
+        /* ======= Interação via toque ======= */
         function handleTouchMove(e) {
-            // Se houver apenas um toque (dedo)
+            // Se houver apenas um toque
             if (e.touches && e.touches.length === 1) {
                 let touch = e.touches[0];
                 let x = touch.clientX / window.innerWidth - 0.5;
                 let y = touch.clientY / window.innerHeight - 0.5;
 
-                targetRotationX = y * 0.3;
-                targetRotationY = x * 0.3;
+                targetOffsetX = y * 0.3;
+                targetOffsetY = x * 0.3;
 
                 targetScaleX = 1 + x * 0.1;
                 targetScaleY = 1 - y * 0.1;
             }
         }
 
+        /* ======= Loop de animação ======= */
         function animate() {
             requestAnimationFrame(animate);
 
-            // Rotação "padrão" contínua (sem interação do usuário)
-            sphere.rotation.y += 0.001;
-            sphere.rotation.x += 0.0005;
-            groupParticles.rotation.y += 0.0005;
+            // 1) Atualiza a rotação base (sempre gira)
+            baseRotX += 0.0015; // rotação no eixo X
+            baseRotY += 0.0030; // rotação no eixo Y
 
-            // Aproxima rotação da esfera dos valores alvos (interação)
-            sphere.rotation.x += 0.05 * (targetRotationX - sphere.rotation.x);
-            sphere.rotation.y += 0.05 * (targetRotationY - sphere.rotation.y);
+            // 2) Faz o offset (desvio) se aproximar do alvo
+            offsetX += 0.05 * (targetOffsetX - offsetX);
+            offsetY += 0.05 * (targetOffsetY - offsetY);
 
-            // Aproxima a escala da esfera dos valores alvos (leve deformação)
-            sphere.scale.x += 0.05 * (targetScaleX - sphere.scale.x);
-            sphere.scale.y += 0.05 * (targetScaleY - sphere.scale.y);
-            // sphere.scale.z fica fixo ou pode ser ajustado, se quiser
+            // 3) Soma rotação base com o offset do usuário
+            sphere.rotation.x = baseRotX + offsetX;
+            sphere.rotation.y = baseRotY + offsetY;
 
+            // Partículas também podem girar
+            groupParticles.rotation.y = baseRotY * 0.5;
+
+            // 4) Ajusta a escala da esfera (leve deformação) aproximando do alvo
+            currentScaleX += 0.05 * (targetScaleX - currentScaleX);
+            currentScaleY += 0.05 * (targetScaleY - currentScaleY);
+
+            sphere.scale.x = currentScaleX;
+            sphere.scale.y = currentScaleY;
+            // sphere.scale.z poderia ficar fixo ou ser igual a 1
+
+            // Renderiza
             renderer.render(scene, camera);
         }
-
     </script>
 </body>
 

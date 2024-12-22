@@ -7,24 +7,36 @@
     <title>Bruno Kawakami - Inovação e IA</title>
 
     <!-- Bootstrap 5 CSS -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
-        crossorigin="anonymous" />
+    <link
+        rel="stylesheet"
+        href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+        crossorigin="anonymous"
+    />
 
     <!-- Font Awesome -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
-        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link
+        rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
+        crossorigin="anonymous"
+        referrerpolicy="no-referrer"
+    />
 
     <!-- AOS CSS (Animate On Scroll) -->
-    <link rel="stylesheet" href="https://unpkg.com/aos@2.3.1/dist/aos.css" />
+    <link
+        rel="stylesheet"
+        href="https://unpkg.com/aos@2.3.1/dist/aos.css"
+    />
 
     <!-- Google Fonts para o estilo pixelado e monospace -->
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Mono&family=Press+Start+2P&display=swap"
-        rel="stylesheet" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Noto+Sans+Mono&family=Press+Start+2P&display=swap"
+        rel="stylesheet"
+    />
 
     <style>
         /************************************************
-    *                Estilos Globais               *
-    ************************************************/
+        *                Estilos Globais               *
+        ************************************************/
         body {
             background: #0f0f0f;
             color: #ffffff;
@@ -47,8 +59,7 @@
         }
 
         a:hover {
-            color: #3c55ff;
-            /* Cor azul no hover */
+            color: #3c55ff; /* Cor azul no hover */
             text-decoration: none;
         }
 
@@ -72,15 +83,14 @@
         }
 
         /************************************************
-    *                Seção HERO                    *
-    ************************************************/
+        *                Seção HERO                    *
+        ************************************************/
         .hero-section {
             position: relative;
             min-height: 100vh;
             display: flex;
             align-items: center;
-            background: #000;
-            /* Cor de fundo base */
+            background: #000; /* Cor de fundo base */
             overflow: hidden;
         }
 
@@ -91,8 +101,7 @@
             left: 0;
             width: 100%;
             height: 100%;
-            z-index: 0;
-            /* Canvas atrás de tudo */
+            z-index: 0; /* Canvas atrás de tudo */
             overflow: hidden;
         }
 
@@ -109,15 +118,12 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0, 0, 0, 0.5);
-            /* meio tom de preto */
-            z-index: 1;
-            /* Fica acima do canvas, mas abaixo do conteúdo */
+            background: rgba(0, 0, 0, 0.5); /* meio tom de preto */
+            z-index: 1; /* Fica acima do canvas, mas abaixo do conteúdo */
         }
 
         .hero-content {
-            position: relative;
-            /* Conteúdo fica acima da overlay */
+            position: relative; /* Conteúdo fica acima da overlay */
             z-index: 2;
             text-align: left;
         }
@@ -138,8 +144,7 @@
         .hero-image {
             text-align: center;
             position: relative;
-            z-index: 2;
-            /* acima da overlay */
+            z-index: 2; /* acima da overlay */
         }
 
         .hero-image img {
@@ -151,8 +156,8 @@
         }
 
         /************************************************
-    *           Seção de Big Numbers               *
-    ************************************************/
+        *           Seção de Big Numbers               *
+        ************************************************/
         .big-numbers {
             background-color: #141414;
             padding: 60px 0;
@@ -172,16 +177,14 @@
         .big-number-item i {
             font-size: 3rem;
             margin-bottom: 20px;
-            color: #3c55ff;
-            /* ícone em azul */
+            color: #3c55ff; /* ícone em azul */
         }
 
         .big-number-item h3 {
             font-size: 2.3rem;
             font-weight: 700;
             margin: 0;
-            color: #3c55ff;
-            /* título do número em azul */
+            color: #3c55ff; /* título do número em azul */
         }
 
         .big-number-item p {
@@ -190,8 +193,8 @@
         }
 
         /************************************************
-    *           Seção Sobre                        *
-    ************************************************/
+        *           Seção Sobre                        *
+        ************************************************/
         .section-title {
             font-size: 2rem;
             margin-bottom: 1rem;
@@ -204,8 +207,8 @@
         }
 
         /************************************************
-    *        Seção Experiências (Timeline)         *
-    ************************************************/
+        *        Seção Experiências (Timeline)         *
+        ************************************************/
         .timeline {
             position: relative;
             margin: 2rem 0 4rem 2rem;
@@ -219,8 +222,7 @@
             top: 0;
             bottom: 0;
             width: 2px;
-            background-color: #3c55ff;
-            /* Linha azul */
+            background-color: #3c55ff; /* Linha azul */
         }
 
         .timeline-item {
@@ -236,8 +238,7 @@
             top: 8px;
             width: 12px;
             height: 12px;
-            background-color: #3c55ff;
-            /* bolinha azul */
+            background-color: #3c55ff; /* bolinha azul */
             border-radius: 50%;
         }
 
@@ -248,8 +249,7 @@
 
         .timeline-item span {
             font-size: 0.9rem;
-            color: #3c55ff;
-            /* datas em azul */
+            color: #3c55ff; /* datas em azul */
         }
 
         .timeline-item p {
@@ -258,16 +258,35 @@
         }
 
         /************************************************
-    *      Seção de Formação e Certificações       *
-    ************************************************/
+        *      Seção de Formação e Certificações       *
+        ************************************************/
         .education-section {
             padding-top: 2rem;
             padding-bottom: 2rem;
         }
 
+        .education-section ul {
+            list-style: none;
+            padding-left: 0;
+            margin-bottom: 0;
+        }
+
+        .education-section ul li::before {
+            content: "• ";
+            color: #3c55ff;
+        }
+
         /************************************************
-    *               Seção de Notícias              *
-    ************************************************/
+        *             Seção de Hobbies                 *
+        ************************************************/
+        .hobbies-section {
+            padding-top: 2rem;
+            padding-bottom: 2rem;
+        }
+
+        /************************************************
+        *               Seção de Notícias              *
+        ************************************************/
         .news-section {
             padding-top: 2rem;
             padding-bottom: 2rem;
@@ -283,16 +302,16 @@
         }
 
         /************************************************
-    *               Seção de Contato               *
-    ************************************************/
+        *               Seção de Contato               *
+        ************************************************/
         #contato {
             padding-top: 3rem;
             padding-bottom: 3rem;
         }
 
         /************************************************
-    *                   Footer                     *
-    ************************************************/
+        *                   Footer                     *
+        ************************************************/
         footer {
             background-color: #0e0e0e;
             padding: 20px 0;
@@ -314,8 +333,8 @@
         }
 
         /************************************************
-    *                 Responsividade               *
-    ************************************************/
+        *                 Responsividade               *
+        ************************************************/
         @media (max-width: 991px) {
             .hero-title {
                 font-size: 2rem;
@@ -332,7 +351,6 @@
         }
 
         @media (max-width: 767.98px) {
-
             /* Alinhar tudo ao centro no mobile */
             .hero-section .row {
                 text-align: center;
@@ -356,8 +374,8 @@
         }
 
         /************************************************
-    *      CSS Antigo (Fonte Pixel + Glitch)       *
-    ************************************************/
+        *      CSS Antigo (Fonte Pixel + Glitch)       *
+        ************************************************/
         .div-projects {
             background-image: url(ai_background.png);
         }
@@ -445,20 +463,23 @@
         }
 
         .logo-grayscale {
-            max-width: 120px;
-            /* Controla a largura máxima */
-            height: auto;
-            /* Mantém proporção sem distorcer */
-            filter: grayscale(100%) brightness(160%);
-            /* Torna a imagem cinza e mais clara */
-            opacity: 0.9;
-            /* Ajusta a opacidade para suavizar */
+            max-width: 120px; /* Controla a largura máxima */
+            height: auto; /* Mantém proporção sem distorcer */
+            filter: grayscale(100%) brightness(160%); /* Torna a imagem cinza e mais clara */
+            opacity: 0.9; /* Ajusta a opacidade para suavizar */
         }
-
 
         .logo-grayscale:hover {
             filter: none;
             opacity: 1;
+        }
+
+        /* Ajustes para as imagens dos cards na seção "Na Mídia" */
+        .news-section .card-img-top {
+            width: 120px; /* Largura fixa */
+            height: 120px; /* Altura fixa */
+            object-fit: contain; /* Ajusta sem cortar a imagem */
+            margin-top: 1rem; /* Pequeno espaçamento interno */
         }
     </style>
 </head>
@@ -468,11 +489,21 @@
     <nav class="navbar navbar-expand-lg navbar-dark">
         <div class="container">
             <a class="navbar-brand" href="#">Bruno Kawakami</a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
-                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <button
+                class="navbar-toggler"
+                type="button"
+                data-bs-toggle="collapse"
+                data-bs-target="#navbarNav"
+                aria-controls="navbarNav"
+                aria-expanded="false"
+                aria-label="Toggle navigation"
+            >
                 <span class="navbar-toggler-icon"></span>
             </button>
-            <div class="collapse navbar-collapse" id="navbarNav">
+            <div
+                class="collapse navbar-collapse"
+                id="navbarNav"
+            >
                 <ul class="navbar-nav ms-auto">
                     <li class="nav-item"><a class="nav-link" href="#sobre">Sobre</a></li>
                     <li class="nav-item"><a class="nav-link" href="#experiencias">Experiências</a></li>
@@ -483,7 +514,10 @@
     </nav>
 
     <!-- ===================== HERO SECTION ===================== -->
-    <section class="hero-section" id="home">
+    <section
+        class="hero-section"
+        id="home"
+    >
         <!-- Canvas do ThreeJS -->
         <div class="hero-canvas-container">
             <canvas id="heroCanvas"></canvas>
@@ -494,20 +528,37 @@
         <div class="container">
             <div class="row align-items-center">
                 <!-- Coluna da imagem -->
-                <div class="col-lg-6 order-1 order-lg-2 hero-image" data-aos="fade-up" data-aos-delay="200">
-                    <img src="foto_bruno.jpeg" alt="Minha foto" class="img-fluid" />
+                <div
+                    class="col-lg-6 order-1 order-lg-2 hero-image"
+                    data-aos="fade-up"
+                    data-aos-delay="200"
+                >
+                    <img
+                        src="foto_bruno.jpeg"
+                        alt="Minha foto"
+                        class="img-fluid"
+                    />
                 </div>
 
                 <!-- Coluna de texto -->
-                <div class="col-lg-6 order-2 order-lg-1 hero-content mt-4" data-aos="fade-up">
-                    <h1 class="hero-title hdg-1 anim" data-text="Inovação, IA e Crescimento Exponencial">
+                <div
+                    class="col-lg-6 order-2 order-lg-1 hero-content mt-4"
+                    data-aos="fade-up"
+                >
+                    <h1
+                        class="hero-title hdg-1 anim"
+                        data-text="Inovação, IA e Crescimento Exponencial"
+                    >
                         Inovação, IA e Crescimento Exponencial
                     </h1>
                     <p class="hero-subtitle">
                         Transformando tecnologia em valor estratégico. <br />
                         CTO, Empreendedor e Especialista em Inteligência Artificial.
                     </p>
-                    <a href="#sobre" class="btn btn-custom px-5 py-3">
+                    <a
+                        href="#sobre"
+                        class="btn btn-custom px-5 py-3"
+                    >
                         <i class="fas fa-angle-double-down"></i> Saiba Mais
                     </a>
                 </div>
@@ -515,207 +566,35 @@
         </div>
     </section>
 
-    <!-- ===================== BIG NUMBERS ===================== -->
-    <section class="big-numbers" data-aos="fade-up">
-        <div class="container">
-            <h2 class="hdg-1 anim" data-text="Principais Números">Principais Números</h2>
-
-            <div class="row mt-5">
-                <div class="col-md-4 big-number-item" data-aos="zoom-in">
-                    <i class="fas fa-chart-line" data-text=""></i>
-                    <h3 class="hdg-1" data-text="400%">400%</h3>
-                    <p>Crescimento anual na D4Sign</p>
-                </div>
-                <div class="col-md-4 big-number-item" data-aos="zoom-in" data-aos-delay="200">
-                    <i class="fas fa-hand-holding-usd"></i>
-                    <h3 class="hdg-1" data-text="R$ 180M">R$ 180M</h3>
-                    <p>Exit estratégico com o grupo Zucchetti</p>
-                </div>
-                <div class="col-md-4 big-number-item" data-aos="zoom-in" data-aos-delay="400">
-                    <i class="fas fa-robot"></i>
-                    <h3 class="hdg-1" data-text="10+ anos">10+ anos</h3>
-                    <p>De experiência em IA e liderança tecnológica</p>
-                </div>
-            </div>
-
-            <div class="row mt-5">
-                <div class="col-md-4 big-number-item" data-aos="zoom-in">
-                    <i class="fas fa-cogs"></i>
-                    <h3 class="hdg-1" data-text="200+">200+</h3>
-                    <p>Algoritmos de IA implementados</p>
-                </div>
-                <div class="col-md-4 big-number-item" data-aos="zoom-in" data-aos-delay="200">
-                    <i class="fas fa-lightbulb"></i>
-                    <h3 class="hdg-1" data-text="3 Patentes">3 Patentes</h3>
-                    <p>Em soluções de inovação digital</p>
-                </div>
-                <div class="col-md-4 big-number-item" data-aos="zoom-in" data-aos-delay="400">
-                    <i class="fas fa-rocket"></i>
-                    <h3 class="hdg-1" data-text="15x">15x</h3>
-                    <p>Aceleração de projetos de P&D em IA</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- ===================== SOBRE ===================== -->
-    <section class="py-5" id="sobre">
-        <div class="container" data-aos="fade-up">
-            <h2 class="section-title hdg-1 anim" data-text="Sobre Bruno Kawakami">
-                Sobre Bruno Kawakami
-            </h2>
-            <p class="section-subtitle">
-                CTO experiente, especialista em IA e empreendedor de sucesso.
-            </p>
-            <p>
-                Bruno Kawakami é um CTO experiente com um histórico sólido em liderança tecnológica, desenvolvimento de
-                startups e transformações empresariais. Atualmente sócio e CTO da
-                <strong>D4Sign</strong>, uma das principais plataformas de assinatura
-                eletrônica do Brasil, foi parte fundamental na expansão e exit
-                estratégico da empresa, resultando em uma aquisição de R$ 180 milhões
-                pelo grupo Zucchetti.
-            </p>
-            <p>
-                Ao longo de mais de 10 anos de experiência, liderou equipes
-                multidisciplinares, desenvolveu visão de produto, aplicou IA em soluções
-                inovadoras e criou estratégias escaláveis para SaaS. Sua missão:
-                <em>transformar tecnologia em valor estratégico para empresas e
-                    clientes</em>.
-            </p>
-        </div>
-    </section>
-
-    <!-- ===================== EXPERIÊNCIAS ===================== -->
-    <section class="py-5" id="experiencias">
-        <div class="container" data-aos="fade-up">
-            <h2 class="section-title hdg-1 anim" data-text="Experiências Profissionais">
-                Experiências Profissionais
-            </h2>
-            <div class="section-subtitle">
-                Liderança, Estratégia e Inovação em Grandes Organizações
-            </div>
-
-            <div class="timeline">
-                <!-- D4Sign -->
-                <div class="timeline-item" data-aos="fade-up">
-                    <h4>
-                        D4Sign - CTO & Sócio <span>(Out/2021 - Atual)</span>
-                    </h4>
-                    <p>
-                        • Participou ativamente do processo de fusão e aquisição (M&A) da
-                        D4Sign (R$ 180 milhões).<br />
-                        • Responsável pelo crescimento de 400% ao ano e expansão
-                        internacional.<br />
-                        • Implementou soluções de IA para otimizar processos de assinatura
-                        eletrônica.<br />
-                        • Liderou equipes de Engenharia, Dados, Infra, Produto e Experiência
-                        do Cliente.
-                    </p>
-                </div>
-
-                <!-- dr.consulta -->
-                <div class="timeline-item" data-aos="fade-up" data-aos-delay="100">
-                    <h4>
-                        dr.consulta - Head de Arquitetura de Software & CISO
-                        <span>(Abr/2020 - Ago/2021)</span>
-                    </h4>
-                    <p>
-                        • Liderou migração estratégica de AWS para GCP, reduzindo custos e
-                        aumentando eficiência.<br />
-                        • Desenvolveu um Data Lake para iniciativas de IA e
-                        democratização de dados.<br />
-                        • Criou a base do departamento de Segurança da Informação (LGPD, ISO
-                        27001).<br />
-                        • Implementou CASB (DLP) para proteção de dados.
-                    </p>
-                </div>
-
-                <!-- Sodexo -->
-                <div class="timeline-item" data-aos="fade-up" data-aos-delay="200">
-                    <h4>
-                        Sodexo - Global Solutions Architect and Project Leader
-                        <span>(Dez/2018 - Abr/2020)</span>
-                    </h4>
-                    <p>
-                        • Arquitetou soluções globais, como sistemas de pagamento
-                        inteligentes.<br />
-                        • Liderou integrações entre tecnologias modernas e sistemas
-                        legados.<br />
-                        • Participou do conselho de arquitetura global, propondo soluções
-                        para desafios internacionais.
-                    </p>
-                </div>
-
-                <!-- Grupo DASA -->
-                <div class="timeline-item" data-aos="fade-up" data-aos-delay="300">
-                    <h4>
-                        Grupo DASA - Líder Técnico <span>(Jan/2018 - Dez/2018)</span>
-                    </h4>
-                    <p>
-                        • Liderou a criação de uma nova plataforma de exames para diversas
-                        marcas.<br />
-                        • Projetou soluções multi-cloud (Azure e AWS) para maior
-                        robustez.<br />
-                        • Desenvolveu iniciativas digitais, como patologia digital e GED.
-                    </p>
-                </div>
-
-                <!-- Outras experiências -->
-                <div class="timeline-item" data-aos="fade-up" data-aos-delay="400">
-                    <h4>VR Benefícios, Banco PAN, Comunnica e Outros</h4>
-                    <p>
-                        • Atuou como engenheiro de software, líder técnico e arquiteto de
-                        soluções.<br />
-                        • Especializou-se em desenvolvimento de aplicativos móveis e
-                        integrações em nuvem.<br />
-                        • Fortaleceu a inovação em diversos setores, desde financeiro até
-                        saúde.
-                    </p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- ===================== FORMAÇÃO E CERTIFICAÇÕES ===================== -->
-    <section class="education-section" data-aos="zoom-in-up">
-        <div class="container">
-            <h2 class="section-title hdg-1 anim" data-text="Formação e Certificações">
-                Formação e Certificações
-            </h2>
-            <p>
-                <strong>Educação:</strong><br />
-                • FIAP: Gestão de TI (2017 - 2019) <br />
-                • IFSP: Análise e Desenvolvimento de Sistemas (2009 - 2012)
-            </p>
-            <p>
-                <strong>Certificações:</strong><br />
-                • Governança de TI, Empreendedorismo Digital, Gerenciamento Estratégico
-                de TI.
-            </p>
-            <p>
-                <strong>Idiomas:</strong><br />
-                • Inglês (Proficiência Completa), Espanhol (Avançado), Francês (Básico).
-            </p>
-        </div>
-    </section>
-
     <!-- ===================== NA MÍDIA (SHOWCASE) ===================== -->
-    <section class="news-section" id="midia" data-aos="fade-up">
+    <section
+        class="news-section"
+        id="midia"
+        data-aos="fade-up"
+    >
         <div class="container">
-            <h2 class="section-title hdg-1 anim" data-text="Na Mídia">Na Mídia</h2>
+            <h2
+                class="section-title hdg-1 anim"
+                data-text="Na Mídia"
+            >
+                Na Mídia
+            </h2>
             <p class="section-subtitle">
                 Confira alguns artigos e entrevistas em que contribuí com insights sobre IA, inovação e transformação
                 digital.
             </p>
 
-            <!-- Linha (row) para agrupar os cards -->
-            <div class="row justify-content-center">
-
+            <!-- Linha (row) para agrupar os cards com espaçamento interno (g-4) -->
+            <div class="row justify-content-center g-4">
                 <!-- ========== CNN ========== -->
-                <div class="col-md-3 col-sm-6 mb-4">
+                <div class="col-md-3 col-sm-6">
                     <div class="card bg-transparent border-0 h-100 text-center">
                         <!-- Logo da mídia -->
-                        <img src="cnn.png" alt="CNN Logo" class="card-img-top mx-auto logo-grayscale" />
+                        <img
+                            src="cnn.png"
+                            alt="CNN Logo"
+                            class="card-img-top mx-auto logo-grayscale"
+                        />
                         <!-- Corpo do card -->
                         <div class="card-body">
                             <h5 class="card-title text-white">CNN</h5>
@@ -725,8 +604,11 @@
                         </div>
                         <!-- Rodapé do card, com botão -->
                         <div class="card-footer bg-transparent border-0">
-                            <a href="https://www.cnnbrasil.com.br/tecnologia/alucinacao-entenda-por-que-e-como-chatbots-de-ia-podem-dar-respostas-erradas/"
-                                target="_blank" class="btn btn-custom">
+                            <a
+                                href="https://www.cnnbrasil.com.br/tecnologia/alucinacao-entenda-por-que-e-como-chatbots-de-ia-podem-dar-respostas-erradas/"
+                                target="_blank"
+                                class="btn btn-custom"
+                            >
                                 Ler Matéria
                             </a>
                         </div>
@@ -734,9 +616,13 @@
                 </div>
 
                 <!-- ========== SAÚDE BUSINESS ========== -->
-                <div class="col-md-3 col-sm-6 mb-4">
+                <div class="col-md-3 col-sm-6">
                     <div class="card bg-transparent border-0 h-100 text-center">
-                        <img src="saude.png" alt="Saúde Business Logo" class="card-img-top mx-auto logo-grayscale" />
+                        <img
+                            src="saude.png"
+                            alt="Saúde Business Logo"
+                            class="card-img-top mx-auto logo-grayscale"
+                        />
                         <div class="card-body">
                             <h5 class="card-title text-white">Saúde Business</h5>
                             <p class="card-text text-white">
@@ -744,8 +630,11 @@
                             </p>
                         </div>
                         <div class="card-footer bg-transparent border-0">
-                            <a href="https://www.saudebusiness.com/artigos/ia-na-medicina-um-aliado-nao-uma-ameaca/"
-                                target="_blank" class="btn btn-custom">
+                            <a
+                                href="https://www.saudebusiness.com/artigos/ia-na-medicina-um-aliado-nao-uma-ameaca/"
+                                target="_blank"
+                                class="btn btn-custom"
+                            >
                                 Ler Matéria
                             </a>
                         </div>
@@ -753,9 +642,13 @@
                 </div>
 
                 <!-- ========== OLHAR DIGITAL ========== -->
-                <div class="col-md-3 col-sm-6 mb-4">
+                <div class="col-md-3 col-sm-6">
                     <div class="card bg-transparent border-0 h-100 text-center">
-                        <img src="olhar.jpg" alt="Olhar Digital Logo" class="card-img-top mx-auto logo-grayscale" />
+                        <img
+                            src="olhar.jpg"
+                            alt="Olhar Digital Logo"
+                            class="card-img-top mx-auto logo-grayscale"
+                        />
                         <div class="card-body">
                             <h5 class="card-title text-white">Olhar Digital</h5>
                             <p class="card-text text-white">
@@ -763,8 +656,11 @@
                             </p>
                         </div>
                         <div class="card-footer bg-transparent border-0">
-                            <a href="https://olhardigital.com.br/2022/08/17/colunistas/onde-esta-toda-inteligencia-artificial-no-mundo-moderno/"
-                                target="_blank" class="btn btn-custom">
+                            <a
+                                href="https://olhardigital.com.br/2022/08/17/colunistas/onde-esta-toda-inteligencia-artificial-no-mundo-moderno/"
+                                target="_blank"
+                                class="btn btn-custom"
+                            >
                                 Ler Matéria
                             </a>
                         </div>
@@ -772,9 +668,13 @@
                 </div>
 
                 <!-- ========== TI INSIDE ========== -->
-                <div class="col-md-3 col-sm-6 mb-4">
+                <div class="col-md-3 col-sm-6">
                     <div class="card bg-transparent border-0 h-100 text-center">
-                        <img src="ti.png" alt="TI Inside Logo" class="card-img-top mx-auto logo-grayscale" />
+                        <img
+                            src="ti.png"
+                            alt="TI Inside Logo"
+                            class="card-img-top mx-auto logo-grayscale"
+                        />
                         <div class="card-body">
                             <h5 class="card-title text-white">TI Inside</h5>
                             <p class="card-text text-white">
@@ -782,24 +682,406 @@
                             </p>
                         </div>
                         <div class="card-footer bg-transparent border-0">
-                            <a href="https://tiinside.com.br/16/10/2024/de-y-a-alfa-geracoes-mais-novas-estao-sofrendo-o-impacto-da-ai-no-qi/"
-                                target="_blank" class="btn btn-custom">
+                            <a
+                                href="https://tiinside.com.br/16/10/2024/de-y-a-alfa-geracoes-mais-novas-estao-sofrendo-o-impacto-da-ai-no-qi/"
+                                target="_blank"
+                                class="btn btn-custom"
+                            >
                                 Ler Matéria
                             </a>
                         </div>
                     </div>
                 </div>
-
             </div> <!-- .row -->
         </div> <!-- .container -->
     </section>
 
+    <!-- ===================== BIG NUMBERS ===================== -->
+    <section
+        class="big-numbers"
+        data-aos="fade-up"
+    >
+        <div class="container">
+            <h2
+                class="hdg-1 anim"
+                data-text="Principais Números"
+            >
+                Principais Números
+            </h2>
 
+            <div class="row mt-5">
+                <div
+                    class="col-md-4 big-number-item"
+                    data-aos="zoom-in"
+                >
+                    <i class="fas fa-chart-line" data-text=""></i>
+                    <h3
+                        class="hdg-1"
+                        data-text="400%"
+                    >
+                        400%
+                    </h3>
+                    <p>Crescimento anual na D4Sign</p>
+                </div>
+                <div
+                    class="col-md-4 big-number-item"
+                    data-aos="zoom-in"
+                    data-aos-delay="200"
+                >
+                    <i class="fas fa-hand-holding-usd"></i>
+                    <h3
+                        class="hdg-1"
+                        data-text="R$ 180M"
+                    >
+                        R$ 180M
+                    </h3>
+                    <p>Exit estratégico com o grupo Zucchetti</p>
+                </div>
+                <div
+                    class="col-md-4 big-number-item"
+                    data-aos="zoom-in"
+                    data-aos-delay="400"
+                >
+                    <i class="fas fa-robot"></i>
+                    <h3
+                        class="hdg-1"
+                        data-text="10+ anos"
+                    >
+                        10+ anos
+                    </h3>
+                    <p>De experiência em IA e liderança tecnológica</p>
+                </div>
+            </div>
+
+            <div class="row mt-5">
+                <div
+                    class="col-md-4 big-number-item"
+                    data-aos="zoom-in"
+                >
+                    <i class="fas fa-cogs"></i>
+                    <h3
+                        class="hdg-1"
+                        data-text="200+"
+                    >
+                        200+
+                    </h3>
+                    <p>Algoritmos de IA implementados</p>
+                </div>
+                <div
+                    class="col-md-4 big-number-item"
+                    data-aos="zoom-in"
+                    data-aos-delay="200"
+                >
+                    <i class="fas fa-lightbulb"></i>
+                    <h3
+                        class="hdg-1"
+                        data-text="3 Patentes"
+                    >
+                        3 Patentes
+                    </h3>
+                    <p>Em soluções de inovação digital</p>
+                </div>
+                <div
+                    class="col-md-4 big-number-item"
+                    data-aos="zoom-in"
+                    data-aos-delay="400"
+                >
+                    <i class="fas fa-rocket"></i>
+                    <h3
+                        class="hdg-1"
+                        data-text="15x"
+                    >
+                        15x
+                    </h3>
+                    <p>Aceleração de projetos de P&D em IA</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===================== SOBRE ===================== -->
+    <section
+        class="py-5"
+        id="sobre"
+    >
+        <div
+            class="container"
+            data-aos="fade-up"
+        >
+            <h2
+                class="section-title hdg-1 anim"
+                data-text="Sobre Bruno Kawakami"
+            >
+                Sobre Bruno Kawakami
+            </h2>
+            <p class="section-subtitle">
+                CTO experiente, especialista em IA e empreendedor de sucesso.
+            </p>
+            <p>
+                Bruno Kawakami é um CTO experiente com um histórico sólido em liderança tecnológica,
+                desenvolvimento de startups e transformações empresariais. Atualmente sócio e CTO da
+                <strong>D4Sign</strong>, uma das principais plataformas de assinatura eletrônica do Brasil,
+                foi parte fundamental na expansão e exit estratégico da empresa, resultando em uma
+                aquisição de R$ 180 milhões pelo grupo Zucchetti.
+            </p>
+            <p>
+                Ao longo de mais de 10 anos de experiência, liderou equipes multidisciplinares, desenvolveu
+                visão de produto, aplicou IA em soluções inovadoras e criou estratégias escaláveis para SaaS.
+                Sua missão: <em>transformar tecnologia em valor estratégico para empresas e clientes</em>.
+            </p>
+        </div>
+    </section>
+
+    <!-- ===================== EXPERIÊNCIAS ===================== -->
+    <section
+        class="py-5"
+        id="experiencias"
+    >
+        <div
+            class="container"
+            data-aos="fade-up"
+        >
+            <h2
+                class="section-title hdg-1 anim"
+                data-text="Experiências Profissionais"
+            >
+                Trajetória Profissional
+            </h2>
+            <div class="section-subtitle">
+                Liderança, Estratégia e Inovação em Grandes Organizações
+            </div>
+
+            <div class="timeline">
+                <!-- D4Sign -->
+                <div
+                    class="timeline-item"
+                    data-aos="fade-up"
+                >
+                    <h4>
+                        D4Sign - CTO & Sócio <span>(Out/2021 - Atual)</span>
+                    </h4>
+                    <p>
+                        • Participou ativamente do processo de fusão e aquisição (M&A) da
+                        D4Sign (R$ 180 milhões).<br />
+                        • Responsável pelo crescimento de 400% ao ano e expansão internacional.<br />
+                        • Implementou soluções de IA para otimizar processos de assinatura eletrônica.<br />
+                        • Liderou equipes de Engenharia, Dados, Infra, Produto e Experiência do Cliente.
+                    </p>
+                </div>
+
+                <!-- dr.consulta -->
+                <div
+                    class="timeline-item"
+                    data-aos="fade-up"
+                    data-aos-delay="100"
+                >
+                    <h4>
+                        dr.consulta - Head de Arquitetura de Software & CISO
+                        <span>(Abr/2020 - Ago/2021)</span>
+                    </h4>
+                    <p>
+                        • Liderou migração estratégica de AWS para GCP, reduzindo custos e aumentando eficiência.<br />
+                        • Desenvolveu um Data Lake para iniciativas de IA e democratização de dados.<br />
+                        • Criou a base do departamento de Segurança da Informação (LGPD, ISO 27001).<br />
+                        • Implementou CASB (DLP) para proteção de dados.
+                    </p>
+                </div>
+
+                <!-- Sodexo -->
+                <div
+                    class="timeline-item"
+                    data-aos="fade-up"
+                    data-aos-delay="200"
+                >
+                    <h4>
+                        Sodexo - Global Solutions Architect and Project Leader
+                        <span>(Dez/2018 - Abr/2020)</span>
+                    </h4>
+                    <p>
+                        • Arquitetou soluções globais, como sistemas de pagamento inteligentes.<br />
+                        • Liderou integrações entre tecnologias modernas e sistemas legados.<br />
+                        • Participou do conselho de arquitetura global, propondo soluções para desafios internacionais.
+                    </p>
+                </div>
+
+                <!-- Grupo DASA -->
+                <div
+                    class="timeline-item"
+                    data-aos="fade-up"
+                    data-aos-delay="300"
+                >
+                    <h4>
+                        Grupo DASA - Líder Técnico <span>(Jan/2018 - Dez/2018)</span>
+                    </h4>
+                    <p>
+                        • Liderou a criação de uma nova plataforma de exames para diversas marcas.<br />
+                        • Projetou soluções multi-cloud (Azure e AWS) para maior robustez.<br />
+                        • Desenvolveu iniciativas digitais, como patologia digital e GED.
+                    </p>
+                </div>
+
+                <!-- Outras experiências -->
+                <div
+                    class="timeline-item"
+                    data-aos="fade-up"
+                    data-aos-delay="400"
+                >
+                    <h4>VR Benefícios, Banco PAN, Comunnica e Outros</h4>
+                    <p>
+                        • Atuou como engenheiro de software, líder técnico e arquiteto de soluções.<br />
+                        • Especializou-se em desenvolvimento de aplicativos móveis e integrações em nuvem.<br />
+                        • Fortaleceu a inovação em diversos setores, desde financeiro até saúde.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===================== FORMAÇÃO E CERTIFICACIONES ===================== -->
+    <section
+        class="education-section"
+        data-aos="zoom-in-up"
+    >
+        <div class="container">
+            <h2
+                class="section-title hdg-1 anim"
+                data-text="Formação e Certificações"
+            >
+                Formação e Certificações
+            </h2>
+
+            <!-- Organizando em colunas para melhor diagramação -->
+            <div class="row mt-4">
+                <!-- Coluna 1: Educação -->
+                <div class="col-md-6 mb-4">
+                    <h3 class="mb-3">
+                        <i class="fas fa-graduation-cap" style="color: #3c55ff;"></i>
+                        Educação
+                    </h3>
+                    <ul>
+                        <li>FIAP: Gestão de TI (2017 - 2019)</li>
+                        <li>IFSP: Análise e Desenvolvimento de Sistemas (2009 - 2012)</li>
+                    </ul>
+                </div>
+
+                <!-- Coluna 2: Certificações e Idiomas -->
+                <div class="col-md-6 mb-4">
+                    <h3 class="mb-3">
+                        <i class="fas fa-certificate" style="color: #3c55ff;"></i>
+                        Certificações
+                    </h3>
+                    <ul>
+                        <li>Governança de TI</li>
+                        <li>Empreendedorismo Digital</li>
+                        <li>Gerenciamento Estratégico de TI</li>
+                    </ul>
+
+                    <h3 class="mb-3 mt-5">
+                        <i class="fas fa-language" style="color: #3c55ff;"></i>
+                        Idiomas
+                    </h3>
+                    <ul>
+                        <li>Inglês (Proficiência Completa)</li>
+                        <li>Espanhol (Avançado)</li>
+                        <li>Francês (Básico)</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===================== HOBBIES E INTERESSES ===================== -->
+    <section
+        class="hobbies-section"
+        id="hobbies"
+        data-aos="fade-up"
+    >
+        <div class="container">
+            <h2
+                class="section-title hdg-1 anim"
+                data-text="Hobbies e Interesses"
+            >
+                Hobbies e Interesses
+            </h2>
+            <p class="section-subtitle">
+                Além do universo tecnológico, também exploro outras paixões que me permitem crescer pessoal e profissionalmente.
+            </p>
+
+            <div class="row gy-4 mt-4">
+                <div class="col-md-6">
+                    <div class="d-flex align-items-center">
+                        <i
+                            class="fas fa-music fa-2x me-3"
+                            style="color:#3c55ff;"
+                        ></i>
+                        <div>
+                            <h5>Estudar música clássica e violino</h5>
+                            <p>
+                                Busco nas partituras clássicas a harmonia e a disciplina que aplico
+                                também na minha vida profissional.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="d-flex align-items-center">
+                        <i
+                            class="fas fa-brain fa-2x me-3"
+                            style="color:#3c55ff;"
+                        ></i>
+                        <div>
+                            <h5>Estudar os efeitos psicológicos da tecnologia</h5>
+                            <p>
+                                Compreender como a inovação afeta o comportamento humano me ajuda a
+                                projetar soluções mais empáticas.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="d-flex align-items-center">
+                        <i
+                            class="fas fa-robot fa-2x me-3"
+                            style="color:#3c55ff;"
+                        ></i>
+                        <div>
+                            <h5>Mantenho um laboratório de inteligência artificial próprio</h5>
+                            <p>
+                                Desenvolvo projetos experimentais e protótipos para explorar
+                                novas fronteiras da IA e estar sempre à frente das tendências.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="d-flex align-items-center">
+                        <i
+                            class="fas fa-network-wired fa-2x me-3"
+                            style="color:#3c55ff;"
+                        ></i>
+                        <div>
+                            <h5>Integro iniciativas de IoT na minha casa</h5>
+                            <p>
+                                Automatizo tarefas e conecto dispositivos inteligentes,
+                                transformando meu lar em um ambiente totalmente integrado.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
 
     <!-- ===================== CONTATO ===================== -->
-    <section id="contato" data-aos="fade-up">
+    <section
+        id="contato"
+        data-aos="fade-up"
+    >
         <div class="container">
-            <h2 class="section-title hdg-1 anim" data-text="Entre em Contato">
+            <h2
+                class="section-title hdg-1 anim"
+                data-text="Entre em Contato"
+            >
                 Entre em Contato
             </h2>
             <p class="section-subtitle">
@@ -808,38 +1090,83 @@
             <div class="row">
                 <div class="col-lg-6 mb-4">
                     <!-- Form integrado ao Formspree e abrindo em nova aba -->
-                    <form action="https://formspree.io/f/xjkkbygp" method="POST" target="_blank">
+                    <form
+                        action="https://formspree.io/f/xjkkbygp"
+                        method="POST"
+                        target="_blank"
+                    >
                         <div class="mb-3">
-                            <label for="nome" class="form-label">Seu Nome</label>
-                            <input type="text" class="form-control" id="nome" name="nome"
-                                placeholder="Informe seu nome" />
+                            <label
+                                for="nome"
+                                class="form-label"
+                            >Seu Nome</label>
+                            <input
+                                type="text"
+                                class="form-control"
+                                id="nome"
+                                name="nome"
+                                placeholder="Informe seu nome"
+                                required
+                                minlength="2"
+                            />
                         </div>
                         <div class="mb-3">
-                            <label for="email" class="form-label">Seu E-mail</label>
-                            <input type="email" class="form-control" id="email" name="email"
-                                placeholder="email@exemplo.com" />
+                            <label
+                                for="email"
+                                class="form-label"
+                            >Seu E-mail</label>
+                            <input
+                                type="email"
+                                class="form-control"
+                                id="email"
+                                name="email"
+                                placeholder="email@exemplo.com"
+                                required
+                            />
                         </div>
                         <div class="mb-3">
-                            <label for="mensagem" class="form-label">Mensagem</label>
-                            <textarea class="form-control" id="mensagem" name="mensagem" rows="4"
-                                placeholder="Como posso ajudar?"></textarea>
+                            <label
+                                for="mensagem"
+                                class="form-label"
+                            >Mensagem</label>
+                            <textarea
+                                class="form-control"
+                                id="mensagem"
+                                name="mensagem"
+                                rows="4"
+                                placeholder="Como posso ajudar?"
+                                required
+                                minlength="10"
+                            ></textarea>
                         </div>
-                        <button type="submit" class="btn btn-custom">
-                            <i class="fas fa-paper-plane"></i> Enviar
+                        <button
+                            type="submit"
+                            class="btn btn-custom"
+                        >
+                            <i class="fas fa-paper-plane"></i>
+                            Enviar
                         </button>
                     </form>
                 </div>
                 <div class="col-lg-6">
                     <p>
-                        <i class="fas fa-envelope"></i> &nbsp; <strong>E-mail:</strong>
+                        <i class="fas fa-envelope"></i>
+                        &nbsp; <strong>E-mail:</strong>
                         bru.kawakami@gmail.com
                     </p>
                     <p>
-                        <i class="fas fa-map-marker-alt"></i> &nbsp; São Paulo - SP, Brasil
+                        <i class="fas fa-map-marker-alt"></i>
+                        &nbsp; São Paulo - SP, Brasil
                     </p>
                     <p>
-                        <i class="fab fa-linkedin"></i> &nbsp; <strong>LinkedIn:</strong>
-                        <a href="#" target="_blank">linkedin.com/in/bruno-kawakami</a>
+                        <i class="fab fa-linkedin"></i>
+                        &nbsp; <strong>LinkedIn:</strong>
+                        <a
+                            href="#"
+                            target="_blank"
+                        >
+                            linkedin.com/in/bruno-kawakami
+                        </a>
                     </p>
                 </div>
             </div>
@@ -855,8 +1182,10 @@
 
     <!-- =============== SCRIPTS =============== -->
     <!-- Bootstrap 5 JS -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"
-        crossorigin="anonymous"></script>
+    <script
+        src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"
+        crossorigin="anonymous"
+    ></script>
 
     <!-- AOS JS -->
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
@@ -870,10 +1199,14 @@
     <!-- Three.js -->
     <script src="https://cdn.jsdelivr.net/npm/three@0.152.2/build/three.min.js"></script>
 
-    <!-- Script para criar a animação 3D no background do Hero -->
+    <!-- Script para criar a animação 3D no background do Hero com interação sutil -->
     <script>
         let scene, camera, renderer;
         let sphere, groupParticles;
+
+        // Variáveis para interação
+        let targetRotationX = 0;
+        let targetRotationY = 0;
 
         init3D();
         animate();
@@ -882,7 +1215,7 @@
             // Cena
             scene = new THREE.Scene();
 
-            // Camera
+            // Câmera
             camera = new THREE.PerspectiveCamera(
                 50,
                 window.innerWidth / window.innerHeight,
@@ -928,6 +1261,10 @@
             }
             scene.add(groupParticles);
 
+            // Eventos para interação
+            window.addEventListener('mousemove', handleMouseMove, false);
+            window.addEventListener('touchmove', handleTouchMove, false);
+
             // Ajusta tamanho no resize
             window.addEventListener('resize', onWindowResize, false);
         }
@@ -938,15 +1275,39 @@
             renderer.setSize(window.innerWidth, window.innerHeight);
         }
 
+        function handleMouseMove(e) {
+            // Normaliza a posição do mouse para um range [-0.5, 0.5]
+            let x = e.clientX / window.innerWidth - 0.5;
+            let y = e.clientY / window.innerHeight - 0.5;
+            
+            // Escala para controlar a intensidade da rotação
+            targetRotationX = y * 0.3;
+            targetRotationY = x * 0.3;
+        }
+
+        function handleTouchMove(e) {
+            // Pegamos o toque principal (primeiro dedo)
+            if (e.touches && e.touches.length === 1) {
+                let touch = e.touches[0];
+                let x = touch.clientX / window.innerWidth - 0.5;
+                let y = touch.clientY / window.innerHeight - 0.5;
+
+                targetRotationX = y * 0.3;
+                targetRotationY = x * 0.3;
+            }
+        }
+
         function animate() {
             requestAnimationFrame(animate);
 
-            // Rotação da esfera
+            // Animação base (rotações leves)
             sphere.rotation.y += 0.001;
             sphere.rotation.x += 0.0005;
-
-            // Rotação leve do grupo de partículas
             groupParticles.rotation.y += 0.0005;
+
+            // Aproxima a rotação da esfera ao valor de "target" (interação do mouse/toque)
+            sphere.rotation.x += 0.05 * (targetRotationX - sphere.rotation.x);
+            sphere.rotation.y += 0.05 * (targetRotationY - sphere.rotation.y);
 
             renderer.render(scene, camera);
         }

@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="pt-br">
+
 <head>
     <!-- Metadados essenciais -->
     <meta charset="UTF-8" />
@@ -9,8 +10,10 @@
     <!-- =========================================
          SEO: Metatags básicas
     ========================================== -->
-    <meta name="description" content="Descubra as inovações e a trajetória de Bruno Kawakami, CTO e especialista em IA, com mais de 10 anos de experiência em lideranças tecnológicas, desenvolvimento de startups e crescimento exponencial." />
-    <meta name="keywords" content="Inovação, IA, Inteligência Artificial, Crescimento Exponencial, Empreendedorismo, Transformação Digital, CTO, Liderança, Tecnologia, Bruno Kawakami" />
+    <meta name="description"
+        content="Descubra as inovações e a trajetória de Bruno Kawakami, CTO e especialista em IA, com mais de 10 anos de experiência em lideranças tecnológicas, desenvolvimento de startups e crescimento exponencial." />
+    <meta name="keywords"
+        content="Inovação, IA, Inteligência Artificial, Crescimento Exponencial, Empreendedorismo, Transformação Digital, CTO, Liderança, Tecnologia, Bruno Kawakami" />
     <meta name="author" content="Bruno Kawakami" />
     <meta name="robots" content="index, follow" />
     <!-- Ajuste o href com a URL real da sua página -->
@@ -23,7 +26,8 @@
     <!-- Ajuste a URL abaixo para a URL real da sua página -->
     <meta property="og:url" content="https://www.brunokawakami.com" />
     <meta property="og:title" content="Bruno Kawakami - Inovação e IA" />
-    <meta property="og:description" content="Descubra as inovações e a trajetória de Bruno Kawakami, CTO e especialista em IA, com mais de 10 anos de experiência em lideranças tecnológicas e desenvolvimento de soluções inovadoras." />
+    <meta property="og:description"
+        content="Descubra as inovações e a trajetória de Bruno Kawakami, CTO e especialista em IA, com mais de 10 anos de experiência em lideranças tecnológicas e desenvolvimento de soluções inovadoras." />
     <!-- Ajuste esta URL para a imagem que deseja exibir no preview do link -->
     <meta property="og:image" content="https://www.brunokawakami.com/foto_bruno.jpeg" />
 
@@ -35,7 +39,8 @@
     <!-- Ajuste a URL abaixo para a URL real da sua página -->
     <meta name="twitter:url" content="https://www.brunokawakami.com" />
     <meta name="twitter:title" content="Bruno Kawakami - Inovação e IA" />
-    <meta name="twitter:description" content="Descubra as inovações e a trajetória de Bruno Kawakami, CTO e especialista em IA, com mais de 10 anos de experiência em lideranças tecnológicas e crescimento exponencial." />
+    <meta name="twitter:description"
+        content="Descubra as inovações e a trajetória de Bruno Kawakami, CTO e especialista em IA, com mais de 10 anos de experiência em lideranças tecnológicas e crescimento exponencial." />
     <!-- Ajuste esta URL para a imagem que deseja exibir no Twitter Card -->
     <meta name="twitter:image" content="https://www.brunokawakami.com/foto_bruno.jpeg" />
 
@@ -65,28 +70,16 @@
          CSS e bibliotecas
     ========================================== -->
     <!-- Bootstrap 5 CSS -->
-    <link
-        rel="stylesheet"
-        href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
-        crossorigin="anonymous"
-    />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+        crossorigin="anonymous" />
     <!-- Font Awesome -->
-    <link
-        rel="stylesheet"
-        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
-        crossorigin="anonymous"
-        referrerpolicy="no-referrer"
-    />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
     <!-- AOS CSS (Animate On Scroll) -->
-    <link
-        rel="stylesheet"
-        href="https://unpkg.com/aos@2.3.1/dist/aos.css"
-    />
+    <link rel="stylesheet" href="https://unpkg.com/aos@2.3.1/dist/aos.css" />
     <!-- Google Fonts para o estilo pixelado e monospace -->
-    <link
-        href="https://fonts.googleapis.com/css2?family=Noto+Sans+Mono&family=Press+Start+2P&display=swap"
-        rel="stylesheet"
-    />
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Mono&family=Press+Start+2P&display=swap"
+        rel="stylesheet" />
 
     <!-- =========================================
          SEU CSS Customizado
@@ -117,7 +110,8 @@
         }
 
         a:hover {
-            color: #3c55ff; /* Cor azul no hover */
+            color: #3c55ff;
+            /* Cor azul no hover */
             text-decoration: none;
         }
 
@@ -148,7 +142,8 @@
             min-height: 100vh;
             display: flex;
             align-items: center;
-            background: #000; /* Cor de fundo base */
+            background: #000;
+            /* Cor de fundo base */
             overflow: hidden;
         }
 
@@ -158,7 +153,8 @@
             left: 0;
             width: 100%;
             height: 100%;
-            z-index: 0; /* Canvas atrás de tudo */
+            z-index: 0;
+            /* Canvas atrás de tudo */
             overflow: hidden;
         }
 
@@ -174,12 +170,15 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0, 0, 0, 0.5); /* meio tom de preto */
-            z-index: 1; /* Fica acima do canvas, mas abaixo do conteúdo */
+            background: rgba(0, 0, 0, 0.5);
+            /* meio tom de preto */
+            z-index: 1;
+            /* Fica acima do canvas, mas abaixo do conteúdo */
         }
 
         .hero-content {
-            position: relative; /* Conteúdo fica acima da overlay */
+            position: relative;
+            /* Conteúdo fica acima da overlay */
             z-index: 2;
             text-align: left;
         }
@@ -200,7 +199,8 @@
         .hero-image {
             text-align: center;
             position: relative;
-            z-index: 2; /* acima da overlay */
+            z-index: 2;
+            /* acima da overlay */
         }
 
         .hero-image img {
@@ -232,14 +232,16 @@
         .big-number-item i {
             font-size: 3rem;
             margin-bottom: 20px;
-            color: #3c55ff; /* ícone em azul */
+            color: #3c55ff;
+            /* ícone em azul */
         }
 
         .big-number-item h3 {
             font-size: 2.3rem;
             font-weight: 700;
             margin: 0;
-            color: #3c55ff; /* título do número em azul */
+            color: #3c55ff;
+            /* título do número em azul */
         }
 
         .big-number-item p {
@@ -277,7 +279,8 @@
             top: 0;
             bottom: 0;
             width: 2px;
-            background-color: #3c55ff; /* Linha azul */
+            background-color: #3c55ff;
+            /* Linha azul */
         }
 
         .timeline-item {
@@ -293,7 +296,8 @@
             top: 8px;
             width: 12px;
             height: 12px;
-            background-color: #3c55ff; /* bolinha azul */
+            background-color: #3c55ff;
+            /* bolinha azul */
             border-radius: 50%;
         }
 
@@ -304,7 +308,8 @@
 
         .timeline-item span {
             font-size: 0.9rem;
-            color: #3c55ff; /* datas em azul */
+            color: #3c55ff;
+            /* datas em azul */
         }
 
         .timeline-item p {
@@ -409,12 +414,15 @@
             .hero-section .row {
                 text-align: center;
             }
+
             .hero-content {
                 margin-bottom: 2rem;
             }
+
             .hero-section .btn-custom {
                 margin-bottom: 1.5rem;
             }
+
             .hero-image img {
                 width: 70%;
                 height: auto;
@@ -454,43 +462,54 @@
             30% {
                 text-shadow: 4px -4px 0px #3c55ff;
             }
+
             32% {
                 text-shadow: -4px 4px 0px #00ffff;
             }
+
             0%,
             28%,
             34% {
                 text-shadow: none;
             }
+
             31%,
             32% {
                 transform: translate(-7px, 7px);
             }
+
             32%,
             33% {
                 transform: translate(7px, -7px);
             }
+
             31%,
             33% {
                 transform: translateX(0);
             }
+
             50% {
                 text-shadow: 4px 4px 0px #3c55ff;
             }
+
             52% {
                 text-shadow: -4px -4px 0px #00ffff;
             }
+
             48%,
             54% {
                 text-shadow: none;
             }
+
             49%,
             52% {
                 transform: translateX(0);
             }
+
             50% {
                 transform: translate(7px, 7px);
             }
+
             51% {
                 transform: translate(-7px, -7px);
             }
@@ -522,21 +541,11 @@
     <nav class="navbar navbar-expand-lg navbar-dark">
         <div class="container">
             <a class="navbar-brand" href="#">Bruno Kawakami</a>
-            <button
-                class="navbar-toggler"
-                type="button"
-                data-bs-toggle="collapse"
-                data-bs-target="#navbarNav"
-                aria-controls="navbarNav"
-                aria-expanded="false"
-                aria-label="Toggle navigation"
-            >
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
-            <div
-                class="collapse navbar-collapse"
-                id="navbarNav"
-            >
+            <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav ms-auto">
                     <li class="nav-item"><a class="nav-link" href="#sobre">Sobre</a></li>
                     <li class="nav-item"><a class="nav-link" href="#experiencias">Experiências</a></li>
@@ -547,10 +556,7 @@
     </nav>
 
     <!-- ===================== HERO SECTION ===================== -->
-    <section
-        class="hero-section"
-        id="home"
-    >
+    <section class="hero-section" id="home">
         <!-- Canvas do ThreeJS -->
         <div class="hero-canvas-container">
             <canvas id="heroCanvas"></canvas>
@@ -561,37 +567,20 @@
         <div class="container">
             <div class="row align-items-center">
                 <!-- Coluna da imagem -->
-                <div
-                    class="col-lg-6 order-1 order-lg-2 hero-image"
-                    data-aos="fade-up"
-                    data-aos-delay="200"
-                >
-                    <img
-                        src="foto_bruno.jpeg"
-                        alt="Minha foto"
-                        class="img-fluid"
-                    />
+                <div class="col-lg-6 order-1 order-lg-2 hero-image" data-aos="fade-up" data-aos-delay="200">
+                    <img src="foto_bruno.jpeg" alt="Minha foto" class="img-fluid" />
                 </div>
 
                 <!-- Coluna de texto -->
-                <div
-                    class="col-lg-6 order-2 order-lg-1 hero-content mt-4"
-                    data-aos="fade-up"
-                >
-                    <h1
-                        class="hero-title hdg-1 anim"
-                        data-text="Inovação, IA e Crescimento Exponencial"
-                    >
+                <div class="col-lg-6 order-2 order-lg-1 hero-content mt-4" data-aos="fade-up">
+                    <h1 class="hero-title hdg-1 anim" data-text="Inovação, IA e Crescimento Exponencial">
                         Inovação, IA e Crescimento Exponencial
                     </h1>
                     <p class="hero-subtitle">
                         Transformando tecnologia em valor estratégico. <br />
                         CTO, Empreendedor e Especialista em Inteligência Artificial.
                     </p>
-                    <a
-                        href="#sobre"
-                        class="btn btn-custom px-5 py-3"
-                    >
+                    <a href="#sobre" class="btn btn-custom px-5 py-3">
                         <i class="fas fa-angle-double-down"></i> Saiba Mais
                     </a>
                 </div>
@@ -600,16 +589,9 @@
     </section>
 
     <!-- ===================== NA MÍDIA (SHOWCASE) ===================== -->
-    <section
-        class="news-section"
-        id="midia"
-        data-aos="fade-up"
-    >
+    <section class="news-section" id="midia" data-aos="fade-up">
         <div class="container">
-            <h2
-                class="section-title hdg-1 anim"
-                data-text="Na Mídia"
-            >
+            <h2 class="section-title hdg-1 anim" data-text="Na Mídia">
                 Na Mídia
             </h2>
             <p class="section-subtitle">
@@ -621,11 +603,7 @@
                 <!-- ========== CNN ========== -->
                 <div class="col-md-3 col-sm-6">
                     <div class="card bg-transparent border-0 h-100 text-center">
-                        <img
-                            src="cnn.png"
-                            alt="CNN Logo"
-                            class="card-img-top mx-auto logo-grayscale"
-                        />
+                        <img src="cnn.png" alt="CNN Logo" class="card-img-top mx-auto logo-grayscale" />
                         <div class="card-body">
                             <h5 class="card-title text-white">CNN</h5>
                             <p class="card-text text-white">
@@ -633,11 +611,8 @@
                             </p>
                         </div>
                         <div class="card-footer bg-transparent border-0">
-                            <a
-                                href="https://www.cnnbrasil.com.br/tecnologia/alucinacao-entenda-por-que-e-como-chatbots-de-ia-podem-dar-respostas-erradas/"
-                                target="_blank"
-                                class="btn btn-custom"
-                            >
+                            <a href="https://www.cnnbrasil.com.br/tecnologia/alucinacao-entenda-por-que-e-como-chatbots-de-ia-podem-dar-respostas-erradas/"
+                                target="_blank" class="btn btn-custom">
                                 Ler Matéria
                             </a>
                         </div>
@@ -647,11 +622,7 @@
                 <!-- ========== SAÚDE BUSINESS ========== -->
                 <div class="col-md-3 col-sm-6">
                     <div class="card bg-transparent border-0 h-100 text-center">
-                        <img
-                            src="saude.png"
-                            alt="Saúde Business Logo"
-                            class="card-img-top mx-auto logo-grayscale"
-                        />
+                        <img src="saude.png" alt="Saúde Business Logo" class="card-img-top mx-auto logo-grayscale" />
                         <div class="card-body">
                             <h5 class="card-title text-white">Saúde Business</h5>
                             <p class="card-text text-white">
@@ -659,11 +630,8 @@
                             </p>
                         </div>
                         <div class="card-footer bg-transparent border-0">
-                            <a
-                                href="https://www.saudebusiness.com/artigos/ia-na-medicina-um-aliado-nao-uma-ameaca/"
-                                target="_blank"
-                                class="btn btn-custom"
-                            >
+                            <a href="https://www.saudebusiness.com/artigos/ia-na-medicina-um-aliado-nao-uma-ameaca/"
+                                target="_blank" class="btn btn-custom">
                                 Ler Matéria
                             </a>
                         </div>
@@ -673,11 +641,7 @@
                 <!-- ========== OLHAR DIGITAL ========== -->
                 <div class="col-md-3 col-sm-6">
                     <div class="card bg-transparent border-0 h-100 text-center">
-                        <img
-                            src="olhar.jpg"
-                            alt="Olhar Digital Logo"
-                            class="card-img-top mx-auto logo-grayscale"
-                        />
+                        <img src="olhar.jpg" alt="Olhar Digital Logo" class="card-img-top mx-auto logo-grayscale" />
                         <div class="card-body">
                             <h5 class="card-title text-white">Olhar Digital</h5>
                             <p class="card-text text-white">
@@ -685,11 +649,8 @@
                             </p>
                         </div>
                         <div class="card-footer bg-transparent border-0">
-                            <a
-                                href="https://olhardigital.com.br/2022/08/17/colunistas/onde-esta-toda-inteligencia-artificial-no-mundo-moderno/"
-                                target="_blank"
-                                class="btn btn-custom"
-                            >
+                            <a href="https://olhardigital.com.br/2022/08/17/colunistas/onde-esta-toda-inteligencia-artificial-no-mundo-moderno/"
+                                target="_blank" class="btn btn-custom">
                                 Ler Matéria
                             </a>
                         </div>
@@ -699,11 +660,7 @@
                 <!-- ========== TI INSIDE ========== -->
                 <div class="col-md-3 col-sm-6">
                     <div class="card bg-transparent border-0 h-100 text-center">
-                        <img
-                            src="ti.png"
-                            alt="TI Inside Logo"
-                            class="card-img-top mx-auto logo-grayscale"
-                        />
+                        <img src="ti.png" alt="TI Inside Logo" class="card-img-top mx-auto logo-grayscale" />
                         <div class="card-body">
                             <h5 class="card-title text-white">TI Inside</h5>
                             <p class="card-text text-white">
@@ -711,11 +668,8 @@
                             </p>
                         </div>
                         <div class="card-footer bg-transparent border-0">
-                            <a
-                                href="https://tiinside.com.br/16/10/2024/de-y-a-alfa-geracoes-mais-novas-estao-sofrendo-o-impacto-da-ai-no-qi/"
-                                target="_blank"
-                                class="btn btn-custom"
-                            >
+                            <a href="https://tiinside.com.br/16/10/2024/de-y-a-alfa-geracoes-mais-novas-estao-sofrendo-o-impacto-da-ai-no-qi/"
+                                target="_blank" class="btn btn-custom">
                                 Ler Matéria
                             </a>
                         </div>
@@ -726,56 +680,30 @@
     </section>
 
     <!-- ===================== BIG NUMBERS ===================== -->
-    <section
-        class="big-numbers"
-        data-aos="fade-up"
-    >
+    <section class="big-numbers" data-aos="fade-up">
         <div class="container">
-            <h2
-                class="hdg-1 anim"
-                data-text="Principais Números"
-            >
+            <h2 class="hdg-1 anim" data-text="Principais Números">
                 Principais Números
             </h2>
 
             <div class="row mt-5">
-                <div
-                    class="col-md-4 big-number-item"
-                    data-aos="zoom-in"
-                >
+                <div class="col-md-4 big-number-item" data-aos="zoom-in">
                     <i class="fas fa-chart-line"></i>
-                    <h3
-                        class="hdg-1"
-                        data-text="400%"
-                    >
+                    <h3 class="hdg-1" data-text="400%">
                         400%
                     </h3>
                     <p>Crescimento anual na D4Sign</p>
                 </div>
-                <div
-                    class="col-md-4 big-number-item"
-                    data-aos="zoom-in"
-                    data-aos-delay="200"
-                >
+                <div class="col-md-4 big-number-item" data-aos="zoom-in" data-aos-delay="200">
                     <i class="fas fa-hand-holding-usd"></i>
-                    <h3
-                        class="hdg-1"
-                        data-text="R$ 180M"
-                    >
+                    <h3 class="hdg-1" data-text="R$ 180M">
                         R$ 180M
                     </h3>
                     <p>Exit estratégico com o grupo Zucchetti</p>
                 </div>
-                <div
-                    class="col-md-4 big-number-item"
-                    data-aos="zoom-in"
-                    data-aos-delay="400"
-                >
+                <div class="col-md-4 big-number-item" data-aos="zoom-in" data-aos-delay="400">
                     <i class="fas fa-robot"></i>
-                    <h3
-                        class="hdg-1"
-                        data-text="10+ anos"
-                    >
+                    <h3 class="hdg-1" data-text="10+ anos">
                         10+ anos
                     </h3>
                     <p>De experiência em IA e liderança tecnológica</p>
@@ -783,43 +711,23 @@
             </div>
 
             <div class="row mt-5">
-                <div
-                    class="col-md-4 big-number-item"
-                    data-aos="zoom-in"
-                >
+                <div class="col-md-4 big-number-item" data-aos="zoom-in">
                     <i class="fas fa-cogs"></i>
-                    <h3
-                        class="hdg-1"
-                        data-text="200+"
-                    >
+                    <h3 class="hdg-1" data-text="200+">
                         200+
                     </h3>
                     <p>Algoritmos de IA implementados</p>
                 </div>
-                <div
-                    class="col-md-4 big-number-item"
-                    data-aos="zoom-in"
-                    data-aos-delay="200"
-                >
+                <div class="col-md-4 big-number-item" data-aos="zoom-in" data-aos-delay="200">
                     <i class="fas fa-lightbulb"></i>
-                    <h3
-                        class="hdg-1"
-                        data-text="3 Patentes"
-                    >
+                    <h3 class="hdg-1" data-text="3 Patentes">
                         3 Patentes
                     </h3>
                     <p>Em soluções de inovação digital</p>
                 </div>
-                <div
-                    class="col-md-4 big-number-item"
-                    data-aos="zoom-in"
-                    data-aos-delay="400"
-                >
+                <div class="col-md-4 big-number-item" data-aos="zoom-in" data-aos-delay="400">
                     <i class="fas fa-rocket"></i>
-                    <h3
-                        class="hdg-1"
-                        data-text="15x"
-                    >
+                    <h3 class="hdg-1" data-text="15x">
                         15x
                     </h3>
                     <p>Aceleração de projetos de P&D em IA</p>
@@ -829,18 +737,9 @@
     </section>
 
     <!-- ===================== SOBRE ===================== -->
-    <section
-        class="py-5"
-        id="sobre"
-    >
-        <div
-            class="container"
-            data-aos="fade-up"
-        >
-            <h2
-                class="section-title hdg-1 anim"
-                data-text="Sobre Bruno Kawakami"
-            >
+    <section class="py-5" id="sobre">
+        <div class="container" data-aos="fade-up">
+            <h2 class="section-title hdg-1 anim" data-text="Sobre Bruno Kawakami">
                 Sobre Bruno Kawakami
             </h2>
             <p class="section-subtitle">
@@ -862,18 +761,9 @@
     </section>
 
     <!-- ===================== EXPERIÊNCIAS ===================== -->
-    <section
-        class="py-5"
-        id="experiencias"
-    >
-        <div
-            class="container"
-            data-aos="fade-up"
-        >
-            <h2
-                class="section-title hdg-1 anim"
-                data-text="Experiências Profissionais"
-            >
+    <section class="py-5" id="experiencias">
+        <div class="container" data-aos="fade-up">
+            <h2 class="section-title hdg-1 anim" data-text="Experiências Profissionais">
                 Trajetória Profissional
             </h2>
             <div class="section-subtitle">
@@ -882,10 +772,7 @@
 
             <div class="timeline">
                 <!-- D4Sign -->
-                <div
-                    class="timeline-item"
-                    data-aos="fade-up"
-                >
+                <div class="timeline-item" data-aos="fade-up">
                     <h4>
                         D4Sign - CTO & Sócio <span>(Out/2021 - Atual)</span>
                     </h4>
@@ -899,11 +786,7 @@
                 </div>
 
                 <!-- dr.consulta -->
-                <div
-                    class="timeline-item"
-                    data-aos="fade-up"
-                    data-aos-delay="100"
-                >
+                <div class="timeline-item" data-aos="fade-up" data-aos-delay="100">
                     <h4>
                         dr.consulta - Head de Arquitetura de Software & CISO
                         <span>(Abr/2020 - Ago/2021)</span>
@@ -917,11 +800,7 @@
                 </div>
 
                 <!-- Sodexo -->
-                <div
-                    class="timeline-item"
-                    data-aos="fade-up"
-                    data-aos-delay="200"
-                >
+                <div class="timeline-item" data-aos="fade-up" data-aos-delay="200">
                     <h4>
                         Sodexo - Global Solutions Architect and Project Leader
                         <span>(Dez/2018 - Abr/2020)</span>
@@ -934,11 +813,7 @@
                 </div>
 
                 <!-- Grupo DASA -->
-                <div
-                    class="timeline-item"
-                    data-aos="fade-up"
-                    data-aos-delay="300"
-                >
+                <div class="timeline-item" data-aos="fade-up" data-aos-delay="300">
                     <h4>
                         Grupo DASA - Líder Técnico <span>(Jan/2018 - Dez/2018)</span>
                     </h4>
@@ -950,11 +825,7 @@
                 </div>
 
                 <!-- Outras experiências -->
-                <div
-                    class="timeline-item"
-                    data-aos="fade-up"
-                    data-aos-delay="400"
-                >
+                <div class="timeline-item" data-aos="fade-up" data-aos-delay="400">
                     <h4>VR Benefícios, Banco PAN, Comunnica e Outros</h4>
                     <p>
                         • Atuou como engenheiro de software, líder técnico e arquiteto de soluções.<br />
@@ -967,15 +838,9 @@
     </section>
 
     <!-- ===================== FORMAÇÃO E CERTIFICACIONES ===================== -->
-    <section
-        class="education-section"
-        data-aos="zoom-in-up"
-    >
+    <section class="education-section" data-aos="zoom-in-up">
         <div class="container">
-            <h2
-                class="section-title hdg-1 anim"
-                data-text="Formação e Certificações"
-            >
+            <h2 class="section-title hdg-1 anim" data-text="Formação e Certificações">
                 Formação e Certificações
             </h2>
 
@@ -1017,29 +882,20 @@
     </section>
 
     <!-- ===================== HOBBIES E INTERESSES ===================== -->
-    <section
-        class="hobbies-section"
-        id="hobbies"
-        data-aos="fade-up"
-    >
+    <section class="hobbies-section" id="hobbies" data-aos="fade-up">
         <div class="container">
-            <h2
-                class="section-title hdg-1 anim"
-                data-text="Hobbies e Interesses"
-            >
+            <h2 class="section-title hdg-1 anim" data-text="Hobbies e Interesses">
                 Hobbies e Interesses
             </h2>
             <p class="section-subtitle">
-                Além do universo tecnológico, também exploro outras paixões que me permitem crescer pessoal e profissionalmente.
+                Além do universo tecnológico, também exploro outras paixões que me permitem crescer pessoal e
+                profissionalmente.
             </p>
 
             <div class="row gy-4 mt-4">
                 <div class="col-md-6">
                     <div class="d-flex align-items-center">
-                        <i
-                            class="fas fa-music fa-2x me-3"
-                            style="color:#3c55ff;"
-                        ></i>
+                        <i class="fas fa-music fa-2x me-3" style="color:#3c55ff;"></i>
                         <div>
                             <h5>Estudar música clássica e violino</h5>
                             <p>
@@ -1051,10 +907,7 @@
                 </div>
                 <div class="col-md-6">
                     <div class="d-flex align-items-center">
-                        <i
-                            class="fas fa-brain fa-2x me-3"
-                            style="color:#3c55ff;"
-                        ></i>
+                        <i class="fas fa-brain fa-2x me-3" style="color:#3c55ff;"></i>
                         <div>
                             <h5>Estudar os efeitos psicológicos da tecnologia</h5>
                             <p>
@@ -1066,10 +919,7 @@
                 </div>
                 <div class="col-md-6">
                     <div class="d-flex align-items-center">
-                        <i
-                            class="fas fa-robot fa-2x me-3"
-                            style="color:#3c55ff;"
-                        ></i>
+                        <i class="fas fa-robot fa-2x me-3" style="color:#3c55ff;"></i>
                         <div>
                             <h5>Mantenho um laboratório de inteligência artificial próprio</h5>
                             <p>
@@ -1081,10 +931,7 @@
                 </div>
                 <div class="col-md-6">
                     <div class="d-flex align-items-center">
-                        <i
-                            class="fas fa-network-wired fa-2x me-3"
-                            style="color:#3c55ff;"
-                        ></i>
+                        <i class="fas fa-network-wired fa-2x me-3" style="color:#3c55ff;"></i>
                         <div>
                             <h5>Integro iniciativas de IoT</h5>
                             <p>
@@ -1099,15 +946,9 @@
     </section>
 
     <!-- ===================== CONTATO ===================== -->
-    <section
-        id="contato"
-        data-aos="fade-up"
-    >
+    <section id="contato" data-aos="fade-up">
         <div class="container">
-            <h2
-                class="section-title hdg-1 anim"
-                data-text="Entre em Contato"
-            >
+            <h2 class="section-title hdg-1 anim" data-text="Entre em Contato">
                 Entre em Contato
             </h2>
             <p class="section-subtitle">
@@ -1116,59 +957,23 @@
             <div class="row">
                 <div class="col-lg-6 mb-4">
                     <!-- Form integrado ao Formspree e abrindo em nova aba -->
-                    <form
-                        action="https://formspree.io/f/xjkkbygp"
-                        method="POST"
-                        target="_blank"
-                    >
+                    <form action="https://formspree.io/f/xjkkbygp" method="POST" target="_blank">
                         <div class="mb-3">
-                            <label
-                                for="nome"
-                                class="form-label"
-                            >Seu Nome</label>
-                            <input
-                                type="text"
-                                class="form-control"
-                                id="nome"
-                                name="nome"
-                                placeholder="Informe seu nome"
-                                required
-                                minlength="2"
-                            />
+                            <label for="nome" class="form-label">Seu Nome</label>
+                            <input type="text" class="form-control" id="nome" name="nome" placeholder="Informe seu nome"
+                                required minlength="2" />
                         </div>
                         <div class="mb-3">
-                            <label
-                                for="email"
-                                class="form-label"
-                            >Seu E-mail</label>
-                            <input
-                                type="email"
-                                class="form-control"
-                                id="email"
-                                name="email"
-                                placeholder="email@exemplo.com"
-                                required
-                            />
+                            <label for="email" class="form-label">Seu E-mail</label>
+                            <input type="email" class="form-control" id="email" name="email"
+                                placeholder="email@exemplo.com" required />
                         </div>
                         <div class="mb-3">
-                            <label
-                                for="mensagem"
-                                class="form-label"
-                            >Mensagem</label>
-                            <textarea
-                                class="form-control"
-                                id="mensagem"
-                                name="mensagem"
-                                rows="4"
-                                placeholder="Como posso ajudar?"
-                                required
-                                minlength="10"
-                            ></textarea>
+                            <label for="mensagem" class="form-label">Mensagem</label>
+                            <textarea class="form-control" id="mensagem" name="mensagem" rows="4"
+                                placeholder="Como posso ajudar?" required minlength="10"></textarea>
                         </div>
-                        <button
-                            type="submit"
-                            class="btn btn-custom"
-                        >
+                        <button type="submit" class="btn btn-custom">
                             <i class="fas fa-paper-plane"></i>
                             Enviar
                         </button>
@@ -1187,10 +992,7 @@
                     <p>
                         <i class="fab fa-linkedin"></i>
                         &nbsp; <strong>LinkedIn:</strong>
-                        <a
-                            href="https://www.linkedin.com/in/bruno-akio-kawakami/"
-                            target="_blank"
-                        >
+                        <a href="https://www.linkedin.com/in/bruno-akio-kawakami/" target="_blank">
                             https://www.linkedin.com/in/bruno-akio-kawakami/
                         </a>
                     </p>
@@ -1208,10 +1010,8 @@
 
     <!-- =============== SCRIPTS =============== -->
     <!-- Bootstrap 5 JS -->
-    <script
-        src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"
-        crossorigin="anonymous"
-    ></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"
+        crossorigin="anonymous"></script>
 
     <!-- AOS JS -->
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
@@ -1227,12 +1027,19 @@
 
     <!-- Script para criar a animação 3D no background do Hero com interação sutil -->
     <script>
+        /* === Exemplo de script JS para Three.js com rotação padrão,
+     interação do usuário e leve deformação no círculo. === */
+
         let scene, camera, renderer;
         let sphere, groupParticles;
 
-        // Variáveis para interação
+        // Rotação alvo (ao mover mouse ou tocar)
         let targetRotationX = 0;
         let targetRotationY = 0;
+
+        // Fatores de escala para a leve deformação
+        let targetScaleX = 1;
+        let targetScaleY = 1;
 
         init3D();
         animate();
@@ -1252,7 +1059,7 @@
 
             // Renderizador
             renderer = new THREE.WebGLRenderer({
-                canvas: document.getElementById('heroCanvas'),
+                canvas: document.getElementById('heroCanvas'), // ID do canvas no HTML
                 antialias: true
             });
             renderer.setSize(window.innerWidth, window.innerHeight);
@@ -1274,7 +1081,7 @@
             sphere = new THREE.LineSegments(wireframe, sphereMaterial);
             scene.add(sphere);
 
-            // Grupo de partículas
+            // Grupo de partículas (opcional)
             groupParticles = new THREE.Group();
             const particleGeometry = new THREE.SphereGeometry(0.1, 8, 8);
             const particleMaterial = new THREE.MeshBasicMaterial({ color: 0xffffff });
@@ -1287,7 +1094,7 @@
             }
             scene.add(groupParticles);
 
-            // Eventos para interação
+            // Eventos para interação do usuário
             window.addEventListener('mousemove', handleMouseMove, false);
             window.addEventListener('touchmove', handleTouchMove, false);
 
@@ -1302,16 +1109,21 @@
         }
 
         function handleMouseMove(e) {
-            // Normaliza a posição do mouse para um range [-0.5, 0.5]
+            // Converte a posição do mouse para um range [-0.5, 0.5]
             let x = e.clientX / window.innerWidth - 0.5;
             let y = e.clientY / window.innerHeight - 0.5;
-            
-            // Escala para controlar a intensidade da rotação
+
+            // Define rotação alvo
             targetRotationX = y * 0.3;
             targetRotationY = x * 0.3;
+
+            // Leve deformação na escala
+            targetScaleX = 1 + x * 0.1;
+            targetScaleY = 1 - y * 0.1;
         }
 
         function handleTouchMove(e) {
+            // Se houver apenas um toque (dedo)
             if (e.touches && e.touches.length === 1) {
                 let touch = e.touches[0];
                 let x = touch.clientX / window.innerWidth - 0.5;
@@ -1319,23 +1131,33 @@
 
                 targetRotationX = y * 0.3;
                 targetRotationY = x * 0.3;
+
+                targetScaleX = 1 + x * 0.1;
+                targetScaleY = 1 - y * 0.1;
             }
         }
 
         function animate() {
             requestAnimationFrame(animate);
 
-            // Animação base (rotações leves)
+            // Rotação "padrão" contínua (sem interação do usuário)
             sphere.rotation.y += 0.001;
             sphere.rotation.x += 0.0005;
             groupParticles.rotation.y += 0.0005;
 
-            // Aproxima a rotação da esfera ao valor de "target" (interação do mouse/toque)
+            // Aproxima rotação da esfera dos valores alvos (interação)
             sphere.rotation.x += 0.05 * (targetRotationX - sphere.rotation.x);
             sphere.rotation.y += 0.05 * (targetRotationY - sphere.rotation.y);
 
+            // Aproxima a escala da esfera dos valores alvos (leve deformação)
+            sphere.scale.x += 0.05 * (targetScaleX - sphere.scale.x);
+            sphere.scale.y += 0.05 * (targetScaleY - sphere.scale.y);
+            // sphere.scale.z fica fixo ou pode ser ajustado, se quiser
+
             renderer.render(scene, camera);
         }
+
     </script>
 </body>
+
 </html>

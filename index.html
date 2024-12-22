@@ -1,18 +1,75 @@
 <!DOCTYPE html>
 <html lang="pt-br">
-
 <head>
+    <!-- Metadados essenciais -->
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Bruno Kawakami - Inovação e IA</title>
 
+    <!-- =========================================
+         SEO: Metatags básicas
+    ========================================== -->
+    <meta name="description" content="Descubra as inovações e a trajetória de Bruno Kawakami, CTO e especialista em IA, com mais de 10 anos de experiência em lideranças tecnológicas, desenvolvimento de startups e crescimento exponencial." />
+    <meta name="keywords" content="Inovação, IA, Inteligência Artificial, Crescimento Exponencial, Empreendedorismo, Transformação Digital, CTO, Liderança, Tecnologia, Bruno Kawakami" />
+    <meta name="author" content="Bruno Kawakami" />
+    <meta name="robots" content="index, follow" />
+    <!-- Ajuste o href com a URL real da sua página -->
+    <link rel="canonical" href="https://www.brunokawakami.com" />
+
+    <!-- =========================================
+         SEO: Open Graph (Facebook, LinkedIn, etc.)
+    ========================================== -->
+    <meta property="og:type" content="website" />
+    <!-- Ajuste a URL abaixo para a URL real da sua página -->
+    <meta property="og:url" content="https://www.brunokawakami.com" />
+    <meta property="og:title" content="Bruno Kawakami - Inovação e IA" />
+    <meta property="og:description" content="Descubra as inovações e a trajetória de Bruno Kawakami, CTO e especialista em IA, com mais de 10 anos de experiência em lideranças tecnológicas e desenvolvimento de soluções inovadoras." />
+    <!-- Ajuste esta URL para a imagem que deseja exibir no preview do link -->
+    <meta property="og:image" content="https://www.brunokawakami.com/foto_bruno.jpeg" />
+
+    <!-- =========================================
+         SEO: Twitter Cards
+    ========================================== -->
+    <!-- Tipo de card: summary_large_image, summary, etc. -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <!-- Ajuste a URL abaixo para a URL real da sua página -->
+    <meta name="twitter:url" content="https://www.brunokawakami.com" />
+    <meta name="twitter:title" content="Bruno Kawakami - Inovação e IA" />
+    <meta name="twitter:description" content="Descubra as inovações e a trajetória de Bruno Kawakami, CTO e especialista em IA, com mais de 10 anos de experiência em lideranças tecnológicas e crescimento exponencial." />
+    <!-- Ajuste esta URL para a imagem que deseja exibir no Twitter Card -->
+    <meta name="twitter:image" content="https://www.brunokawakami.com/foto_bruno.jpeg" />
+
+    <!-- =========================================
+         SEO: Marcação de dados estruturados (JSON-LD)
+         Exemplo simples para Pessoa
+    ========================================== -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Person",
+      "name": "Bruno Kawakami",
+      "url": "https://www.brunokawakami.com",
+      "jobTitle": "CTO e Especialista em IA",
+      "description": "Bruno Kawakami é um CTO experiente, especialista em IA e empreendedor de sucesso, com histórico sólido em liderança tecnológica e desenvolvimento de startups.",
+      "worksFor": {
+        "@type": "Organization",
+        "name": "D4Sign"
+      },
+      "sameAs": [
+        "https://www.linkedin.com/in/bruno-akio-kawakami/"
+      ]
+    }
+    </script>
+
+    <!-- =========================================
+         CSS e bibliotecas
+    ========================================== -->
     <!-- Bootstrap 5 CSS -->
     <link
         rel="stylesheet"
         href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
         crossorigin="anonymous"
     />
-
     <!-- Font Awesome -->
     <link
         rel="stylesheet"
@@ -20,19 +77,20 @@
         crossorigin="anonymous"
         referrerpolicy="no-referrer"
     />
-
     <!-- AOS CSS (Animate On Scroll) -->
     <link
         rel="stylesheet"
         href="https://unpkg.com/aos@2.3.1/dist/aos.css"
     />
-
     <!-- Google Fonts para o estilo pixelado e monospace -->
     <link
         href="https://fonts.googleapis.com/css2?family=Noto+Sans+Mono&family=Press+Start+2P&display=swap"
         rel="stylesheet"
     />
 
+    <!-- =========================================
+         SEU CSS Customizado
+    ========================================== -->
     <style>
         /************************************************
         *                Estilos Globais               *
@@ -94,7 +152,6 @@
             overflow: hidden;
         }
 
-        /* Container do canvas Three.js */
         .hero-canvas-container {
             position: absolute;
             top: 0;
@@ -111,7 +168,6 @@
             display: block;
         }
 
-        /* Overlay para dar opacidade e destaque no texto */
         .hero-overlay {
             position: absolute;
             top: 0;
@@ -173,7 +229,6 @@
             margin-bottom: 40px;
         }
 
-        /* Ícones e títulos em azul e com glitch */
         .big-number-item i {
             font-size: 3rem;
             margin-bottom: 20px;
@@ -351,22 +406,15 @@
         }
 
         @media (max-width: 767.98px) {
-            /* Alinhar tudo ao centro no mobile */
             .hero-section .row {
                 text-align: center;
             }
-
-            /* Espaçamento entre texto (col) e imagem (col) */
             .hero-content {
                 margin-bottom: 2rem;
             }
-
-            /* Ajustar botão para ficar com mais espaço ao redor no mobile */
             .hero-section .btn-custom {
                 margin-bottom: 1.5rem;
             }
-
-            /* Ajustar a imagem para ficar com largura adaptável no mobile */
             .hero-image img {
                 width: 70%;
                 height: auto;
@@ -380,12 +428,10 @@
             background-image: url(ai_background.png);
         }
 
-        /* Classe para títulos pixelados */
         .hdg-1 {
             font-family: "Press Start 2P", sans-serif;
         }
 
-        /* Classe com efeito glitch */
         .anim {
             font-family: "Press Start 2P", sans-serif;
             animation: glitch 6s infinite;
@@ -400,7 +446,6 @@
             visibility: hidden;
         }
 
-        /* Efeito ao hover */
         .anim:hover::after {
             animation: clip 3s infinite;
         }
@@ -409,64 +454,53 @@
             30% {
                 text-shadow: 4px -4px 0px #3c55ff;
             }
-
             32% {
                 text-shadow: -4px 4px 0px #00ffff;
             }
-
             0%,
             28%,
             34% {
                 text-shadow: none;
             }
-
             31%,
             32% {
                 transform: translate(-7px, 7px);
             }
-
             32%,
             33% {
                 transform: translate(7px, -7px);
             }
-
             31%,
             33% {
                 transform: translateX(0);
             }
-
             50% {
                 text-shadow: 4px 4px 0px #3c55ff;
             }
-
             52% {
                 text-shadow: -4px -4px 0px #00ffff;
             }
-
             48%,
             54% {
                 text-shadow: none;
             }
-
             49%,
             52% {
                 transform: translateX(0);
             }
-
             50% {
                 transform: translate(7px, 7px);
             }
-
             51% {
                 transform: translate(-7px, -7px);
             }
         }
 
         .logo-grayscale {
-            max-width: 120px; /* Controla a largura máxima */
-            height: auto; /* Mantém proporção sem distorcer */
-            filter: grayscale(100%) brightness(160%); /* Torna a imagem cinza e mais clara */
-            opacity: 0.9; /* Ajusta a opacidade para suavizar */
+            max-width: 120px;
+            height: auto;
+            filter: grayscale(100%) brightness(160%);
+            opacity: 0.9;
         }
 
         .logo-grayscale:hover {
@@ -474,12 +508,11 @@
             opacity: 1;
         }
 
-        /* Ajustes para as imagens dos cards na seção "Na Mídia" */
         .news-section .card-img-top {
-            width: 120px; /* Largura fixa */
-            height: 120px; /* Altura fixa */
-            object-fit: contain; /* Ajusta sem cortar a imagem */
-            margin-top: 1rem; /* Pequeno espaçamento interno */
+            width: 120px;
+            height: 120px;
+            object-fit: contain;
+            margin-top: 1rem;
         }
     </style>
 </head>
@@ -584,25 +617,21 @@
                 digital.
             </p>
 
-            <!-- Linha (row) para agrupar os cards com espaçamento interno (g-4) -->
             <div class="row justify-content-center g-4">
                 <!-- ========== CNN ========== -->
                 <div class="col-md-3 col-sm-6">
                     <div class="card bg-transparent border-0 h-100 text-center">
-                        <!-- Logo da mídia -->
                         <img
                             src="cnn.png"
                             alt="CNN Logo"
                             class="card-img-top mx-auto logo-grayscale"
                         />
-                        <!-- Corpo do card -->
                         <div class="card-body">
                             <h5 class="card-title text-white">CNN</h5>
                             <p class="card-text text-white">
                                 Alucinação: entenda por que e como chatbots de IA podem dar respostas erradas.
                             </p>
                         </div>
-                        <!-- Rodapé do card, com botão -->
                         <div class="card-footer bg-transparent border-0">
                             <a
                                 href="https://www.cnnbrasil.com.br/tecnologia/alucinacao-entenda-por-que-e-como-chatbots-de-ia-podem-dar-respostas-erradas/"
@@ -714,7 +743,7 @@
                     class="col-md-4 big-number-item"
                     data-aos="zoom-in"
                 >
-                    <i class="fas fa-chart-line" data-text=""></i>
+                    <i class="fas fa-chart-line"></i>
                     <h3
                         class="hdg-1"
                         data-text="400%"
@@ -950,9 +979,7 @@
                 Formação e Certificações
             </h2>
 
-            <!-- Organizando em colunas para melhor diagramação -->
             <div class="row mt-4">
-                <!-- Coluna 1: Educação -->
                 <div class="col-md-6 mb-4">
                     <h3 class="mb-3">
                         <i class="fas fa-graduation-cap" style="color: #3c55ff;"></i>
@@ -964,7 +991,6 @@
                     </ul>
                 </div>
 
-                <!-- Coluna 2: Certificações e Idiomas -->
                 <div class="col-md-6 mb-4">
                     <h3 class="mb-3">
                         <i class="fas fa-certificate" style="color: #3c55ff;"></i>
@@ -1162,10 +1188,10 @@
                         <i class="fab fa-linkedin"></i>
                         &nbsp; <strong>LinkedIn:</strong>
                         <a
-                            href="#"
+                            href="https://www.linkedin.com/in/bruno-akio-kawakami/"
                             target="_blank"
                         >
-                            linkedin.com/in/bruno-kawakami
+                            https://www.linkedin.com/in/bruno-akio-kawakami/
                         </a>
                     </p>
                 </div>
@@ -1286,7 +1312,6 @@
         }
 
         function handleTouchMove(e) {
-            // Pegamos o toque principal (primeiro dedo)
             if (e.touches && e.touches.length === 1) {
                 let touch = e.touches[0];
                 let x = touch.clientX / window.innerWidth - 0.5;
@@ -1313,5 +1338,4 @@
         }
     </script>
 </body>
-
 </html>

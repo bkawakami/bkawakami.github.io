@@ -555,6 +555,12 @@
                     <li class="nav-item"><a class="nav-link" href="#sobre">Sobre</a></li>
                     <li class="nav-item"><a class="nav-link" href="#experiencias">Experiências</a></li>
                     <li class="nav-item"><a class="nav-link" href="#contato">Contato</a></li>
+                    
+                    <!-- ============ GOOGLE TRANSLATE WIDGET ============ -->
+                    <li class="nav-item" style="margin-left: 15px;">
+                        <div id="google_translate_element"></div>
+                    </li>
+                    <!-- ================================================ -->
                 </ul>
             </div>
         </div>
@@ -1215,6 +1221,21 @@
             renderer.render(scene, camera);
         }
     </script>
+
+    <!-- ===================== GOOGLE TRANSLATE SCRIPT ===================== -->
+    <script type="text/javascript">
+      function googleTranslateElementInit() {
+        new google.translate.TranslateElement({
+          pageLanguage: 'pt',
+          includedLanguages: 'en,es,fr,it', /* Aqui você pode adicionar/remover idiomas */
+          layout: google.translate.TranslateElement.InlineLayout.SIMPLE
+        }, 'google_translate_element');
+      }
+    </script>
+    <script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit">
+    </script>
+    <!-- ================================================== -->
+
 </body>
 
 </html>

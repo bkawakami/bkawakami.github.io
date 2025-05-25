@@ -1114,7 +1114,7 @@
             renderer.setSize(window.innerWidth, window.innerHeight);
 
             // Create particle system
-            const particleCount = 1500;
+            const particleCount = 2500; // Increased particle count
             const positions = new Float32Array(particleCount * 3);
             const colors = new Float32Array(particleCount * 3);
             const sizes = new Float32Array(particleCount);
@@ -1125,10 +1125,10 @@
             for (let i = 0; i < particleCount; i++) {
                 const i3 = i * 3;
                 
-                // Position
-                positions[i3] = (Math.random() - 0.5) * 2000;
-                positions[i3 + 1] = (Math.random() - 0.5) * 2000;
-                positions[i3 + 2] = (Math.random() - 0.5) * 2000;
+                // Position - closer to camera for better visibility
+                positions[i3] = (Math.random() - 0.5) * 1500;
+                positions[i3 + 1] = (Math.random() - 0.5) * 1500;
+                positions[i3 + 2] = (Math.random() - 0.5) * 1500;
 
                 // Color (gradient between two colors)
                 const mixRatio = Math.random();
@@ -1137,8 +1137,8 @@
                 colors[i3 + 1] = mixedColor.g;
                 colors[i3 + 2] = mixedColor.b;
 
-                // Size
-                sizes[i] = Math.random() * 3 + 1;
+                // Size - significantly larger particles
+                sizes[i] = Math.random() * 8 + 3;
             }
 
             const geometry = new THREE.BufferGeometry();

@@ -360,6 +360,95 @@
             font-size: 1rem;
         }
 
+        /* Projects Section */
+        .projects-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 40px;
+            margin-top: 60px;
+        }
+
+        .project-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            padding: 40px;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            text-decoration: none !important;
+            display: block;
+        }
+
+        .project-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(91, 141, 238, 0.1), rgba(72, 201, 176, 0.1));
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .project-card:hover::before {
+            opacity: 1;
+        }
+
+        .project-card:hover {
+            transform: translateY(-10px);
+            border-color: var(--primary-color);
+            box-shadow: 0 20px 40px rgba(91, 141, 238, 0.2);
+        }
+
+        .project-icon {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 30px;
+            font-size: 2rem;
+            color: white;
+            position: relative;
+            z-index: 1;
+        }
+
+        .project-card h4 {
+            color: var(--text-primary);
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+            font-weight: 700;
+            position: relative;
+            z-index: 1;
+        }
+
+        .project-card p {
+            color: var(--text-secondary);
+            line-height: 1.8;
+            margin-bottom: 20px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .project-link {
+            color: var(--primary-color);
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            position: relative;
+            z-index: 1;
+            transition: gap 0.3s ease;
+        }
+
+        .project-card:hover .project-link {
+            gap: 12px;
+        }
+
         /* Timeline */
         .timeline {
             position: relative;
@@ -630,7 +719,7 @@
                 left: 20px !important;
             }
 
-            .stats-grid, .media-grid {
+            .stats-grid, .media-grid, .projects-grid {
                 grid-template-columns: 1fr;
             }
         }
@@ -686,6 +775,7 @@
                 <ul class="navbar-nav ms-auto align-items-center">
                     <li class="nav-item"><a class="nav-link" href="#sobre">Sobre</a></li>
                     <li class="nav-item"><a class="nav-link" href="#jornada">Jornada</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#projetos">Projetos</a></li>
                     <li class="nav-item"><a class="nav-link" href="#impacto">Impacto</a></li>
                     <li class="nav-item"><a class="nav-link" href="#contato">Contato</a></li>
                     <li class="nav-item">
@@ -788,8 +878,55 @@
         </div>
     </section>
 
+    <!-- Projects Section -->
+    <section id="projetos" style="background: var(--section-bg);" data-aos="fade-up">
+        <div class="container">
+            <div class="section-header">
+                <div class="section-badge">// PROJETOS PESSOAIS</div>
+                <h2 class="section-title">Criando soluções que inspiram</h2>
+                <p class="section-subtitle">
+                    Projetos nascidos da paixão por resolver problemas reais com tecnologia elegante
+                </p>
+            </div>
+
+            <div class="projects-grid">
+                <a href="https://chessframe.com" target="_blank" class="project-card" data-aos="zoom-in">
+                    <div class="project-icon">
+                        <i class="fas fa-chess"></i>
+                    </div>
+                    <h4>ChessFrame</h4>
+                    <p>
+                        Transforme suas partidas de xadrez em vídeos cinematográficos. 
+                        Simplesmente insira a notação dos seus jogos e o ChessFrame 
+                        gera automaticamente vídeos profissionais das partidas, 
+                        perfeitos para análise, ensino ou compartilhamento.
+                    </p>
+                    <span class="project-link">
+                        Explorar projeto <i class="fas fa-arrow-right"></i>
+                    </span>
+                </a>
+
+                <a href="https://gonesheet.com" target="_blank" class="project-card" data-aos="zoom-in" data-aos-delay="100">
+                    <div class="project-icon">
+                        <i class="fas fa-table"></i>
+                    </div>
+                    <h4>GoneSheet</h4>
+                    <p>
+                        Um frontend completo para planilhas temporárias, projetado 
+                        para prototipagem rápida e cálculos instantâneos. Ideal 
+                        para quando você precisa de uma planilha poderosa sem 
+                        a complexidade de configurações permanentes.
+                    </p>
+                    <span class="project-link">
+                        Explorar projeto <i class="fas fa-arrow-right"></i>
+                    </span>
+                </a>
+            </div>
+        </div>
+    </section>
+
     <!-- Media Section -->
-    <section id="midia" style="background: var(--section-bg);" data-aos="fade-up">
+    <section id="midia" data-aos="fade-up">
         <div class="container">
             <div class="section-header">
                 <div class="section-badge">// RECONHECIMENTO</div>
@@ -832,7 +969,7 @@
     </section>
 
     <!-- Forbes Recognition -->
-    <section id="forbes" data-aos="fade-up">
+    <section id="forbes" style="background: var(--section-bg);" data-aos="fade-up">
         <div class="container">
             <div class="row align-items-center">
                 <div class="col-lg-6" data-aos="fade-right">
@@ -858,7 +995,7 @@
     </section>
 
     <!-- About Section -->
-    <section id="sobre" style="background: var(--section-bg);" data-aos="fade-up">
+    <section id="sobre" data-aos="fade-up">
         <div class="container">
             <div class="section-header">
                 <div class="section-badge">// SOBRE MIM</div>
@@ -890,7 +1027,7 @@
     </section>
 
     <!-- Journey Timeline -->
-    <section id="jornada" data-aos="fade-up">
+    <section id="jornada" style="background: var(--section-bg);" data-aos="fade-up">
         <div class="container">
             <div class="section-header">
                 <div class="section-badge">// JORNADA</div>
@@ -957,7 +1094,7 @@
     </section>
 
     <!-- Skills & Interests -->
-    <section id="skills" style="background: var(--section-bg);" data-aos="fade-up">
+    <section id="skills" data-aos="fade-up">
         <div class="container">
             <div class="section-header">
                 <div class="section-badge">// ALÉM DO CÓDIGO</div>
@@ -1017,7 +1154,7 @@
     </section>
 
     <!-- Contact Section -->
-    <section id="contato" data-aos="fade-up">
+    <section id="contato" style="background: var(--section-bg);" data-aos="fade-up">
         <div class="container">
             <div class="section-header">
                 <div class="section-badge">// CONTATO</div>

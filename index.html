@@ -1084,7 +1084,7 @@
     <!-- Three.js -->
     <script src="https://cdn.jsdelivr.net/npm/three@0.152.2/build/three.min.js"></script>
 
-    <!-- Enhanced 3D Background -->
+    <!-- Enhanced 3D Background with More Speed and Zoom -->
     <script>
         // Advanced particle flow system
         let scene, camera, renderer;
@@ -1100,9 +1100,9 @@
             // Scene setup
             scene = new THREE.Scene();
             
-            // Camera setup
+            // Camera setup - Closer position for zoom effect
             camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 1, 10000);
-            camera.position.z = 1000;
+            camera.position.z = 600; // Moved closer (was 1000)
 
             // Renderer setup
             renderer = new THREE.WebGLRenderer({
@@ -1114,7 +1114,7 @@
             renderer.setSize(window.innerWidth, window.innerHeight);
 
             // Create particle system
-            const particleCount = 2500; // Increased particle count
+            const particleCount = 3000; // Increased particle count for density
             const positions = new Float32Array(particleCount * 3);
             const colors = new Float32Array(particleCount * 3);
             const sizes = new Float32Array(particleCount);
@@ -1125,10 +1125,10 @@
             for (let i = 0; i < particleCount; i++) {
                 const i3 = i * 3;
                 
-                // Position - closer to camera for better visibility
-                positions[i3] = (Math.random() - 0.5) * 1500;
-                positions[i3 + 1] = (Math.random() - 0.5) * 1500;
-                positions[i3 + 2] = (Math.random() - 0.5) * 1500;
+                // Position - wider spread for better coverage when zoomed
+                positions[i3] = (Math.random() - 0.5) * 2000;
+                positions[i3 + 1] = (Math.random() - 0.5) * 2000;
+                positions[i3 + 2] = (Math.random() - 0.5) * 2000;
 
                 // Color (gradient between two colors)
                 const mixRatio = Math.random();
@@ -1137,8 +1137,8 @@
                 colors[i3 + 1] = mixedColor.g;
                 colors[i3 + 2] = mixedColor.b;
 
-                // Size - significantly larger particles
-                sizes[i] = Math.random() * 8 + 3;
+                // Size - larger particles for zoomed effect
+                sizes[i] = Math.random() * 12 + 5;
             }
 
             const geometry = new THREE.BufferGeometry();
@@ -1146,7 +1146,7 @@
             geometry.setAttribute('color', new THREE.BufferAttribute(colors, 3));
             geometry.setAttribute('size', new THREE.BufferAttribute(sizes, 1));
 
-            // Shader material for particles
+            // Shader material for particles with faster motion
             const material = new THREE.ShaderMaterial({
                 uniforms: {
                     time: { value: 0 },
@@ -1163,13 +1163,13 @@
                         vColor = color;
                         vec3 pos = position;
                         
-                        // Add wave motion
-                        pos.x += sin(time * 0.001 + position.y * 0.01) * 20.0;
-                        pos.y += cos(time * 0.001 + position.x * 0.01) * 20.0;
-                        pos.z += sin(time * 0.001 + position.x * 0.01) * 20.0;
+                        // Add faster wave motion
+                        pos.x += sin(time * 0.003 + position.y * 0.01) * 30.0;
+                        pos.y += cos(time * 0.003 + position.x * 0.01) * 30.0;
+                        pos.z += sin(time * 0.002 + position.x * 0.01) * 40.0;
                         
                         vec4 mvPosition = modelViewMatrix * vec4(pos, 1.0);
-                        gl_PointSize = size * (300.0 / -mvPosition.z) * pixelRatio;
+                        gl_PointSize = size * (400.0 / -mvPosition.z) * pixelRatio;
                         gl_Position = projectionMatrix * mvPosition;
                     }
                 `,
@@ -1185,7 +1185,7 @@
                         }
                         
                         float alpha = 1.0 - smoothstep(0.0, 0.5, ll);
-                        gl_FragColor = vec4(vColor, alpha * 0.8);
+                        gl_FragColor = vec4(vColor, alpha * 0.9);
                     }
                 `,
                 transparent: true,
@@ -1196,12 +1196,12 @@
             particleSystem = new THREE.Points(geometry, material);
             scene.add(particleSystem);
 
-            // Add floating geometry
-            const torusGeometry = new THREE.TorusKnotGeometry(100, 30, 100, 16);
+            // Add larger floating geometry
+            const torusGeometry = new THREE.TorusKnotGeometry(150, 40, 100, 16);
             const torusMaterial = new THREE.MeshBasicMaterial({
                 color: 0x5B8DEE,
                 wireframe: true,
-                opacity: 0.1,
+                opacity: 0.15,
                 transparent: true
             });
             const torus = new THREE.Mesh(torusGeometry, torusMaterial);
@@ -1222,14 +1222,14 @@
         }
 
         function onDocumentMouseMove(event) {
-            mouseX = (event.clientX - windowHalfX) * 0.05;
-            mouseY = (event.clientY - windowHalfY) * 0.05;
+            mouseX = (event.clientX - windowHalfX) * 0.08; // More responsive
+            mouseY = (event.clientY - windowHalfY) * 0.08;
         }
 
         function onDocumentTouchMove(event) {
             if (event.touches.length === 1) {
-                mouseX = (event.touches[0].pageX - windowHalfX) * 0.05;
-                mouseY = (event.touches[0].pageY - windowHalfY) * 0.05;
+                mouseX = (event.touches[0].pageX - windowHalfX) * 0.08;
+                mouseY = (event.touches[0].pageY - windowHalfY) * 0.08;
             }
         }
 
@@ -1241,19 +1241,19 @@
             // Update shader time
             particleSystem.material.uniforms.time.value = time;
 
-            // Rotate particle system
-            particleSystem.rotation.x += 0.0001;
-            particleSystem.rotation.y += 0.0002;
+            // Faster rotation of particle system
+            particleSystem.rotation.x += 0.0005; // 5x faster
+            particleSystem.rotation.y += 0.001;  // 5x faster
 
-            // Camera movement based on mouse
-            camera.position.x += (mouseX - camera.position.x) * 0.05;
-            camera.position.y += (-mouseY - camera.position.y) * 0.05;
+            // More responsive camera movement
+            camera.position.x += (mouseX - camera.position.x) * 0.08;
+            camera.position.y += (-mouseY - camera.position.y) * 0.08;
             camera.lookAt(scene.position);
 
-            // Rotate torus
+            // Faster torus rotation
             if (scene.children[1]) {
-                scene.children[1].rotation.x += 0.001;
-                scene.children[1].rotation.y += 0.002;
+                scene.children[1].rotation.x += 0.005; // 5x faster
+                scene.children[1].rotation.y += 0.01;  // 5x faster
             }
 
             renderer.render(scene, camera);

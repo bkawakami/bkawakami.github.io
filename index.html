@@ -773,10 +773,12 @@
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav ms-auto align-items-center">
+                    <li class="nav-item"><a class="nav-link" href="#impacto">Impacto</a></li>
                     <li class="nav-item"><a class="nav-link" href="#sobre">Sobre</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#forbes">Forbes</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#midia">Mídia</a></li>
                     <li class="nav-item"><a class="nav-link" href="#jornada">Jornada</a></li>
                     <li class="nav-item"><a class="nav-link" href="#projetos">Projetos</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#impacto">Impacto</a></li>
                     <li class="nav-item"><a class="nav-link" href="#contato">Contato</a></li>
                     <li class="nav-item">
                         <div id="google_translate_element"></div>
@@ -786,7 +788,7 @@
         </div>
     </nav>
 
-    <!-- Hero Section -->
+    <!-- 1. Hero Section (mantém como está) -->
     <section class="hero-section" id="home">
         <div class="hero-canvas-container">
             <canvas id="heroCanvas"></canvas>
@@ -815,8 +817,8 @@
         </div>
     </section>
 
-    <!-- Impact Numbers -->
-    <section id="impacto" data-aos="fade-up">
+    <!-- 2. Números que contam histórias -->
+    <section id="impacto" style="background: var(--section-bg);" data-aos="fade-up">
         <div class="container">
             <div class="section-header">
                 <div class="section-badge">// IMPACTO</div>
@@ -878,54 +880,65 @@
         </div>
     </section>
 
-    <!-- Projects Section -->
-    <section id="projetos" style="background: var(--section-bg);" data-aos="fade-up">
+    <!-- 3. Da visão à execução -->
+    <section id="sobre" data-aos="fade-up">
         <div class="container">
             <div class="section-header">
-                <div class="section-badge">// PROJETOS PESSOAIS</div>
-                <h2 class="section-title">Criando soluções que inspiram</h2>
-                <p class="section-subtitle">
-                    Projetos nascidos da paixão por resolver problemas reais com tecnologia elegante
-                </p>
+                <div class="section-badge">// SOBRE MIM</div>
+                <h2 class="section-title">Da visão à execução</h2>
             </div>
 
-            <div class="projects-grid">
-                <a href="https://chessframe.com" target="_blank" class="project-card" data-aos="zoom-in">
-                    <div class="project-icon">
-                        <i class="fas fa-chess"></i>
-                    </div>
-                    <h4>ChessFrame</h4>
-                    <p>
-                        Transforme suas partidas de xadrez em vídeos cinematográficos. 
-                        Simplesmente insira a notação dos seus jogos e o ChessFrame 
-                        gera automaticamente vídeos profissionais das partidas, 
-                        perfeitos para análise, ensino ou compartilhamento.
-                    </p>
-                    <span class="project-link">
-                        Explorar projeto <i class="fas fa-arrow-right"></i>
-                    </span>
-                </a>
-
-                <a href="https://gonesheet.com" target="_blank" class="project-card" data-aos="zoom-in" data-aos-delay="100">
-                    <div class="project-icon">
-                        <i class="fas fa-table"></i>
-                    </div>
-                    <h4>GoneSheet</h4>
-                    <p>
-                        Um frontend completo para planilhas temporárias, projetado 
-                        para prototipagem rápida e cálculos instantâneos. Ideal 
-                        para quando você precisa de uma planilha poderosa sem 
-                        a complexidade de configurações permanentes.
-                    </p>
-                    <span class="project-link">
-                        Explorar projeto <i class="fas fa-arrow-right"></i>
-                    </span>
-                </a>
+            <div class="about-content">
+                <p>
+                    Minha jornada começou com uma simples pergunta: 
+                    <strong>"E se a tecnologia pudesse fazer mais?"</strong>
+                </p>
+                <p>
+                    Como CTO da D4Sign, não apenas liderei o desenvolvimento técnico - 
+                    <span class="about-highlight">arquitetei a transformação</span> que levou a empresa 
+                    de uma startup promissora a um exit de R$ 180 milhões para o grupo Zucchetti.
+                </p>
+                <p>
+                    Com mais de uma década construindo o futuro, desenvolvi uma filosofia simples: 
+                    <strong>tecnologia sem propósito é apenas código</strong>. Por isso, cada algoritmo 
+                    que escrevo, cada equipe que lidero e cada decisão que tomo é guiada por um 
+                    único princípio: criar impacto real na vida das pessoas.
+                </p>
+                <p>
+                    Hoje, combino expertise técnica profunda com visão estratégica de negócios, 
+                    transformando desafios complexos em soluções elegantes que escalam para milhões.
+                </p>
             </div>
         </div>
     </section>
 
-    <!-- Media Section -->
+    <!-- 4. Entre os líderes que moldam o futuro -->
+    <section id="forbes" style="background: var(--section-bg);" data-aos="fade-up">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-lg-6" data-aos="fade-up">
+                    <div class="section-badge">// FORBES</div>
+                    <h2 class="section-title mb-4">Entre os líderes que moldam o futuro</h2>
+                    <p class="mb-4">
+                        Ser reconhecido pela Forbes entre os principais CTOs do Brasil não é apenas 
+                        uma conquista pessoal - é a validação de uma jornada dedicada a 
+                        <span class="about-highlight">transformar empresas através da tecnologia</span>.
+                    </p>
+                    <p>
+                        Este convite exclusivo me colocou ao lado dos visionários que estão 
+                        redefinindo o cenário tecnológico brasileiro, reforçando meu compromisso 
+                        de continuar liderando com inovação e propósito.
+                    </p>
+                </div>
+                <div class="col-lg-6" data-aos="fade-up">
+                    <img src="forbes_bruno.png" alt="Forbes Recognition" 
+                         class="img-fluid rounded-3" style="box-shadow: 0 20px 60px rgba(0,0,0,0.3);" />
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 5. Voz da inovação na mídia -->
     <section id="midia" data-aos="fade-up">
         <div class="container">
             <div class="section-header">
@@ -968,65 +981,7 @@
         </div>
     </section>
 
-    <!-- Forbes Recognition -->
-    <section id="forbes" style="background: var(--section-bg);" data-aos="fade-up">
-        <div class="container">
-            <div class="row align-items-center">
-                <div class="col-lg-6" data-aos="fade-up">
-                    <div class="section-badge">// FORBES</div>
-                    <h2 class="section-title mb-4">Entre os líderes que moldam o futuro</h2>
-                    <p class="mb-4">
-                        Ser reconhecido pela Forbes entre os principais CTOs do Brasil não é apenas 
-                        uma conquista pessoal - é a validação de uma jornada dedicada a 
-                        <span class="about-highlight">transformar empresas através da tecnologia</span>.
-                    </p>
-                    <p>
-                        Este convite exclusivo me colocou ao lado dos visionários que estão 
-                        redefinindo o cenário tecnológico brasileiro, reforçando meu compromisso 
-                        de continuar liderando com inovação e propósito.
-                    </p>
-                </div>
-                <div class="col-lg-6" data-aos="fade-up">
-                    <img src="forbes_bruno.png" alt="Forbes Recognition" 
-                         class="img-fluid rounded-3" style="box-shadow: 0 20px 60px rgba(0,0,0,0.3);" />
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- About Section -->
-    <section id="sobre" data-aos="fade-up">
-        <div class="container">
-            <div class="section-header">
-                <div class="section-badge">// SOBRE MIM</div>
-                <h2 class="section-title">Da visão à execução</h2>
-            </div>
-
-            <div class="about-content">
-                <p>
-                    Minha jornada começou com uma simples pergunta: 
-                    <strong>"E se a tecnologia pudesse fazer mais?"</strong>
-                </p>
-                <p>
-                    Como CTO da D4Sign, não apenas liderei o desenvolvimento técnico - 
-                    <span class="about-highlight">arquitetei a transformação</span> que levou a empresa 
-                    de uma startup promissora a um exit de R$ 180 milhões para o grupo Zucchetti.
-                </p>
-                <p>
-                    Com mais de uma década construindo o futuro, desenvolvi uma filosofia simples: 
-                    <strong>tecnologia sem propósito é apenas código</strong>. Por isso, cada algoritmo 
-                    que escrevo, cada equipe que lidero e cada decisão que tomo é guiada por um 
-                    único princípio: criar impacto real na vida das pessoas.
-                </p>
-                <p>
-                    Hoje, combino expertise técnica profunda com visão estratégica de negócios, 
-                    transformando desafios complexos em soluções elegantes que escalam para milhões.
-                </p>
-            </div>
-        </div>
-    </section>
-
-    <!-- Journey Timeline -->
+    <!-- 6. Cada desafio, uma oportunidade -->
     <section id="jornada" style="background: var(--section-bg);" data-aos="fade-up">
         <div class="container">
             <div class="section-header">
@@ -1093,8 +1048,55 @@
         </div>
     </section>
 
-    <!-- Skills & Interests -->
-    <section id="skills" data-aos="fade-up">
+    <!-- 7. Criando soluções que inspiram -->
+    <section id="projetos" data-aos="fade-up">
+        <div class="container">
+            <div class="section-header">
+                <div class="section-badge">// PROJETOS PESSOAIS</div>
+                <h2 class="section-title">Criando soluções que inspiram</h2>
+                <p class="section-subtitle">
+                    Projetos nascidos da paixão por resolver problemas reais com tecnologia elegante
+                </p>
+            </div>
+
+            <div class="projects-grid">
+                <a href="https://chessframe.com" target="_blank" class="project-card" data-aos="zoom-in">
+                    <div class="project-icon">
+                        <i class="fas fa-chess"></i>
+                    </div>
+                    <h4>ChessFrame</h4>
+                    <p>
+                        Transforme suas partidas de xadrez em vídeos cinematográficos. 
+                        Simplesmente insira a notação dos seus jogos e o ChessFrame 
+                        gera automaticamente vídeos profissionais das partidas, 
+                        perfeitos para análise, ensino ou compartilhamento.
+                    </p>
+                    <span class="project-link">
+                        Explorar projeto <i class="fas fa-arrow-right"></i>
+                    </span>
+                </a>
+
+                <a href="https://gonesheet.com" target="_blank" class="project-card" data-aos="zoom-in" data-aos-delay="100">
+                    <div class="project-icon">
+                        <i class="fas fa-table"></i>
+                    </div>
+                    <h4>GoneSheet</h4>
+                    <p>
+                        Um frontend completo para planilhas temporárias, projetado 
+                        para prototipagem rápida e cálculos instantâneos. Ideal 
+                        para quando você precisa de uma planilha poderosa sem 
+                        a complexidade de configurações permanentes.
+                    </p>
+                    <span class="project-link">
+                        Explorar projeto <i class="fas fa-arrow-right"></i>
+                    </span>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- 8. Paixões que me definem -->
+    <section id="skills" style="background: var(--section-bg);" data-aos="fade-up">
         <div class="container">
             <div class="section-header">
                 <div class="section-badge">// ALÉM DO CÓDIGO</div>
@@ -1153,8 +1155,8 @@
         </div>
     </section>
 
-    <!-- Contact Section -->
-    <section id="contato" style="background: var(--section-bg);" data-aos="fade-up">
+    <!-- 9. Vamos construir o futuro juntos? -->
+    <section id="contato" data-aos="fade-up">
         <div class="container">
             <div class="section-header">
                 <div class="section-badge">// CONTATO</div>
@@ -1200,7 +1202,7 @@
         </div>
     </section>
 
-    <!-- Footer -->
+    <!-- 10. Footer -->
     <footer>
         <div class="container">
             <p class="mb-0">&copy; 2024 Bruno Kawakami • Arquitetando o amanhã, hoje</p>

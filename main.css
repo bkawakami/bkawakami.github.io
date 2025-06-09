@@ -28,7 +28,12 @@
         }
 
         /* Typography */
-        h1, h2, h3, h4, h5, h6 {
+        h1,
+        h2,
+        h3,
+        h4,
+        h5,
+        h6 {
             font-weight: 700;
             letter-spacing: -0.02em;
             line-height: 1.2;
@@ -90,7 +95,7 @@
             left: -100%;
             width: 100%;
             height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
             transition: left 0.5s;
         }
 
@@ -186,8 +191,17 @@
         }
 
         @keyframes pulse {
-            0%, 100% { transform: scale(1); opacity: 0.5; }
-            50% { transform: scale(1.1); opacity: 0.3; }
+
+            0%,
+            100% {
+                transform: scale(1);
+                opacity: 0.5;
+            }
+
+            50% {
+                transform: scale(1.1);
+                opacity: 0.3;
+            }
         }
 
         /* Section Styles */
@@ -631,7 +645,7 @@
                 text-align: center;
                 margin-bottom: 3rem;
             }
-            
+
             .hero-subtitle {
                 margin: 0 auto 3rem;
             }
@@ -651,7 +665,9 @@
                 left: 20px !important;
             }
 
-            .stats-grid, .media-grid, .projects-grid {
+            .stats-grid,
+            .media-grid,
+            .projects-grid {
                 grid-template-columns: 1fr;
             }
         }
@@ -662,6 +678,7 @@
                 opacity: 0;
                 transform: translateY(30px);
             }
+
             to {
                 opacity: 1;
                 transform: translateY(0);
@@ -690,4 +707,193 @@
 
         .goog-te-gadget-simple span {
             color: var(--text-secondary) !important;
+        }
+
+        .ai-assistant-container {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            z-index: 1000;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+            gap: 10px;
+        }
+
+        .ai-assistant-btn {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 16px 24px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            text-decoration: none;
+            border-radius: 50px;
+            box-shadow: 0 4px 20px rgba(102, 126, 234, 0.4);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .ai-assistant-btn::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.2);
+            transform: translate(-50%, -50%);
+            transition: width 0.6s, height 0.6s;
+        }
+
+        .ai-assistant-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 30px rgba(102, 126, 234, 0.6);
+            color: white;
+        }
+
+        .ai-assistant-btn:hover::before {
+            width: 300px;
+            height: 300px;
+        }
+
+        .ai-icon {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 28px;
+            height: 28px;
+            animation: pulse-icon 2s infinite;
+        }
+
+        .ai-text {
+            font-weight: 600;
+            font-size: 15px;
+            letter-spacing: 0.3px;
+            white-space: nowrap;
+        }
+
+        .ai-tooltip {
+            background: rgba(0, 0, 0, 0.9);
+            color: white;
+            padding: 8px 16px;
+            border-radius: 8px;
+            font-size: 14px;
+            opacity: 0;
+            transform: translateY(10px);
+            transition: all 0.3s ease;
+            pointer-events: none;
+            white-space: nowrap;
+        }
+
+        .ai-assistant-container:hover .ai-tooltip {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Animação de pulse no ícone */
+        @keyframes pulse-icon {
+            0% {
+                transform: scale(1);
+            }
+
+            50% {
+                transform: scale(1.1);
+            }
+
+            100% {
+                transform: scale(1);
+            }
+        }
+
+        /* Animação de entrada */
+        .ai-assistant-container {
+            animation: slideInUp 0.5s ease-out;
+        }
+
+        @keyframes slideInUp {
+            from {
+                transform: translateY(100px);
+                opacity: 0;
+            }
+
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        /* Responsivo para Mobile */
+        @media (max-width: 768px) {
+            .ai-assistant-container {
+                bottom: 20px;
+                right: 20px;
+            }
+
+            .ai-assistant-btn {
+                padding: 14px 20px;
+            }
+
+            .ai-text {
+                font-size: 14px;
+            }
+
+            .ai-tooltip {
+                font-size: 12px;
+                padding: 6px 12px;
+            }
+        }
+
+        /* Telas muito pequenas - apenas ícone */
+        @media (max-width: 480px) {
+            .ai-assistant-container {
+                bottom: 15px;
+                right: 15px;
+            }
+
+            .ai-assistant-btn {
+                padding: 12px;
+                border-radius: 50%;
+                width: 56px;
+                height: 56px;
+                justify-content: center;
+            }
+
+            .ai-text {
+                display: none;
+            }
+
+            .ai-icon {
+                width: 24px;
+                height: 24px;
+            }
+        }
+
+        /* Efeito de brilho adicional */
+        .ai-assistant-btn::after {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(45deg,
+                    transparent 30%,
+                    rgba(255, 255, 255, 0.1) 50%,
+                    transparent 70%);
+            transform: rotate(45deg) translateY(100%);
+            transition: transform 0.8s;
+        }
+
+        .ai-assistant-btn:hover::after {
+            transform: rotate(45deg) translateY(-100%);
+        }
+
+        /* Dark mode compatibility */
+        @media (prefers-color-scheme: dark) {
+            .ai-assistant-btn {
+                background: linear-gradient(135deg, #764ba2 0%, #667eea 100%);
+            }
         }

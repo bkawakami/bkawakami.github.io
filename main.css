@@ -725,11 +725,11 @@
             align-items: center;
             gap: 12px;
             padding: 16px 24px;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(135deg, #5b8dee 0%, #3a6ff1 100%);
             color: white;
             text-decoration: none;
             border-radius: 50px;
-            box-shadow: 0 4px 20px rgba(102, 126, 234, 0.4);
+            box-shadow: 0 4px 20px rgba(91, 141, 238, 0.4);
             transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
             position: relative;
             overflow: hidden;
@@ -750,7 +750,7 @@
 
         .ai-assistant-btn:hover {
             transform: translateY(-3px);
-            box-shadow: 0 8px 30px rgba(102, 126, 234, 0.6);
+            box-shadow: 0 8px 30px rgba(91, 141, 238, 0.6);
             color: white;
         }
 
@@ -894,6 +894,6 @@
         /* Dark mode compatibility */
         @media (prefers-color-scheme: dark) {
             .ai-assistant-btn {
-                background: linear-gradient(135deg, #764ba2 0%, #667eea 100%);
+                background: linear-gradient(135deg, #3a6ff1 0%, #5b8dee 100%);
             }
         }

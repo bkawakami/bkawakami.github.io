@@ -10,8 +10,8 @@ AOS.init({
 });
 
 // ============================================
-// INTERACTIVE NEURAL NETWORK EFFECT
-// Elegant, innovative, and highly interactive
+// LIQUID METAL SURFACE EFFECT
+// Premium, elegant, and subtly interactive
 // ============================================
 
 (function() {
@@ -19,34 +19,50 @@ AOS.init({
 
     // Configuration
     const CONFIG = {
-        particleCount: 120,
-        connectionDistance: 150,
-        mouseInfluenceRadius: 200,
-        mouseRepelStrength: 0.15,
-        returnSpeed: 0.03,
-        baseSpeed: 0.3,
+        // Surface settings
+        resolution: 128, // Grid resolution (will be reduced on mobile)
+        waveSpeed: 0.0004,
+        waveAmplitude: 12,
+        viscosity: 0.97, // High viscosity for mercury-like movement
+
+        // Mouse interaction
+        mouseInfluenceRadius: 0.25,
+        mouseRippleStrength: 8,
+        mouseRippleDecay: 0.94,
+
+        // Visual
+        metalness: 0.95,
+        roughness: 0.08,
+        envMapIntensity: 1.2,
+
+        // Colors (matching site palette)
         colors: {
-            primary: new THREE.Color(0x5B8DEE),
-            accent: new THREE.Color(0x48C9B0),
-            highlight: new THREE.Color(0x8B5CF6),
-            white: new THREE.Color(0xFFFFFF)
+            primary: 0x5B8DEE,
+            accent: 0x48C9B0,
+            highlight: 0x8B5CF6,
+            dark: 0x0A0B0F
         }
     };
 
     // State
     let scene, camera, renderer;
-    let particles = [];
-    let connections;
+    let metalSurface, surfaceGeometry;
     let mousePos = new THREE.Vector2(9999, 9999);
-    let mousePos3D = new THREE.Vector3(9999, 9999, 0);
     let targetMousePos = new THREE.Vector2(9999, 9999);
+    let prevMousePos = new THREE.Vector2(9999, 9999);
+    let mouseVelocity = new THREE.Vector2(0, 0);
     let time = 0;
-    let animationId;
+    let ripples = [];
+    let scrollY = 0;
+    let targetScrollY = 0;
+    let isMobile = false;
 
-    // Simplex noise implementation for organic movement
+    // Simplex noise for organic waves
     const SimplexNoise = (function() {
         const F2 = 0.5 * (Math.sqrt(3) - 1);
         const G2 = (3 - Math.sqrt(3)) / 6;
+        const F3 = 1/3;
+        const G3 = 1/6;
         const grad3 = [
             [1,1,0],[-1,1,0],[1,-1,0],[-1,-1,0],
             [1,0,1],[-1,0,1],[1,0,-1],[-1,0,-1],
@@ -75,6 +91,7 @@ AOS.init({
         seed(Math.random() * 65536);
 
         function dot2(g, x, y) { return g[0]*x + g[1]*y; }
+        function dot3(g, x, y, z) { return g[0]*x + g[1]*y + g[2]*z; }
 
         return {
             noise2D: function(x, y) {
@@ -105,90 +122,90 @@ AOS.init({
                 let t2 = 0.5 - x2*x2 - y2*y2;
                 let n2 = t2 < 0 ? 0 : Math.pow(t2, 4) * dot2(gi2, x2, y2);
                 return 70 * (n0 + n1 + n2);
+            },
+            noise3D: function(x, y, z) {
+                let s = (x + y + z) * F3;
+                let i = Math.floor(x + s);
+                let j = Math.floor(y + s);
+                let k = Math.floor(z + s);
+                let t = (i + j + k) * G3;
+                let X0 = i - t;
+                let Y0 = j - t;
+                let Z0 = k - t;
+                let x0 = x - X0;
+                let y0 = y - Y0;
+                let z0 = z - Z0;
+                let i1, j1, k1, i2, j2, k2;
+                if(x0 >= y0) {
+                    if(y0 >= z0) { i1=1; j1=0; k1=0; i2=1; j2=1; k2=0; }
+                    else if(x0 >= z0) { i1=1; j1=0; k1=0; i2=1; j2=0; k2=1; }
+                    else { i1=0; j1=0; k1=1; i2=1; j2=0; k2=1; }
+                } else {
+                    if(y0 < z0) { i1=0; j1=0; k1=1; i2=0; j2=1; k2=1; }
+                    else if(x0 < z0) { i1=0; j1=1; k1=0; i2=0; j2=1; k2=1; }
+                    else { i1=0; j1=1; k1=0; i2=1; j2=1; k2=0; }
+                }
+                let x1 = x0 - i1 + G3;
+                let y1 = y0 - j1 + G3;
+                let z1 = z0 - k1 + G3;
+                let x2 = x0 - i2 + 2*G3;
+                let y2 = y0 - j2 + 2*G3;
+                let z2 = z0 - k2 + 2*G3;
+                let x3 = x0 - 1 + 3*G3;
+                let y3 = y0 - 1 + 3*G3;
+                let z3 = z0 - 1 + 3*G3;
+                i &= 255;
+                j &= 255;
+                k &= 255;
+                let gi0 = gradP[i + perm[j + perm[k]]];
+                let gi1 = gradP[i + i1 + perm[j + j1 + perm[k + k1]]];
+                let gi2 = gradP[i + i2 + perm[j + j2 + perm[k + k2]]];
+                let gi3 = gradP[i + 1 + perm[j + 1 + perm[k + 1]]];
+                let t0 = 0.6 - x0*x0 - y0*y0 - z0*z0;
+                let n0 = t0 < 0 ? 0 : Math.pow(t0, 4) * dot3(gi0, x0, y0, z0);
+                let t1 = 0.6 - x1*x1 - y1*y1 - z1*z1;
+                let n1 = t1 < 0 ? 0 : Math.pow(t1, 4) * dot3(gi1, x1, y1, z1);
+                let t2 = 0.6 - x2*x2 - y2*y2 - z2*z2;
+                let n2 = t2 < 0 ? 0 : Math.pow(t2, 4) * dot3(gi2, x2, y2, z2);
+                let t3 = 0.6 - x3*x3 - y3*y3 - z3*z3;
+                let n3 = t3 < 0 ? 0 : Math.pow(t3, 4) * dot3(gi3, x3, y3, z3);
+                return 32 * (n0 + n1 + n2 + n3);
             }
         };
     })();
 
     const noise = SimplexNoise;
 
-    // Particle class
-    class Particle {
-        constructor(index) {
-            this.index = index;
-
-            // Random position in a sphere
-            const theta = Math.random() * Math.PI * 2;
-            const phi = Math.acos(2 * Math.random() - 1);
-            const radius = 200 + Math.random() * 300;
-
-            this.baseX = radius * Math.sin(phi) * Math.cos(theta);
-            this.baseY = radius * Math.sin(phi) * Math.sin(theta);
-            this.baseZ = (Math.random() - 0.5) * 400;
-
-            this.x = this.baseX;
-            this.y = this.baseY;
-            this.z = this.baseZ;
-
-            this.vx = 0;
-            this.vy = 0;
-            this.vz = 0;
-
-            // Noise offsets for organic movement
-            this.noiseOffsetX = Math.random() * 1000;
-            this.noiseOffsetY = Math.random() * 1000;
-            this.noiseOffsetZ = Math.random() * 1000;
-
-            // Visual properties
-            this.size = 2 + Math.random() * 3;
-            this.baseSize = this.size;
-            this.colorMix = Math.random();
-            this.pulseOffset = Math.random() * Math.PI * 2;
+    // Ripple class for mouse interactions
+    class Ripple {
+        constructor(x, y, strength) {
+            this.x = x;
+            this.y = y;
+            this.strength = strength;
+            this.radius = 0;
+            this.maxRadius = 0.6;
+            this.speed = 0.015;
+            this.decay = CONFIG.mouseRippleDecay;
         }
 
-        update(time, mousePos3D) {
-            // Organic movement with noise
-            const noiseScale = 0.002;
-            const noiseStrength = 30;
+        update() {
+            this.radius += this.speed;
+            this.strength *= this.decay;
+            return this.strength > 0.01 && this.radius < this.maxRadius;
+        }
 
-            const targetX = this.baseX + noise.noise2D(this.noiseOffsetX + time * noiseScale, 0) * noiseStrength;
-            const targetY = this.baseY + noise.noise2D(this.noiseOffsetY + time * noiseScale, 100) * noiseStrength;
-            const targetZ = this.baseZ + noise.noise2D(this.noiseOffsetZ + time * noiseScale, 200) * noiseStrength * 0.5;
+        getDisplacement(x, y) {
+            const dx = x - this.x;
+            const dy = y - this.y;
+            const dist = Math.sqrt(dx * dx + dy * dy);
+            const ringDist = Math.abs(dist - this.radius);
+            const ringWidth = 0.08;
 
-            // Mouse repulsion
-            const dx = this.x - mousePos3D.x;
-            const dy = this.y - mousePos3D.y;
-            const dz = this.z - mousePos3D.z;
-            const dist = Math.sqrt(dx * dx + dy * dy + dz * dz);
-
-            if (dist < CONFIG.mouseInfluenceRadius && dist > 0) {
-                const force = (1 - dist / CONFIG.mouseInfluenceRadius) * CONFIG.mouseRepelStrength;
-                const angle = Math.atan2(dy, dx);
-                this.vx += Math.cos(angle) * force * 50;
-                this.vy += Math.sin(angle) * force * 50;
-                this.vz += (dz / dist) * force * 20;
-
-                // Increase size when near mouse
-                this.size = this.baseSize * (1 + (1 - dist / CONFIG.mouseInfluenceRadius) * 1.5);
-            } else {
-                this.size += (this.baseSize - this.size) * 0.1;
+            if (ringDist < ringWidth) {
+                const wave = Math.cos((ringDist / ringWidth) * Math.PI * 0.5);
+                return wave * this.strength * (1 - this.radius / this.maxRadius);
             }
-
-            // Return to organic target position
-            this.vx += (targetX - this.x) * CONFIG.returnSpeed;
-            this.vy += (targetY - this.y) * CONFIG.returnSpeed;
-            this.vz += (targetZ - this.z) * CONFIG.returnSpeed;
-
-            // Apply velocity with damping
-            this.x += this.vx;
-            this.y += this.vy;
-            this.z += this.vz;
-
-            this.vx *= 0.92;
-            this.vy *= 0.92;
-            this.vz *= 0.92;
-
-            // Subtle pulse
-            this.size *= 1 + Math.sin(time * 0.003 + this.pulseOffset) * 0.1;
+            return 0;
         }
     }
 
@@ -196,209 +213,333 @@ AOS.init({
         const canvas = document.getElementById('heroCanvas');
         if (!canvas) return;
 
+        // Detect mobile
+        isMobile = window.innerWidth < 768 || /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+
+        // Adjust resolution for mobile
+        if (isMobile) {
+            CONFIG.resolution = 64;
+            CONFIG.waveAmplitude = 8;
+        }
+
         // Scene setup
         scene = new THREE.Scene();
 
-        // Camera
-        camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 1, 2000);
-        camera.position.z = 600;
+        // Camera - orthographic-like perspective for flat surface
+        camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 1000);
+        camera.position.set(0, 80, 120);
+        camera.lookAt(0, 0, 0);
 
         // Renderer
         renderer = new THREE.WebGLRenderer({
             canvas: canvas,
-            antialias: true,
-            alpha: true
+            antialias: !isMobile,
+            alpha: true,
+            powerPreference: 'high-performance'
         });
-        renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+        renderer.setPixelRatio(Math.min(window.devicePixelRatio, isMobile ? 1.5 : 2));
         renderer.setSize(window.innerWidth, window.innerHeight);
+        renderer.toneMapping = THREE.ACESFilmicToneMapping;
+        renderer.toneMappingExposure = 1.0;
 
-        // Create particles
-        createParticles();
+        // Create environment map for reflections
+        createEnvironmentMap();
 
-        // Create connection lines
-        createConnections();
+        // Create metal surface
+        createMetalSurface();
+
+        // Add subtle ambient light
+        const ambientLight = new THREE.AmbientLight(0xffffff, 0.3);
+        scene.add(ambientLight);
+
+        // Add directional lights for reflections
+        const light1 = new THREE.DirectionalLight(0x5B8DEE, 0.8);
+        light1.position.set(5, 10, 5);
+        scene.add(light1);
+
+        const light2 = new THREE.DirectionalLight(0x48C9B0, 0.5);
+        light2.position.set(-5, 8, -5);
+        scene.add(light2);
+
+        const light3 = new THREE.DirectionalLight(0x8B5CF6, 0.3);
+        light3.position.set(0, 5, 10);
+        scene.add(light3);
 
         // Events
         document.addEventListener('mousemove', onMouseMove);
         document.addEventListener('touchmove', onTouchMove, { passive: true });
-        document.addEventListener('touchstart', onTouchMove, { passive: true });
+        document.addEventListener('touchstart', onTouchStart, { passive: true });
         window.addEventListener('resize', onResize);
+        window.addEventListener('scroll', onScroll, { passive: true });
 
         // Start animation
         animate();
     }
 
-    function createParticles() {
-        const geometry = new THREE.BufferGeometry();
-        const positions = new Float32Array(CONFIG.particleCount * 3);
-        const colors = new Float32Array(CONFIG.particleCount * 3);
-        const sizes = new Float32Array(CONFIG.particleCount);
+    function createEnvironmentMap() {
+        // Create a procedural environment map with site colors
+        const size = 256;
+        const data = new Uint8Array(size * size * 4);
 
-        for (let i = 0; i < CONFIG.particleCount; i++) {
-            const particle = new Particle(i);
-            particles.push(particle);
+        for (let i = 0; i < size; i++) {
+            for (let j = 0; j < size; j++) {
+                const idx = (i * size + j) * 4;
 
-            positions[i * 3] = particle.x;
-            positions[i * 3 + 1] = particle.y;
-            positions[i * 3 + 2] = particle.z;
+                // Normalized coordinates
+                const u = j / size;
+                const v = i / size;
 
-            const color = CONFIG.colors.primary.clone().lerp(CONFIG.colors.accent, particle.colorMix);
-            colors[i * 3] = color.r;
-            colors[i * 3 + 1] = color.g;
-            colors[i * 3 + 2] = color.b;
+                // Create gradient with site colors
+                const angle = Math.atan2(v - 0.5, u - 0.5);
+                const dist = Math.sqrt((u - 0.5) ** 2 + (v - 0.5) ** 2);
 
-            sizes[i] = particle.size;
-        }
+                // Mix colors based on position
+                let r, g, b;
 
-        geometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
-        geometry.setAttribute('color', new THREE.BufferAttribute(colors, 3));
-        geometry.setAttribute('size', new THREE.BufferAttribute(sizes, 1));
+                // Dark base
+                const baseR = 10, baseG = 11, baseB = 15;
 
-        const material = new THREE.ShaderMaterial({
-            uniforms: {
-                time: { value: 0 },
-                pixelRatio: { value: renderer.getPixelRatio() }
-            },
-            vertexShader: `
-                attribute float size;
-                attribute vec3 color;
-                varying vec3 vColor;
-                varying float vAlpha;
-                uniform float pixelRatio;
+                // Primary color (blue) #5B8DEE
+                const primaryR = 91, primaryG = 141, primaryB = 238;
 
-                void main() {
-                    vColor = color;
-                    vec4 mvPosition = modelViewMatrix * vec4(position, 1.0);
+                // Accent color (teal) #48C9B0
+                const accentR = 72, accentG = 201, accentB = 176;
 
-                    // Depth-based alpha
-                    float depth = -mvPosition.z;
-                    vAlpha = smoothstep(800.0, 200.0, depth);
+                // Highlight (purple) #8B5CF6
+                const highlightR = 139, highlightG = 92, highlightB = 246;
 
-                    gl_PointSize = size * (300.0 / -mvPosition.z) * pixelRatio;
-                    gl_Position = projectionMatrix * mvPosition;
-                }
-            `,
-            fragmentShader: `
-                varying vec3 vColor;
-                varying float vAlpha;
+                // Create subtle color bands
+                const band1 = Math.sin(angle * 2 + Math.PI) * 0.5 + 0.5;
+                const band2 = Math.sin(angle * 3) * 0.5 + 0.5;
+                const intensity = Math.pow(1 - dist, 2) * 0.4;
 
-                void main() {
-                    vec2 center = gl_PointCoord - vec2(0.5);
-                    float dist = length(center);
+                r = baseR + (primaryR * band1 + accentR * band2) * intensity * 0.15;
+                g = baseG + (primaryG * band1 + accentG * band2) * intensity * 0.15;
+                b = baseB + (primaryB * band1 + accentB * band2) * intensity * 0.15;
 
-                    if (dist > 0.5) discard;
+                // Add highlights
+                const highlight = Math.pow(Math.max(0, Math.sin(angle * 5 + v * 10)), 8) * intensity;
+                r += highlightR * highlight * 0.1;
+                g += highlightG * highlight * 0.1;
+                b += highlightB * highlight * 0.1;
 
-                    // Soft glow effect
-                    float alpha = smoothstep(0.5, 0.0, dist);
-                    float glow = exp(-dist * 3.0) * 0.5;
-
-                    vec3 finalColor = vColor + glow * 0.3;
-                    gl_FragColor = vec4(finalColor, (alpha + glow) * vAlpha * 0.9);
-                }
-            `,
-            transparent: true,
-            blending: THREE.AdditiveBlending,
-            depthWrite: false
-        });
-
-        const points = new THREE.Points(geometry, material);
-        scene.add(points);
-    }
-
-    function createConnections() {
-        // Maximum possible connections
-        const maxConnections = CONFIG.particleCount * CONFIG.particleCount;
-        const positions = new Float32Array(maxConnections * 6);
-        const colors = new Float32Array(maxConnections * 6);
-
-        const geometry = new THREE.BufferGeometry();
-        geometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
-        geometry.setAttribute('color', new THREE.BufferAttribute(colors, 3));
-        geometry.setDrawRange(0, 0);
-
-        const material = new THREE.LineBasicMaterial({
-            vertexColors: true,
-            transparent: true,
-            opacity: 0.6,
-            blending: THREE.AdditiveBlending
-        });
-
-        connections = new THREE.LineSegments(geometry, material);
-        scene.add(connections);
-    }
-
-    function updateConnections() {
-        const positions = connections.geometry.attributes.position.array;
-        const colors = connections.geometry.attributes.color.array;
-        let connectionCount = 0;
-
-        for (let i = 0; i < particles.length; i++) {
-            for (let j = i + 1; j < particles.length; j++) {
-                const p1 = particles[i];
-                const p2 = particles[j];
-
-                const dx = p1.x - p2.x;
-                const dy = p1.y - p2.y;
-                const dz = p1.z - p2.z;
-                const dist = Math.sqrt(dx * dx + dy * dy + dz * dz);
-
-                if (dist < CONFIG.connectionDistance) {
-                    const alpha = 1 - dist / CONFIG.connectionDistance;
-
-                    // Check if near mouse for color effect
-                    const midX = (p1.x + p2.x) / 2;
-                    const midY = (p1.y + p2.y) / 2;
-                    const mouseDist = Math.sqrt(
-                        Math.pow(midX - mousePos3D.x, 2) +
-                        Math.pow(midY - mousePos3D.y, 2)
-                    );
-
-                    let color1, color2;
-                    if (mouseDist < CONFIG.mouseInfluenceRadius) {
-                        const mouseInfluence = 1 - mouseDist / CONFIG.mouseInfluenceRadius;
-                        color1 = CONFIG.colors.primary.clone().lerp(CONFIG.colors.highlight, mouseInfluence);
-                        color2 = CONFIG.colors.accent.clone().lerp(CONFIG.colors.highlight, mouseInfluence);
-                    } else {
-                        color1 = CONFIG.colors.primary;
-                        color2 = CONFIG.colors.accent;
-                    }
-
-                    const idx = connectionCount * 6;
-
-                    positions[idx] = p1.x;
-                    positions[idx + 1] = p1.y;
-                    positions[idx + 2] = p1.z;
-                    positions[idx + 3] = p2.x;
-                    positions[idx + 4] = p2.y;
-                    positions[idx + 5] = p2.z;
-
-                    colors[idx] = color1.r * alpha;
-                    colors[idx + 1] = color1.g * alpha;
-                    colors[idx + 2] = color1.b * alpha;
-                    colors[idx + 3] = color2.r * alpha;
-                    colors[idx + 4] = color2.g * alpha;
-                    colors[idx + 5] = color2.b * alpha;
-
-                    connectionCount++;
-                }
+                data[idx] = Math.min(255, r);
+                data[idx + 1] = Math.min(255, g);
+                data[idx + 2] = Math.min(255, b);
+                data[idx + 3] = 255;
             }
         }
 
-        connections.geometry.setDrawRange(0, connectionCount * 2);
-        connections.geometry.attributes.position.needsUpdate = true;
-        connections.geometry.attributes.color.needsUpdate = true;
+        const envTexture = new THREE.DataTexture(data, size, size, THREE.RGBAFormat);
+        envTexture.mapping = THREE.EquirectangularReflectionMapping;
+        envTexture.needsUpdate = true;
+
+        scene.environment = envTexture;
+    }
+
+    function createMetalSurface() {
+        // Create plane geometry with high subdivision
+        const width = 300;
+        const height = 200;
+        const res = CONFIG.resolution;
+
+        surfaceGeometry = new THREE.PlaneGeometry(width, height, res, res);
+        surfaceGeometry.rotateX(-Math.PI / 2.2); // Slight angle for depth
+
+        // Store original positions
+        const positions = surfaceGeometry.attributes.position;
+        surfaceGeometry.userData.originalPositions = new Float32Array(positions.array);
+
+        // Create material with metallic properties
+        const material = new THREE.MeshStandardMaterial({
+            color: 0x1a1b23, // Dark gunmetal base
+            metalness: CONFIG.metalness,
+            roughness: CONFIG.roughness,
+            envMapIntensity: CONFIG.envMapIntensity,
+            side: THREE.DoubleSide,
+        });
+
+        // Custom shader modifications for enhanced reflections
+        material.onBeforeCompile = (shader) => {
+            shader.uniforms.uTime = { value: 0 };
+            shader.uniforms.uMousePos = { value: new THREE.Vector2(0.5, 0.5) };
+            shader.uniforms.uPrimaryColor = { value: new THREE.Color(CONFIG.colors.primary) };
+            shader.uniforms.uAccentColor = { value: new THREE.Color(CONFIG.colors.accent) };
+            shader.uniforms.uHighlightColor = { value: new THREE.Color(CONFIG.colors.highlight) };
+
+            // Store reference for animation
+            metalSurface.userData.shader = shader;
+
+            // Modify fragment shader for color effects
+            shader.fragmentShader = shader.fragmentShader.replace(
+                '#include <common>',
+                `
+                #include <common>
+                uniform float uTime;
+                uniform vec2 uMousePos;
+                uniform vec3 uPrimaryColor;
+                uniform vec3 uAccentColor;
+                uniform vec3 uHighlightColor;
+                `
+            );
+
+            shader.fragmentShader = shader.fragmentShader.replace(
+                '#include <color_fragment>',
+                `
+                #include <color_fragment>
+
+                // Add subtle color variation based on view angle and position
+                vec3 viewDir = normalize(vViewPosition);
+                float fresnel = pow(1.0 - max(0.0, dot(normalize(vNormal), -viewDir)), 3.0);
+
+                // Blend colors based on fresnel and position
+                vec3 colorMix = mix(uPrimaryColor, uAccentColor, vUv.x * 0.5 + 0.25);
+                colorMix = mix(colorMix, uHighlightColor, fresnel * 0.3);
+
+                // Mouse proximity effect
+                float mouseDist = distance(vUv, uMousePos);
+                float mouseEffect = smoothstep(0.4, 0.0, mouseDist);
+                colorMix = mix(colorMix, uHighlightColor, mouseEffect * 0.4);
+
+                // Apply to diffuse
+                diffuseColor.rgb += colorMix * fresnel * 0.15;
+                diffuseColor.rgb += colorMix * mouseEffect * 0.1;
+                `
+            );
+        };
+
+        metalSurface = new THREE.Mesh(surfaceGeometry, material);
+        metalSurface.position.y = -30;
+        scene.add(metalSurface);
+    }
+
+    function updateSurface() {
+        if (!surfaceGeometry) return;
+
+        const positions = surfaceGeometry.attributes.position;
+        const original = surfaceGeometry.userData.originalPositions;
+        const count = positions.count;
+
+        const width = 300;
+        const height = 200;
+
+        for (let i = 0; i < count; i++) {
+            const ox = original[i * 3];
+            const oy = original[i * 3 + 1];
+            const oz = original[i * 3 + 2];
+
+            // Normalized position (0 to 1)
+            const nx = (ox + width / 2) / width;
+            const ny = (oy + height / 2) / height;
+
+            // Base organic waves using 3D noise
+            let displacement = 0;
+
+            // Large slow waves
+            displacement += noise.noise3D(nx * 2, ny * 2, time * CONFIG.waveSpeed) * CONFIG.waveAmplitude;
+
+            // Medium waves
+            displacement += noise.noise3D(nx * 4 + 100, ny * 4, time * CONFIG.waveSpeed * 1.5) * CONFIG.waveAmplitude * 0.5;
+
+            // Small detail waves
+            displacement += noise.noise3D(nx * 8 + 200, ny * 8, time * CONFIG.waveSpeed * 2) * CONFIG.waveAmplitude * 0.2;
+
+            // Mouse proximity effect - subtle depression
+            const dx = nx - (mousePos.x * 0.5 + 0.5);
+            const dy = ny - (mousePos.y * 0.5 + 0.5);
+            const mouseDist = Math.sqrt(dx * dx + dy * dy);
+
+            if (mouseDist < CONFIG.mouseInfluenceRadius) {
+                const influence = 1 - (mouseDist / CONFIG.mouseInfluenceRadius);
+                const smoothInfluence = influence * influence * (3 - 2 * influence); // Smoothstep
+                displacement -= smoothInfluence * 8; // Subtle depression under cursor
+            }
+
+            // Apply ripples
+            for (const ripple of ripples) {
+                displacement += ripple.getDisplacement(nx, ny) * CONFIG.mouseRippleStrength;
+            }
+
+            // Scroll parallax - subtle tilt
+            const scrollEffect = scrollY * 0.00005;
+            displacement += (ny - 0.5) * scrollEffect * 20;
+
+            // Apply displacement (z-axis in rotated geometry is up)
+            positions.setZ(i, oz + displacement);
+        }
+
+        positions.needsUpdate = true;
+        surfaceGeometry.computeVertexNormals();
     }
 
     function onMouseMove(event) {
+        prevMousePos.copy(targetMousePos);
         targetMousePos.x = (event.clientX / window.innerWidth) * 2 - 1;
         targetMousePos.y = -(event.clientY / window.innerHeight) * 2 + 1;
+
+        // Calculate velocity for ripple strength
+        mouseVelocity.x = targetMousePos.x - prevMousePos.x;
+        mouseVelocity.y = targetMousePos.y - prevMousePos.y;
+
+        // Create ripple on significant movement
+        const velocity = mouseVelocity.length();
+        if (velocity > 0.01) {
+            const rippleStrength = Math.min(velocity * 3, 1);
+            ripples.push(new Ripple(
+                targetMousePos.x * 0.5 + 0.5,
+                targetMousePos.y * 0.5 + 0.5,
+                rippleStrength
+            ));
+
+            // Limit ripple count for performance
+            if (ripples.length > 10) {
+                ripples.shift();
+            }
+        }
+    }
+
+    function onTouchStart(event) {
+        if (event.touches.length > 0) {
+            const touch = event.touches[0];
+            targetMousePos.x = (touch.clientX / window.innerWidth) * 2 - 1;
+            targetMousePos.y = -(touch.clientY / window.innerHeight) * 2 + 1;
+
+            // Create ripple on touch
+            ripples.push(new Ripple(
+                targetMousePos.x * 0.5 + 0.5,
+                targetMousePos.y * 0.5 + 0.5,
+                0.8
+            ));
+        }
     }
 
     function onTouchMove(event) {
         if (event.touches.length > 0) {
-            targetMousePos.x = (event.touches[0].clientX / window.innerWidth) * 2 - 1;
-            targetMousePos.y = -(event.touches[0].clientY / window.innerHeight) * 2 + 1;
+            prevMousePos.copy(targetMousePos);
+            const touch = event.touches[0];
+            targetMousePos.x = (touch.clientX / window.innerWidth) * 2 - 1;
+            targetMousePos.y = -(touch.clientY / window.innerHeight) * 2 + 1;
+
+            mouseVelocity.x = targetMousePos.x - prevMousePos.x;
+            mouseVelocity.y = targetMousePos.y - prevMousePos.y;
+
+            const velocity = mouseVelocity.length();
+            if (velocity > 0.02) {
+                ripples.push(new Ripple(
+                    targetMousePos.x * 0.5 + 0.5,
+                    targetMousePos.y * 0.5 + 0.5,
+                    Math.min(velocity * 2, 0.6)
+                ));
+
+                if (ripples.length > 8) {
+                    ripples.shift();
+                }
+            }
         }
+    }
+
+    function onScroll() {
+        targetScrollY = window.scrollY;
     }
 
     function onResize() {
@@ -408,68 +549,39 @@ AOS.init({
     }
 
     function animate() {
-        animationId = requestAnimationFrame(animate);
+        requestAnimationFrame(animate);
         time++;
 
         // Smooth mouse following
-        mousePos.x += (targetMousePos.x - mousePos.x) * 0.1;
-        mousePos.y += (targetMousePos.y - mousePos.y) * 0.1;
+        mousePos.x += (targetMousePos.x - mousePos.x) * 0.08;
+        mousePos.y += (targetMousePos.y - mousePos.y) * 0.08;
 
-        // Convert mouse to 3D space
-        mousePos3D.x = mousePos.x * 400;
-        mousePos3D.y = mousePos.y * 300;
-        mousePos3D.z = 0;
+        // Smooth scroll following
+        scrollY += (targetScrollY - scrollY) * 0.1;
 
-        // Update particles
-        const pointsGeometry = scene.children[0].geometry;
-        const positions = pointsGeometry.attributes.position.array;
-        const sizes = pointsGeometry.attributes.size.array;
-        const colors = pointsGeometry.attributes.color.array;
+        // Update ripples
+        ripples = ripples.filter(ripple => ripple.update());
 
-        for (let i = 0; i < particles.length; i++) {
-            const p = particles[i];
-            p.update(time, mousePos3D);
+        // Update surface displacement
+        updateSurface();
 
-            positions[i * 3] = p.x;
-            positions[i * 3 + 1] = p.y;
-            positions[i * 3 + 2] = p.z;
-            sizes[i] = p.size;
-
-            // Dynamic color based on mouse proximity
-            const dx = p.x - mousePos3D.x;
-            const dy = p.y - mousePos3D.y;
-            const dist = Math.sqrt(dx * dx + dy * dy);
-
-            let color;
-            if (dist < CONFIG.mouseInfluenceRadius) {
-                const influence = 1 - dist / CONFIG.mouseInfluenceRadius;
-                color = CONFIG.colors.primary.clone()
-                    .lerp(CONFIG.colors.accent, p.colorMix)
-                    .lerp(CONFIG.colors.highlight, influence * 0.7);
-            } else {
-                color = CONFIG.colors.primary.clone().lerp(CONFIG.colors.accent, p.colorMix);
-            }
-
-            colors[i * 3] = color.r;
-            colors[i * 3 + 1] = color.g;
-            colors[i * 3 + 2] = color.b;
+        // Update shader uniforms
+        if (metalSurface && metalSurface.userData.shader) {
+            metalSurface.userData.shader.uniforms.uTime.value = time * 0.01;
+            metalSurface.userData.shader.uniforms.uMousePos.value.set(
+                mousePos.x * 0.5 + 0.5,
+                mousePos.y * 0.5 + 0.5
+            );
         }
 
-        pointsGeometry.attributes.position.needsUpdate = true;
-        pointsGeometry.attributes.size.needsUpdate = true;
-        pointsGeometry.attributes.color.needsUpdate = true;
+        // Subtle camera movement following mouse
+        camera.position.x += (mousePos.x * 15 - camera.position.x) * 0.02;
+        camera.position.z = 120 + mousePos.y * 10;
 
-        // Update connections
-        updateConnections();
-
-        // Subtle camera movement
-        camera.position.x += (mousePos.x * 30 - camera.position.x) * 0.02;
-        camera.position.y += (mousePos.y * 20 - camera.position.y) * 0.02;
-        camera.lookAt(0, 0, 0);
-
-        // Slow scene rotation for life
-        scene.rotation.y = Math.sin(time * 0.0005) * 0.1;
-        scene.rotation.x = Math.cos(time * 0.0003) * 0.05;
+        // Scroll-based camera tilt
+        const scrollTilt = Math.min(scrollY * 0.0002, 0.15);
+        camera.position.y = 80 - scrollY * 0.02;
+        camera.lookAt(0, -10 + scrollTilt * 50, 0);
 
         renderer.render(scene, camera);
     }

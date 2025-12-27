@@ -19,7 +19,7 @@ AOS.init({
 (function() {
     'use strict';
 
-    let scene, camera, renderer, blob, glowMesh, clock;
+    let scene, camera, renderer, blob, clock;
     let mouseX = 0, mouseY = 0;
     let targetMouseX = 0, targetMouseY = 0;
     let isMobile = false;
@@ -200,33 +200,6 @@ AOS.init({
         }
     `;
 
-    // Subtle outer glow
-    const glowVertexShader = `
-        varying vec3 vNormal;
-        varying vec3 vWorldPosition;
-
-        void main() {
-            vNormal = normalize(normalMatrix * normal);
-            vWorldPosition = (modelMatrix * vec4(position, 1.0)).xyz;
-            gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
-        }
-    `;
-
-    const glowFragmentShader = `
-        uniform vec3 uGlowColor;
-        uniform float uOpacity;
-
-        varying vec3 vNormal;
-        varying vec3 vWorldPosition;
-
-        void main() {
-            vec3 viewDir = normalize(cameraPosition - vWorldPosition);
-            float fresnel = pow(1.0 - max(dot(viewDir, vNormal), 0.0), 5.0);
-            float alpha = fresnel * 0.1 * uOpacity;
-            gl_FragColor = vec4(uGlowColor, alpha);
-        }
-    `;
-
     function init() {
         scene = new THREE.Scene();
         clock = new THREE.Clock();
@@ -284,111 +257,12 @@ AOS.init({
         blob.position.y = 0.2;
         scene.add(blob);
 
-        // Subtle outer glow
-        const glowGeometry = new THREE.IcosahedronGeometry(1.7, 32);
-        const glowMaterial = new THREE.ShaderMaterial({
-            vertexShader: glowVertexShader,
-            fragmentShader: glowFragmentShader,
-            uniforms: {
-                uGlowColor: { value: new THREE.Color('#4338CA') },
-                uOpacity: { value: 1.0 }
-            },
-            transparent: true,
-            side: THREE.BackSide,
-            depthWrite: false,
-            blending: THREE.AdditiveBlending
-        });
-
-        glowMesh = new THREE.Mesh(glowGeometry, glowMaterial);
-        glowMesh.position.copy(blob.position);
-        scene.add(glowMesh);
-
-        // Ambient particles
-        addAmbientParticles();
-
         window.addEventListener('resize', onResize);
         window.addEventListener('mousemove', onMouseMove);
         window.addEventListener('touchmove', onTouchMove, { passive: true });
 
         onResize();
         animate();
-    }
-
-    function addAmbientParticles() {
-        const count = 50;
-        const positions = new Float32Array(count * 3);
-        const sizes = new Float32Array(count);
-        const randoms = new Float32Array(count);
-
-        for (let i = 0; i < count; i++) {
-            const theta = Math.random() * Math.PI * 2;
-            const phi = Math.acos(Math.random() * 2 - 1);
-            const radius = 2.2 + Math.random() * 2;
-
-            positions[i * 3] = radius * Math.sin(phi) * Math.cos(theta);
-            positions[i * 3 + 1] = radius * Math.sin(phi) * Math.sin(theta);
-            positions[i * 3 + 2] = radius * Math.cos(phi);
-
-            sizes[i] = Math.random() * 2.5 + 0.8;
-            randoms[i] = Math.random();
-        }
-
-        const geometry = new THREE.BufferGeometry();
-        geometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
-        geometry.setAttribute('size', new THREE.BufferAttribute(sizes, 1));
-        geometry.setAttribute('aRandom', new THREE.BufferAttribute(randoms, 1));
-
-        const material = new THREE.ShaderMaterial({
-            uniforms: {
-                uTime: { value: 0 },
-                uColor: { value: new THREE.Color('#6366f1') },
-                uOpacity: { value: 1.0 }
-            },
-            vertexShader: `
-                attribute float size;
-                attribute float aRandom;
-                uniform float uTime;
-                varying float vAlpha;
-
-                void main() {
-                    vec3 pos = position;
-
-                    // Gentle orbit
-                    float angle = uTime * 0.04 + aRandom * 6.28;
-                    float radius = length(pos.xz);
-                    pos.x = cos(angle + atan(position.z, position.x)) * radius;
-                    pos.z = sin(angle + atan(position.z, position.x)) * radius;
-                    pos.y += sin(uTime * 0.08 + aRandom * 6.28) * 0.12;
-
-                    vec4 mvPosition = modelViewMatrix * vec4(pos, 1.0);
-                    gl_PointSize = size * (3.0 / -mvPosition.z);
-                    gl_Position = projectionMatrix * mvPosition;
-
-                    vAlpha = 0.25 + sin(uTime * 0.4 + aRandom * 10.0) * 0.12;
-                }
-            `,
-            fragmentShader: `
-                uniform vec3 uColor;
-                uniform float uOpacity;
-                varying float vAlpha;
-
-                void main() {
-                    float dist = length(gl_PointCoord - 0.5);
-                    if (dist > 0.5) discard;
-
-                    float alpha = smoothstep(0.5, 0.1, dist) * vAlpha * uOpacity;
-                    gl_FragColor = vec4(uColor, alpha);
-                }
-            `,
-            transparent: true,
-            blending: THREE.AdditiveBlending,
-            depthWrite: false
-        });
-
-        const particles = new THREE.Points(geometry, material);
-        particles.position.copy(blob.position);
-        scene.add(particles);
-        blob.userData.particles = particles;
     }
 
     function onResize() {
@@ -399,32 +273,15 @@ AOS.init({
         isMobile = window.innerWidth < 992;
 
         if (isMobile) {
-            // Mobile: position behind text area, more transparent
+            // Mobile: behind text, more transparent
             blob.position.set(0, -0.5, -1);
             blob.scale.setScalar(1.2);
             blob.material.uniforms.uOpacity.value = 0.4;
-
-            // Hide glow and particles on mobile
-            glowMesh.visible = false;
-            if (blob.userData.particles) {
-                blob.userData.particles.visible = false;
-            }
         } else {
             // Desktop: normal position
             blob.position.set(1.8, 0.2, 0);
             blob.scale.setScalar(1);
             blob.material.uniforms.uOpacity.value = 1.0;
-
-            // Show glow and particles on desktop
-            glowMesh.visible = true;
-            glowMesh.position.copy(blob.position);
-            glowMesh.scale.setScalar(1);
-
-            if (blob.userData.particles) {
-                blob.userData.particles.visible = true;
-                blob.userData.particles.position.copy(blob.position);
-                blob.userData.particles.scale.setScalar(1);
-            }
         }
     }
 
@@ -456,13 +313,6 @@ AOS.init({
         // Elegant slow rotation
         blob.rotation.x = elapsed * 0.015 + mouseY * 0.06;
         blob.rotation.y = elapsed * 0.025 + mouseX * 0.06;
-
-        glowMesh.rotation.copy(blob.rotation);
-
-        // Particles
-        if (blob.userData.particles) {
-            blob.userData.particles.material.uniforms.uTime.value = elapsed;
-        }
 
         // Camera parallax (reduced on mobile)
         const parallaxStrength = isMobile ? 0.08 : 0.2;

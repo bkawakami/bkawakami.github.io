@@ -12,322 +12,225 @@ AOS.init({
 });
 
 // ============================================
-// GRADIENT MESH BLOB - Elegant Edition
-// Smooth, refined, and subtly interactive
+// CAUSTICS LIGHT EFFECT - Royal Blue
+// Deep underwater light refraction
 // ============================================
 
 (function() {
     'use strict';
 
-    let scene, camera, renderer, blob, clock;
-    let mouseX = 0, mouseY = 0;
-    let targetMouseX = 0, targetMouseY = 0;
-    let isMobile = false;
     const canvas = document.getElementById('heroCanvas');
-
     if (!canvas) return;
 
-    // Simplex Noise 3D
-    const simplexNoise3D = `
-        vec4 permute(vec4 x) { return mod(((x*34.0)+1.0)*x, 289.0); }
-        vec4 taylorInvSqrt(vec4 r) { return 1.79284291400159 - 0.85373472095314 * r; }
+    const gl = canvas.getContext('webgl');
+    if (!gl) return;
 
-        float snoise(vec3 v) {
-            const vec2 C = vec2(1.0/6.0, 1.0/3.0);
-            const vec4 D = vec4(0.0, 0.5, 1.0, 2.0);
-
-            vec3 i  = floor(v + dot(v, C.yyy));
-            vec3 x0 = v - i + dot(i, C.xxx);
-
-            vec3 g = step(x0.yzx, x0.xyz);
-            vec3 l = 1.0 - g;
-            vec3 i1 = min(g.xyz, l.zxy);
-            vec3 i2 = max(g.xyz, l.zxy);
-
-            vec3 x1 = x0 - i1 + C.xxx;
-            vec3 x2 = x0 - i2 + C.yyy;
-            vec3 x3 = x0 - D.yyy;
-
-            i = mod(i, 289.0);
-            vec4 p = permute(permute(permute(
-                i.z + vec4(0.0, i1.z, i2.z, 1.0))
-                + i.y + vec4(0.0, i1.y, i2.y, 1.0))
-                + i.x + vec4(0.0, i1.x, i2.x, 1.0));
-
-            float n_ = 1.0/7.0;
-            vec3 ns = n_ * D.wyz - D.xzx;
-
-            vec4 j = p - 49.0 * floor(p * ns.z * ns.z);
-
-            vec4 x_ = floor(j * ns.z);
-            vec4 y_ = floor(j - 7.0 * x_);
-
-            vec4 x = x_ *ns.x + ns.yyyy;
-            vec4 y = y_ *ns.x + ns.yyyy;
-            vec4 h = 1.0 - abs(x) - abs(y);
-
-            vec4 b0 = vec4(x.xy, y.xy);
-            vec4 b1 = vec4(x.zw, y.zw);
-
-            vec4 s0 = floor(b0)*2.0 + 1.0;
-            vec4 s1 = floor(b1)*2.0 + 1.0;
-            vec4 sh = -step(h, vec4(0.0));
-
-            vec4 a0 = b0.xzyw + s0.xzyw*sh.xxyy;
-            vec4 a1 = b1.xzyw + s1.xzyw*sh.zzww;
-
-            vec3 p0 = vec3(a0.xy, h.x);
-            vec3 p1 = vec3(a0.zw, h.y);
-            vec3 p2 = vec3(a1.xy, h.z);
-            vec3 p3 = vec3(a1.zw, h.w);
-
-            vec4 norm = taylorInvSqrt(vec4(dot(p0,p0), dot(p1,p1), dot(p2,p2), dot(p3,p3)));
-            p0 *= norm.x;
-            p1 *= norm.y;
-            p2 *= norm.z;
-            p3 *= norm.w;
-
-            vec4 m = max(0.6 - vec4(dot(x0,x0), dot(x1,x1), dot(x2,x2), dot(x3,x3)), 0.0);
-            m = m * m;
-            return 42.0 * dot(m*m, vec4(dot(p0,x0), dot(p1,x1), dot(p2,x2), dot(p3,x3)));
+    // Vertex Shader
+    const vsSource = `
+        attribute vec2 position;
+        void main() {
+            gl_Position = vec4(position, 0.0, 1.0);
         }
     `;
 
-    // Vertex Shader - More defined waves
-    const vertexShader = `
-        ${simplexNoise3D}
+    // Fragment Shader - Royal Blue Caustics
+    const fsSource = `
+        precision highp float;
 
-        uniform float uTime;
-        uniform float uNoiseStrength;
-        uniform float uNoiseScale;
-        uniform vec2 uMouse;
+        uniform float u_time;
+        uniform vec2 u_resolution;
+        uniform vec2 u_mouse;
+        uniform float u_intensity;
+        uniform float u_speed;
+        uniform float u_chroma;
+        uniform float u_opacity;
 
-        varying vec3 vNormal;
-        varying vec3 vPosition;
-        varying float vDisplacement;
-        varying vec3 vWorldPosition;
-        varying float vElevation;
+        #define MAX_ITER 6
+
+        float getCaustic(vec2 uv, float time, float offset) {
+            vec2 p = mod(uv * 5.0, 10.0) - 20.0;
+            vec2 i = vec2(p);
+            float c = 1.0;
+            float inten = .005 * u_intensity;
+
+            for (int n = 0; n < MAX_ITER; n++) {
+                float t = (time + offset) * (1.1 - (3.0 / float(n + 1)));
+                i = p + vec2(cos(t - i.x) + sin(t + i.y), sin(t - i.y) + cos(t + i.x));
+                c += 1.0 / length(vec2(p.x / (sin(i.x + t) / inten), p.y / (cos(i.y + t) / inten)));
+            }
+
+            c /= float(MAX_ITER);
+            c = 1.17 - pow(c, 1.4);
+            return pow(abs(c), 8.0);
+        }
 
         void main() {
-            vec3 pos = position;
+            vec2 uv = gl_FragCoord.xy / u_resolution.xy;
+            float aspect = u_resolution.x / u_resolution.y;
+            vec2 centerUv = uv;
+            uv.x *= aspect;
 
-            // More defined layered noise
-            vec3 noisePos = pos * uNoiseScale + uTime * 0.06;
+            // Mouse interaction
+            vec2 mousePos = u_mouse / u_resolution.xy;
+            mousePos.x *= aspect;
+            float distToMouse = distance(uv, mousePos);
+            uv += (uv - mousePos) * (0.06 / (distToMouse + 0.9));
 
-            float noise1 = snoise(noisePos);
-            float noise2 = snoise(noisePos * 1.8 + 30.0) * 0.6;
-            float noise3 = snoise(noisePos * 3.5 + 60.0) * 0.3;
+            float time = u_time * u_speed;
 
-            float displacement = (noise1 + noise2 + noise3) * uNoiseStrength;
+            // Color channels - Royal Blue variations
+            float r = getCaustic(uv, time, 0.0) * 0.25;
+            float g = getCaustic(uv, time, u_chroma) * 0.5;
+            float b = getCaustic(uv, time, u_chroma * 2.0) * 1.0;
 
-            // Store elevation for fragment shader
-            vElevation = displacement;
+            // Deep navy background
+            vec3 background = vec3(0.004, 0.008, 0.03);
 
-            // Subtle mouse influence
-            vec3 mouseDir = vec3(uMouse.x, uMouse.y, 0.0);
-            float mouseInfluence = dot(normalize(pos), normalize(mouseDir + vec3(0.001)));
-            mouseInfluence = mouseInfluence * 0.5 + 0.5;
+            // Vignette
+            float vignette = 1.0 - length(centerUv - 0.5) * 1.0;
+            vignette = max(vignette, 0.0);
+            background *= vignette;
 
-            float finalDisplacement = displacement * (1.0 + mouseInfluence * 0.12);
-            pos += normalize(pos) * finalDisplacement;
+            // Light color
+            vec3 lightColor = vec3(r, g, b) * u_intensity;
 
-            // Gentle breathing
-            float breathe = sin(uTime * 0.35) * 0.015 + 1.0;
-            pos *= breathe;
+            // Blue glow around caustics
+            float glow = (r + g + b) * 0.12;
+            vec3 finalColor = background + lightColor + vec3(0.0, 0.15, 0.4) * glow;
 
-            vDisplacement = displacement;
-            vNormal = normalize(normalMatrix * normal);
-            vPosition = pos;
-            vWorldPosition = (modelMatrix * vec4(pos, 1.0)).xyz;
+            // Apply opacity for text readability
+            float alpha = u_opacity * (0.3 + (r + g + b) * 0.4);
 
-            gl_Position = projectionMatrix * modelViewMatrix * vec4(pos, 1.0);
+            gl_FragColor = vec4(finalColor, alpha);
         }
     `;
 
-    // Fragment Shader - Deeper colors, more contrast
-    const fragmentShader = `
-        uniform float uTime;
-        uniform vec3 uColor1;
-        uniform vec3 uColor2;
-        uniform vec3 uColor3;
-        uniform vec3 uColor4;
-        uniform vec2 uMouse;
-        uniform float uOpacity;
-
-        varying vec3 vNormal;
-        varying vec3 vPosition;
-        varying float vDisplacement;
-        varying vec3 vWorldPosition;
-        varying float vElevation;
-
-        void main() {
-            vec3 viewDirection = normalize(cameraPosition - vWorldPosition);
-
-            // Fresnel for edge detection
-            float fresnel = pow(1.0 - abs(dot(viewDirection, vNormal)), 2.5);
-
-            // Position gradients
-            float gradientX = vPosition.x * 0.5 + 0.5;
-            float gradientY = vPosition.y * 0.5 + 0.5;
-
-            // Slow color animation
-            float t = uTime * 0.06;
-            float mix1 = sin(gradientX * 3.14159 + t) * 0.5 + 0.5;
-            float mix2 = cos(gradientY * 3.14159 + t * 0.8) * 0.5 + 0.5;
-
-            // Use elevation to enhance wave visibility
-            float elevationFactor = smoothstep(-0.3, 0.3, vElevation);
-
-            // Four-color blend with elevation influence
-            vec3 color12 = mix(uColor1, uColor2, mix1);
-            vec3 color34 = mix(uColor3, uColor4, mix2);
-            vec3 baseColor = mix(color12, color34, elevationFactor);
-
-            // Darken valleys, lighten peaks for definition
-            float contrast = vElevation * 0.4;
-            baseColor = baseColor * (1.0 + contrast);
-
-            // Subtle edge highlight
-            vec3 edgeColor = mix(uColor2, uColor4, 0.5);
-            baseColor = mix(baseColor, edgeColor, fresnel * 0.35);
-
-            // Deeper core
-            baseColor = mix(baseColor * 0.75, baseColor, fresnel * 0.4 + 0.6);
-
-            float alpha = uOpacity * (0.85 + fresnel * 0.15);
-
-            gl_FragColor = vec4(baseColor, alpha);
+    function createShader(gl, type, source) {
+        const shader = gl.createShader(type);
+        gl.shaderSource(shader, source);
+        gl.compileShader(shader);
+        if (!gl.getShaderParameter(shader, gl.COMPILE_STATUS)) {
+            console.error('Shader compile error:', gl.getShaderInfoLog(shader));
+            gl.deleteShader(shader);
+            return null;
         }
-    `;
-
-    function init() {
-        scene = new THREE.Scene();
-        clock = new THREE.Clock();
-
-        camera = new THREE.PerspectiveCamera(
-            45,
-            window.innerWidth / window.innerHeight,
-            0.1,
-            1000
-        );
-        camera.position.z = 5;
-
-        renderer = new THREE.WebGLRenderer({
-            canvas: canvas,
-            antialias: true,
-            alpha: true,
-            powerPreference: 'high-performance'
-        });
-        renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-        renderer.setSize(window.innerWidth, window.innerHeight);
-        renderer.setClearColor(0x000000, 0);
-
-        // Deeper, richer color palette
-        const colors = {
-            indigo: new THREE.Color('#3730A3'),   // Deeper indigo
-            blue: new THREE.Color('#1E40AF'),      // Deep blue
-            teal: new THREE.Color('#0F766E'),      // Deeper teal
-            purple: new THREE.Color('#6D28D9')     // Deeper purple
-        };
-
-        // High-detail geometry
-        const geometry = new THREE.IcosahedronGeometry(1.5, 80);
-
-        const material = new THREE.ShaderMaterial({
-            vertexShader: vertexShader,
-            fragmentShader: fragmentShader,
-            uniforms: {
-                uTime: { value: 0 },
-                uNoiseStrength: { value: 0.38 },  // Stronger waves
-                uNoiseScale: { value: 0.9 },
-                uMouse: { value: new THREE.Vector2(0, 0) },
-                uColor1: { value: colors.indigo },
-                uColor2: { value: colors.blue },
-                uColor3: { value: colors.teal },
-                uColor4: { value: colors.purple },
-                uOpacity: { value: 1.0 }
-            },
-            transparent: true,
-            side: THREE.DoubleSide,
-            depthWrite: false
-        });
-
-        blob = new THREE.Mesh(geometry, material);
-        blob.position.x = 1.8;
-        blob.position.y = 0.2;
-        scene.add(blob);
-
-        window.addEventListener('resize', onResize);
-        window.addEventListener('mousemove', onMouseMove);
-        window.addEventListener('touchmove', onTouchMove, { passive: true });
-
-        onResize();
-        animate();
+        return shader;
     }
 
-    function onResize() {
-        camera.aspect = window.innerWidth / window.innerHeight;
-        camera.updateProjectionMatrix();
-        renderer.setSize(window.innerWidth, window.innerHeight);
+    function createProgram(gl, vsSource, fsSource) {
+        const vs = createShader(gl, gl.VERTEX_SHADER, vsSource);
+        const fs = createShader(gl, gl.FRAGMENT_SHADER, fsSource);
+        if (!vs || !fs) return null;
 
-        isMobile = window.innerWidth < 992;
+        const program = gl.createProgram();
+        gl.attachShader(program, vs);
+        gl.attachShader(program, fs);
+        gl.linkProgram(program);
 
-        if (isMobile) {
-            // Mobile: behind text, more transparent
-            blob.position.set(0, -0.5, -1);
-            blob.scale.setScalar(1.2);
-            blob.material.uniforms.uOpacity.value = 0.4;
-        } else {
-            // Desktop: normal position
-            blob.position.set(1.8, 0.2, 0);
-            blob.scale.setScalar(1);
-            blob.material.uniforms.uOpacity.value = 1.0;
+        if (!gl.getProgramParameter(program, gl.LINK_STATUS)) {
+            console.error('Program link error:', gl.getProgramInfoLog(program));
+            return null;
+        }
+        return program;
+    }
+
+    const program = createProgram(gl, vsSource, fsSource);
+    if (!program) return;
+
+    gl.useProgram(program);
+
+    // Fullscreen quad
+    const vertices = new Float32Array([-1, -1, 1, -1, -1, 1, 1, 1]);
+    const buffer = gl.createBuffer();
+    gl.bindBuffer(gl.ARRAY_BUFFER, buffer);
+    gl.bufferData(gl.ARRAY_BUFFER, vertices, gl.STATIC_DRAW);
+
+    const posLoc = gl.getAttribLocation(program, 'position');
+    gl.enableVertexAttribArray(posLoc);
+    gl.vertexAttribPointer(posLoc, 2, gl.FLOAT, false, 0, 0);
+
+    // Uniforms
+    const uniforms = {
+        time: gl.getUniformLocation(program, 'u_time'),
+        resolution: gl.getUniformLocation(program, 'u_resolution'),
+        mouse: gl.getUniformLocation(program, 'u_mouse'),
+        intensity: gl.getUniformLocation(program, 'u_intensity'),
+        speed: gl.getUniformLocation(program, 'u_speed'),
+        chroma: gl.getUniformLocation(program, 'u_chroma'),
+        opacity: gl.getUniformLocation(program, 'u_opacity')
+    };
+
+    // Settings
+    const settings = {
+        intensity: 3.0,    // Brilho máximo
+        speed: 0.1,        // Agitação mínima
+        chroma: 0.0,       // Difração mínima
+        opacity: 1.0
+    };
+
+    // Mouse position
+    let mouseX = window.innerWidth / 2;
+    let mouseY = window.innerHeight / 2;
+    let targetMouseX = mouseX;
+    let targetMouseY = mouseY;
+
+    // Enable blending for transparency
+    gl.enable(gl.BLEND);
+    gl.blendFunc(gl.SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA);
+
+    function resize() {
+        // Use window size + extra to ensure full coverage
+        const width = window.innerWidth + 40;
+        const height = window.innerHeight + 40;
+        const dpr = Math.min(window.devicePixelRatio, 2);
+
+        canvas.width = width * dpr;
+        canvas.height = height * dpr;
+
+        gl.viewport(0, 0, canvas.width, canvas.height);
+    }
+
+    function onMouseMove(e) {
+        targetMouseX = e.clientX;
+        targetMouseY = window.innerHeight - e.clientY;
+    }
+
+    function onTouchMove(e) {
+        if (e.touches.length > 0) {
+            targetMouseX = e.touches[0].clientX;
+            targetMouseY = window.innerHeight - e.touches[0].clientY;
         }
     }
 
-    function onMouseMove(event) {
-        targetMouseX = (event.clientX / window.innerWidth) * 2 - 1;
-        targetMouseY = -(event.clientY / window.innerHeight) * 2 + 1;
-    }
+    window.addEventListener('resize', resize);
+    window.addEventListener('mousemove', onMouseMove);
+    window.addEventListener('touchmove', onTouchMove, { passive: true });
 
-    function onTouchMove(event) {
-        if (event.touches.length > 0) {
-            targetMouseX = (event.touches[0].clientX / window.innerWidth) * 2 - 1;
-            targetMouseY = -(event.touches[0].clientY / window.innerHeight) * 2 + 1;
-        }
-    }
+    resize();
 
-    function animate() {
-        requestAnimationFrame(animate);
-
-        const elapsed = clock.getElapsedTime();
-
+    function render(time) {
         // Smooth mouse interpolation
         mouseX += (targetMouseX - mouseX) * 0.03;
         mouseY += (targetMouseY - mouseY) * 0.03;
 
         // Update uniforms
-        blob.material.uniforms.uTime.value = elapsed;
-        blob.material.uniforms.uMouse.value.set(mouseX, mouseY);
+        gl.uniform1f(uniforms.time, time * 0.001);
+        gl.uniform2f(uniforms.resolution, canvas.width, canvas.height);
+        gl.uniform2f(uniforms.mouse, mouseX * window.devicePixelRatio, mouseY * window.devicePixelRatio);
+        gl.uniform1f(uniforms.intensity, settings.intensity);
+        gl.uniform1f(uniforms.speed, settings.speed);
+        gl.uniform1f(uniforms.chroma, settings.chroma);
+        gl.uniform1f(uniforms.opacity, settings.opacity);
 
-        // Elegant slow rotation
-        blob.rotation.x = elapsed * 0.015 + mouseY * 0.06;
-        blob.rotation.y = elapsed * 0.025 + mouseX * 0.06;
+        // Clear and draw
+        gl.clearColor(0, 0, 0, 0);
+        gl.clear(gl.COLOR_BUFFER_BIT);
+        gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
 
-        // Camera parallax (reduced on mobile)
-        const parallaxStrength = isMobile ? 0.08 : 0.2;
-        camera.position.x = mouseX * parallaxStrength;
-        camera.position.y = mouseY * parallaxStrength * 0.75;
-        camera.lookAt(blob.position);
-
-        renderer.render(scene, camera);
+        requestAnimationFrame(render);
     }
 
-    if (document.readyState === 'loading') {
-        document.addEventListener('DOMContentLoaded', init);
-    } else {
-        init();
-    }
+    requestAnimationFrame(render);
 })();
 
 // Google Translate

@@ -44,11 +44,12 @@ AOS.init({
         uniform float u_speed;
         uniform float u_chroma;
         uniform float u_opacity;
+        uniform float u_scale;
 
         #define MAX_ITER 6
 
         float getCaustic(vec2 uv, float time, float offset) {
-            vec2 p = mod(uv * 5.0, 10.0) - 20.0;
+            vec2 p = mod(uv * u_scale, 10.0) - 20.0;
             vec2 i = vec2(p);
             float c = 1.0;
             float inten = .005 * u_intensity;
@@ -157,7 +158,8 @@ AOS.init({
         intensity: gl.getUniformLocation(program, 'u_intensity'),
         speed: gl.getUniformLocation(program, 'u_speed'),
         chroma: gl.getUniformLocation(program, 'u_chroma'),
-        opacity: gl.getUniformLocation(program, 'u_opacity')
+        opacity: gl.getUniformLocation(program, 'u_opacity'),
+        scale: gl.getUniformLocation(program, 'u_scale')
     };
 
     // Settings
@@ -221,6 +223,11 @@ AOS.init({
         gl.uniform1f(uniforms.speed, settings.speed);
         gl.uniform1f(uniforms.chroma, settings.chroma);
         gl.uniform1f(uniforms.opacity, settings.opacity);
+
+        // Scale based on screen size - smaller screens get slightly higher scale (smaller caustics)
+        const screenWidth = window.innerWidth;
+        const scale = screenWidth < 768 ? 7.0 : 5.0;
+        gl.uniform1f(uniforms.scale, scale);
 
         // Clear and draw
         gl.clearColor(0, 0, 0, 0);

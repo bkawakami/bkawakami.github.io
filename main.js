@@ -4,18 +4,19 @@ function gtag() { dataLayer.push(arguments); }
 gtag('js', new Date());
 gtag('config', 'G-VL5JMCR888');
 
-// AOS Animation
+// AOS
 AOS.init({
-    duration: 1000,
+    duration: 800,
     once: true,
-    offset: 100
+    offset: 80,
+    easing: 'ease-out-cubic'
 });
 
 // ============================================
-// CAUSTICS LIGHT EFFECT - Royal Blue
-// Deep underwater light refraction
+// TOPOGRAPHIC CONTOUR FIELD
+// Domain-warped noise with contour extraction
+// Organic flowing terrain lines in white on black
 // ============================================
-
 (function() {
     'use strict';
 
@@ -25,7 +26,6 @@ AOS.init({
     const gl = canvas.getContext('webgl');
     if (!gl) return;
 
-    // Vertex Shader
     const vsSource = `
         attribute vec2 position;
         void main() {
@@ -33,204 +33,171 @@ AOS.init({
         }
     `;
 
-    // Fragment Shader - Royal Blue Caustics
     const fsSource = `
         precision highp float;
 
         uniform float u_time;
         uniform vec2 u_resolution;
         uniform vec2 u_mouse;
-        uniform float u_intensity;
-        uniform float u_speed;
-        uniform float u_chroma;
-        uniform float u_opacity;
-        uniform float u_scale;
 
-        #define MAX_ITER 6
+        float hash(vec2 p) {
+            return fract(sin(dot(p, vec2(127.1, 311.7))) * 43758.5453);
+        }
 
-        float getCaustic(vec2 uv, float time, float offset) {
-            vec2 p = mod(uv * u_scale, 10.0) - 20.0;
-            vec2 i = vec2(p);
-            float c = 1.0;
-            float inten = .005 * u_intensity;
+        float noise(vec2 p) {
+            vec2 i = floor(p);
+            vec2 f = fract(p);
+            f = f * f * (3.0 - 2.0 * f);
+            return mix(
+                mix(hash(i), hash(i + vec2(1.0, 0.0)), f.x),
+                mix(hash(i + vec2(0.0, 1.0)), hash(i + vec2(1.0, 1.0)), f.x),
+                f.y
+            );
+        }
 
-            for (int n = 0; n < MAX_ITER; n++) {
-                float t = (time + offset) * (1.1 - (3.0 / float(n + 1)));
-                i = p + vec2(cos(t - i.x) + sin(t + i.y), sin(t - i.y) + cos(t + i.x));
-                c += 1.0 / length(vec2(p.x / (sin(i.x + t) / inten), p.y / (cos(i.y + t) / inten)));
+        float fbm(vec2 p) {
+            float v = 0.0;
+            float a = 0.5;
+            mat2 rot = mat2(0.866, 0.5, -0.5, 0.866);
+            for (int i = 0; i < 4; i++) {
+                v += a * noise(p);
+                p = rot * p * 2.0 + vec2(100.0);
+                a *= 0.5;
             }
-
-            c /= float(MAX_ITER);
-            c = 1.17 - pow(c, 1.4);
-            return pow(abs(c), 8.0);
+            return v;
         }
 
         void main() {
             vec2 uv = gl_FragCoord.xy / u_resolution.xy;
             float aspect = u_resolution.x / u_resolution.y;
-            vec2 centerUv = uv;
-            uv.x *= aspect;
+            vec2 p = vec2(uv.x * aspect, uv.y);
 
-            // Mouse interaction
-            vec2 mousePos = u_mouse / u_resolution.xy;
-            mousePos.x *= aspect;
-            float distToMouse = distance(uv, mousePos);
-            uv += (uv - mousePos) * (0.06 / (distToMouse + 0.9));
+            float t = u_time * 0.06;
 
-            float time = u_time * u_speed;
+            // Mouse
+            vec2 m = u_mouse / u_resolution.xy;
+            m.x *= aspect;
+            vec2 dm = p - m;
+            float md = length(dm);
 
-            // Color channels - Royal Blue variations
-            float r = getCaustic(uv, time, 0.0) * 0.25;
-            float g = getCaustic(uv, time, u_chroma) * 0.5;
-            float b = getCaustic(uv, time, u_chroma * 2.0) * 1.0;
+            vec2 st = p * 2.5;
 
-            // Deep navy background
-            vec3 background = vec3(0.004, 0.008, 0.03);
+            // Domain warping - layer 1
+            vec2 q = vec2(
+                fbm(st + t),
+                fbm(st + vec2(5.2, 1.3) + t * 0.7)
+            );
+
+            // Domain warping - layer 2
+            vec2 r = vec2(
+                fbm(st + 3.5 * q + vec2(1.7, 9.2) + t * 0.4),
+                fbm(st + 3.5 * q + vec2(8.3, 2.8) + t * 0.25)
+            );
+
+            // Mouse warps the field
+            float mi = 0.3 * exp(-md * 2.5);
+            r += dm / (md + 0.1) * mi;
+
+            // Final warped noise
+            float f = fbm(st + 3.5 * r);
+
+            // Contour extraction
+            float band = fract(f * 18.0);
+            float line = smoothstep(0.45, 0.5, abs(band - 0.5));
+
+            // Brightness variation
+            float brightness = 0.25 + 0.65 * f;
+
+            // Ambient fill
+            float fill = f * f * 0.05;
+
+            float c = line * brightness + fill;
+
+            // Subtle mouse glow
+            c += 0.008 / (md + 0.06);
 
             // Vignette
-            float vignette = 1.0 - length(centerUv - 0.5) * 1.0;
-            vignette = max(vignette, 0.0);
-            background *= vignette;
+            vec2 vc = uv - 0.5;
+            c *= max(1.0 - dot(vc, vc) * 0.8, 0.0);
 
-            // Light color
-            vec3 lightColor = vec3(r, g, b) * u_intensity;
-
-            // Blue glow around caustics
-            float glow = (r + g + b) * 0.12;
-            vec3 finalColor = background + lightColor + vec3(0.0, 0.15, 0.4) * glow;
-
-            // Apply opacity for text readability
-            float alpha = u_opacity * (0.3 + (r + g + b) * 0.4);
-
-            gl_FragColor = vec4(finalColor, alpha);
+            gl_FragColor = vec4(vec3(c), 1.0);
         }
     `;
 
-    function createShader(gl, type, source) {
+    function createShader(type, source) {
         const shader = gl.createShader(type);
         gl.shaderSource(shader, source);
         gl.compileShader(shader);
         if (!gl.getShaderParameter(shader, gl.COMPILE_STATUS)) {
-            console.error('Shader compile error:', gl.getShaderInfoLog(shader));
+            console.error(gl.getShaderInfoLog(shader));
             gl.deleteShader(shader);
             return null;
         }
         return shader;
     }
 
-    function createProgram(gl, vsSource, fsSource) {
-        const vs = createShader(gl, gl.VERTEX_SHADER, vsSource);
-        const fs = createShader(gl, gl.FRAGMENT_SHADER, fsSource);
-        if (!vs || !fs) return null;
+    const vs = createShader(gl.VERTEX_SHADER, vsSource);
+    const fs = createShader(gl.FRAGMENT_SHADER, fsSource);
+    if (!vs || !fs) return;
 
-        const program = gl.createProgram();
-        gl.attachShader(program, vs);
-        gl.attachShader(program, fs);
-        gl.linkProgram(program);
-
-        if (!gl.getProgramParameter(program, gl.LINK_STATUS)) {
-            console.error('Program link error:', gl.getProgramInfoLog(program));
-            return null;
-        }
-        return program;
+    const program = gl.createProgram();
+    gl.attachShader(program, vs);
+    gl.attachShader(program, fs);
+    gl.linkProgram(program);
+    if (!gl.getProgramParameter(program, gl.LINK_STATUS)) {
+        console.error(gl.getProgramInfoLog(program));
+        return;
     }
-
-    const program = createProgram(gl, vsSource, fsSource);
-    if (!program) return;
-
     gl.useProgram(program);
 
     // Fullscreen quad
-    const vertices = new Float32Array([-1, -1, 1, -1, -1, 1, 1, 1]);
-    const buffer = gl.createBuffer();
-    gl.bindBuffer(gl.ARRAY_BUFFER, buffer);
-    gl.bufferData(gl.ARRAY_BUFFER, vertices, gl.STATIC_DRAW);
-
-    const posLoc = gl.getAttribLocation(program, 'position');
-    gl.enableVertexAttribArray(posLoc);
-    gl.vertexAttribPointer(posLoc, 2, gl.FLOAT, false, 0, 0);
+    var buf = gl.createBuffer();
+    gl.bindBuffer(gl.ARRAY_BUFFER, buf);
+    gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([-1,-1, 1,-1, -1,1, 1,1]), gl.STATIC_DRAW);
+    var pos = gl.getAttribLocation(program, 'position');
+    gl.enableVertexAttribArray(pos);
+    gl.vertexAttribPointer(pos, 2, gl.FLOAT, false, 0, 0);
 
     // Uniforms
-    const uniforms = {
-        time: gl.getUniformLocation(program, 'u_time'),
-        resolution: gl.getUniformLocation(program, 'u_resolution'),
-        mouse: gl.getUniformLocation(program, 'u_mouse'),
-        intensity: gl.getUniformLocation(program, 'u_intensity'),
-        speed: gl.getUniformLocation(program, 'u_speed'),
-        chroma: gl.getUniformLocation(program, 'u_chroma'),
-        opacity: gl.getUniformLocation(program, 'u_opacity'),
-        scale: gl.getUniformLocation(program, 'u_scale')
-    };
+    var u_time = gl.getUniformLocation(program, 'u_time');
+    var u_resolution = gl.getUniformLocation(program, 'u_resolution');
+    var u_mouse = gl.getUniformLocation(program, 'u_mouse');
 
-    // Settings
-    const settings = {
-        intensity: 3.0,    // Brilho máximo
-        speed: 0.1,        // Agitação mínima
-        chroma: 0.0,       // Difração mínima
-        opacity: 1.0
-    };
-
-    // Mouse position
-    let mouseX = window.innerWidth / 2;
-    let mouseY = window.innerHeight / 2;
-    let targetMouseX = mouseX;
-    let targetMouseY = mouseY;
-
-    // Enable blending for transparency
-    gl.enable(gl.BLEND);
-    gl.blendFunc(gl.SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA);
+    var dpr = 1;
+    var mouseX = window.innerWidth * 0.7;
+    var mouseY = window.innerHeight * 0.3;
+    var targetMX = mouseX;
+    var targetMY = mouseY;
 
     function resize() {
-        // Use window size + extra to ensure full coverage
-        const width = window.innerWidth + 40;
-        const height = window.innerHeight + 40;
-        const dpr = Math.min(window.devicePixelRatio, 2);
-
-        canvas.width = width * dpr;
-        canvas.height = height * dpr;
-
+        dpr = Math.min(window.devicePixelRatio, window.innerWidth < 768 ? 1 : 1.25);
+        canvas.width = window.innerWidth * dpr;
+        canvas.height = window.innerHeight * dpr;
         gl.viewport(0, 0, canvas.width, canvas.height);
     }
 
-    function onMouseMove(e) {
-        targetMouseX = e.clientX;
-        targetMouseY = window.innerHeight - e.clientY;
-    }
-
-    function onTouchMove(e) {
-        if (e.touches.length > 0) {
-            targetMouseX = e.touches[0].clientX;
-            targetMouseY = window.innerHeight - e.touches[0].clientY;
-        }
-    }
-
-    window.addEventListener('resize', resize);
-    window.addEventListener('mousemove', onMouseMove);
-    window.addEventListener('touchmove', onTouchMove, { passive: true });
-
     resize();
+    window.addEventListener('resize', resize);
+    window.addEventListener('mousemove', function(e) {
+        targetMX = e.clientX;
+        targetMY = window.innerHeight - e.clientY;
+    });
+    window.addEventListener('touchmove', function(e) {
+        if (e.touches.length > 0) {
+            targetMX = e.touches[0].clientX;
+            targetMY = window.innerHeight - e.touches[0].clientY;
+        }
+    }, { passive: true });
 
-    function render(time) {
-        // Smooth mouse interpolation
-        mouseX += (targetMouseX - mouseX) * 0.03;
-        mouseY += (targetMouseY - mouseY) * 0.03;
+    function render(t) {
+        mouseX += (targetMX - mouseX) * 0.03;
+        mouseY += (targetMY - mouseY) * 0.03;
 
-        // Update uniforms
-        gl.uniform1f(uniforms.time, time * 0.001);
-        gl.uniform2f(uniforms.resolution, canvas.width, canvas.height);
-        gl.uniform2f(uniforms.mouse, mouseX * window.devicePixelRatio, mouseY * window.devicePixelRatio);
-        gl.uniform1f(uniforms.intensity, settings.intensity);
-        gl.uniform1f(uniforms.speed, settings.speed);
-        gl.uniform1f(uniforms.chroma, settings.chroma);
-        gl.uniform1f(uniforms.opacity, settings.opacity);
+        gl.uniform1f(u_time, t * 0.001);
+        gl.uniform2f(u_resolution, canvas.width, canvas.height);
+        gl.uniform2f(u_mouse, mouseX * dpr, mouseY * dpr);
 
-        // Scale based on screen size - smaller screens get slightly higher scale (smaller caustics)
-        const screenWidth = window.innerWidth;
-        const scale = screenWidth < 768 ? 7.0 : 5.0;
-        gl.uniform1f(uniforms.scale, scale);
-
-        // Clear and draw
-        gl.clearColor(0, 0, 0, 0);
+        gl.clearColor(0, 0, 0, 1);
         gl.clear(gl.COLOR_BUFFER_BIT);
         gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
 

@@ -69,7 +69,7 @@
         crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link rel="stylesheet" href="https://unpkg.com/aos@2.3.1/dist/aos.css" />
     <link
-        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;700&display=swap"
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@200;300;400;500;600;700&family=JetBrains+Mono:wght@300;400;500&display=swap"
         rel="stylesheet" />
     <link rel="stylesheet" href="main.css" />
 
@@ -101,33 +101,25 @@
         </div>
     </nav>
 
-    <!-- 1. Hero Section (mantém como está) -->
+    <!-- 1. Hero Section -->
     <section class="hero-section" id="home">
         <div class="hero-canvas-container">
             <canvas id="heroCanvas"></canvas>
             <div class="hero-overlay"></div>
         </div>
 
-        <div class="container">
-            <div class="row align-items-center">
-                <div class="col-lg-6 hero-content" data-aos="fade-up">
-                    <div class="hero-badge mono">CTO & Arquiteto de IA</div>
-                    <h1 class="hero-title">
-                        Transformando o impossível em linhas de código
-                    </h1>
-                    <p class="hero-subtitle">
-                        Sou Bruno Kawakami. Construo pontes entre a visão e a execução,
-                        liderando equipes que transformam empresas através da tecnologia.
-                    </p>
-                    <a href="#sobre" class="btn btn-glow">
-                        Conheça minha história
-                    </a>
-                </div>
-
-                <div class="col-lg-6 hero-image" data-aos="fade-up" data-aos-delay="200">
-                    <img src="foto_bruno.jpeg" alt="Bruno Kawakami" />
-                </div>
-            </div>
+        <div class="hero-inner">
+            <div class="hero-badge mono" data-aos="fade-up">CTO & Arquiteto de IA</div>
+            <h1 class="hero-title" data-aos="fade-up" data-aos-delay="100">
+                Transformando o impossível em linhas de código
+            </h1>
+            <p class="hero-subtitle" data-aos="fade-up" data-aos-delay="200">
+                Sou Bruno Kawakami. Construo pontes entre a visão e a execução,
+                liderando equipes que transformam empresas através da tecnologia.
+            </p>
+            <a href="#sobre" class="btn btn-glow" data-aos="fade-up" data-aos-delay="300">
+                Conheça minha história
+            </a>
         </div>
     </section>
 
@@ -197,31 +189,35 @@
     <!-- 3. Da visão à execução -->
     <section id="sobre" data-aos="fade-up">
         <div class="container">
-            <div class="section-header">
-                <div class="section-badge">// SOBRE MIM</div>
-                <h2 class="section-title">Da visão à execução</h2>
-            </div>
-
-            <div class="about-content">
-                <p>
-                    Minha jornada começou com uma simples pergunta:
-                    <strong>"E se a tecnologia pudesse fazer mais?"</strong>
-                </p>
-                <p>
-                    Como CTO da D4Sign, não apenas liderei o desenvolvimento técnico -
-                    <span class="about-highlight">arquitetei a transformação</span> que levou a empresa
-                    de uma startup promissora a um exit de R$ 180 milhões para o grupo Zucchetti.
-                </p>
-                <p>
-                    Com mais de uma década construindo o futuro, desenvolvi uma filosofia simples:
-                    <strong>tecnologia sem propósito é apenas código</strong>. Por isso, cada algoritmo
-                    que escrevo, cada equipe que lidero e cada decisão que tomo é guiada por um
-                    único princípio: criar impacto real na vida das pessoas.
-                </p>
-                <p>
-                    Hoje, combino expertise técnica profunda com visão estratégica de negócios,
-                    transformando desafios complexos em soluções elegantes que escalam para milhões.
-                </p>
+            <div class="about-layout">
+                <div class="about-visual" data-aos="fade-up">
+                    <img src="foto_bruno.jpeg" alt="Bruno Kawakami" class="about-photo" />
+                </div>
+                <div class="about-text" data-aos="fade-up" data-aos-delay="100">
+                    <div class="section-badge">// SOBRE MIM</div>
+                    <h2 class="section-title">Da visão à execução</h2>
+                    <div class="about-content">
+                        <p>
+                            Minha jornada começou com uma simples pergunta:
+                            <strong>"E se a tecnologia pudesse fazer mais?"</strong>
+                        </p>
+                        <p>
+                            Como CTO da D4Sign, não apenas liderei o desenvolvimento técnico -
+                            <span class="about-highlight">arquitetei a transformação</span> que levou a empresa
+                            de uma startup promissora a um exit de R$ 180 milhões para o grupo Zucchetti.
+                        </p>
+                        <p>
+                            Com mais de uma década construindo o futuro, desenvolvi uma filosofia simples:
+                            <strong>tecnologia sem propósito é apenas código</strong>. Por isso, cada algoritmo
+                            que escrevo, cada equipe que lidero e cada decisão que tomo é guiada por um
+                            único princípio: criar impacto real na vida das pessoas.
+                        </p>
+                        <p>
+                            Hoje, combino expertise técnica profunda com visão estratégica de negócios,
+                            transformando desafios complexos em soluções elegantes que escalam para milhões.
+                        </p>
+                    </div>
+                </div>
             </div>
         </div>
     </section>
@@ -245,8 +241,7 @@
                     </p>
                 </div>
                 <div class="col-lg-6" data-aos="fade-up">
-                    <img src="forbes_bruno.png" alt="Forbes Recognition" class="img-fluid rounded-3"
-                        style="box-shadow: 0 20px 60px rgba(0,0,0,0.3);" />
+                    <img src="forbes_bruno.png" alt="Forbes Recognition" class="img-fluid forbes-image" />
                 </div>
             </div>
         </div>
@@ -582,12 +577,12 @@
                 <div class="text-center mt-5">
                     <p class="text-muted">Ou conecte-se diretamente:</p>
                     <p>
-                        <a href="mailto:bru.kawakami@gmail.com" class="text-primary">
+                        <a href="mailto:bru.kawakami@gmail.com" class="contact-link">
                             <i class="fas fa-envelope"></i> bru.kawakami@gmail.com
                         </a>
                     </p>
                     <p>
-                        <a href="https://www.linkedin.com/in/bruno-akio-kawakami/" target="_blank" class="text-primary">
+                        <a href="https://www.linkedin.com/in/bruno-akio-kawakami/" target="_blank" class="contact-link">
                             <i class="fab fa-linkedin"></i> LinkedIn
                         </a>
                     </p>
@@ -603,32 +598,9 @@
         </div>
     </footer>
 
-    <!-- Botão Flutuante do Assistente de IA -->
-    <div class="ai-assistant-container">
-        <a href="https://nebularelay.ai/chat/global/bruno-bot" target="_blank" class="ai-assistant-btn">
-            <div class="ai-icon">
-                <svg width="28" height="28" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M12 2L2 7L12 12L22 7L12 2Z" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                        stroke-linejoin="round" />
-                    <path d="M2 17L12 22L22 17" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                        stroke-linejoin="round" />
-                    <path d="M2 12L12 17L22 12" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                        stroke-linejoin="round" />
-                </svg>
-            </div>
-            <span class="ai-text">Assistente Digital</span>
-        </a>
-        <div class="ai-tooltip">
-            <span>Converse com meu assistente de IA</span>
-        </div>
-    </div>
-
     <!-- Scripts -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
-
-    <!-- Three.js -->
-    <script src="https://cdn.jsdelivr.net/npm/three@0.152.2/build/three.min.js"></script>
 
     <script src="main.js"></script>
 

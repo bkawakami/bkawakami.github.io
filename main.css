@@ -69,6 +69,17 @@ h6 { font-weight: 500; }
 }
 .navbar-nav .nav-link:hover { color: var(--text-primary) !important; }
 .navbar-nav .nav-link:hover::after { width: 100%; }
+.nav-link--labs {
+    color: var(--text-primary) !important;
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    padding: 6px 16px !important;
+    margin-left: 0.5rem !important;
+}
+.nav-link--labs::after { display: none; }
+.nav-link--labs:hover {
+    border-color: rgba(255, 255, 255, 0.4);
+    background: rgba(255, 255, 255, 0.04);
+}
 
 /* ── Buttons ── */
 .btn-glow {
@@ -174,6 +185,16 @@ h6 { font-weight: 500; }
     max-width: 520px;
     font-weight: 300;
 }
+.hero-actions {
+    display: flex;
+    gap: 16px;
+    align-items: center;
+    flex-wrap: wrap;
+}
+.btn-glow--labs {
+    border-color: rgba(255, 255, 255, 0.3);
+}
+
 /* Hero image hidden — photo moved to about */
 .hero-image { display: none; }
 

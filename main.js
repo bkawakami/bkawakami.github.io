@@ -13,198 +13,133 @@ AOS.init({
 });
 
 // ============================================
-// TOPOGRAPHIC CONTOUR FIELD
-// Domain-warped noise with contour extraction
-// Organic flowing terrain lines in white on black
+// DATA FLOW FIELD
+// Particle-based vector field with motion blur
+// B&W palette — no neon, no color
 // ============================================
 (function() {
     'use strict';
 
-    const canvas = document.getElementById('heroCanvas');
+    const canvas = document.getElementById('flow-canvas');
     if (!canvas) return;
+    const ctx = canvas.getContext('2d');
 
-    const gl = canvas.getContext('webgl');
-    if (!gl) return;
+    let isMobile = window.innerWidth < 768;
+    let numParticles = isMobile ? 800 : 2500;
+    let particles = [];
+    let time = 0;
+    let animationFrameId;
 
-    const vsSource = `
-        attribute vec2 position;
-        void main() {
-            gl_Position = vec4(position, 0.0, 1.0);
-        }
-    `;
-
-    const fsSource = `
-        precision highp float;
-
-        uniform float u_time;
-        uniform vec2 u_resolution;
-        uniform vec2 u_mouse;
-
-        float hash(vec2 p) {
-            return fract(sin(dot(p, vec2(127.1, 311.7))) * 43758.5453);
-        }
-
-        float noise(vec2 p) {
-            vec2 i = floor(p);
-            vec2 f = fract(p);
-            f = f * f * (3.0 - 2.0 * f);
-            return mix(
-                mix(hash(i), hash(i + vec2(1.0, 0.0)), f.x),
-                mix(hash(i + vec2(0.0, 1.0)), hash(i + vec2(1.0, 1.0)), f.x),
-                f.y
-            );
-        }
-
-        float fbm(vec2 p) {
-            float v = 0.0;
-            float a = 0.5;
-            mat2 rot = mat2(0.866, 0.5, -0.5, 0.866);
-            for (int i = 0; i < 3; i++) {
-                v += a * noise(p);
-                p = rot * p * 2.0 + vec2(100.0);
-                a *= 0.5;
-            }
-            return v;
-        }
-
-        void main() {
-            vec2 uv = gl_FragCoord.xy / u_resolution.xy;
-            float aspect = u_resolution.x / u_resolution.y;
-            vec2 p = vec2(uv.x * aspect, uv.y);
-
-            float t = u_time * 0.035;
-
-            // Mouse
-            vec2 m = u_mouse / u_resolution.xy;
-            m.x *= aspect;
-            vec2 dm = p - m;
-            float md = length(dm);
-
-            vec2 st = p * 2.5;
-
-            // Domain warping - layer 1
-            vec2 q = vec2(
-                fbm(st + t),
-                fbm(st + vec2(5.2, 1.3) + t * 0.7)
-            );
-
-            // Domain warping - layer 2
-            vec2 r = vec2(
-                fbm(st + 1.8 * q + vec2(1.7, 9.2) + t * 0.4),
-                fbm(st + 1.8 * q + vec2(8.3, 2.8) + t * 0.25)
-            );
-
-            // Mouse warps the field
-            float mi = 0.1 * exp(-md * 4.0);
-            r += dm / (md + 0.2) * mi;
-
-            // Final warped noise
-            float f = fbm(st + 1.8 * r);
-
-            // Contour extraction
-            float band = fract(f * 8.0);
-            float line = smoothstep(0.47, 0.50, abs(band - 0.5));
-
-            // Brightness variation
-            float brightness = 0.12 + 0.08 * f;
-
-            // Ambient fill
-            float fill = f * f * 0.015;
-
-            float c = line * brightness + fill;
-
-            // Subtle mouse glow
-            c += 0.003 / (md + 0.12);
-
-            // Vignette
-            vec2 vc = uv - 0.5;
-            c *= max(1.0 - dot(vc, vc) * 1.6, 0.0);
-
-            gl_FragColor = vec4(vec3(c), 1.0);
-        }
-    `;
-
-    function createShader(type, source) {
-        const shader = gl.createShader(type);
-        gl.shaderSource(shader, source);
-        gl.compileShader(shader);
-        if (!gl.getShaderParameter(shader, gl.COMPILE_STATUS)) {
-            console.error(gl.getShaderInfoLog(shader));
-            gl.deleteShader(shader);
-            return null;
-        }
-        return shader;
-    }
-
-    const vs = createShader(gl.VERTEX_SHADER, vsSource);
-    const fs = createShader(gl.FRAGMENT_SHADER, fsSource);
-    if (!vs || !fs) return;
-
-    const program = gl.createProgram();
-    gl.attachShader(program, vs);
-    gl.attachShader(program, fs);
-    gl.linkProgram(program);
-    if (!gl.getProgramParameter(program, gl.LINK_STATUS)) {
-        console.error(gl.getProgramInfoLog(program));
-        return;
-    }
-    gl.useProgram(program);
-
-    // Fullscreen quad
-    var buf = gl.createBuffer();
-    gl.bindBuffer(gl.ARRAY_BUFFER, buf);
-    gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([-1,-1, 1,-1, -1,1, 1,1]), gl.STATIC_DRAW);
-    var pos = gl.getAttribLocation(program, 'position');
-    gl.enableVertexAttribArray(pos);
-    gl.vertexAttribPointer(pos, 2, gl.FLOAT, false, 0, 0);
-
-    // Uniforms
-    var u_time = gl.getUniformLocation(program, 'u_time');
-    var u_resolution = gl.getUniformLocation(program, 'u_resolution');
-    var u_mouse = gl.getUniformLocation(program, 'u_mouse');
-
-    var dpr = 1;
-    var mouseX = window.innerWidth * 0.7;
-    var mouseY = window.innerHeight * 0.3;
-    var targetMX = mouseX;
-    var targetMY = mouseY;
-
-    function resize() {
-        dpr = Math.min(window.devicePixelRatio, window.innerWidth < 768 ? 1 : 1.25);
+    function resizeCanvas() {
+        const dpr = window.devicePixelRatio || 1;
         canvas.width = window.innerWidth * dpr;
         canvas.height = window.innerHeight * dpr;
-        gl.viewport(0, 0, canvas.width, canvas.height);
+        canvas.style.width = window.innerWidth + 'px';
+        canvas.style.height = window.innerHeight + 'px';
+        ctx.scale(dpr, dpr);
+        isMobile = window.innerWidth < 768;
+        numParticles = isMobile ? 800 : 2500;
+        initParticles();
     }
 
-    resize();
-    window.addEventListener('resize', resize);
-    window.addEventListener('mousemove', function(e) {
-        targetMX = e.clientX;
-        targetMY = window.innerHeight - e.clientY;
-    });
-    window.addEventListener('touchmove', function(e) {
-        if (e.touches.length > 0) {
-            targetMX = e.touches[0].clientX;
-            targetMY = window.innerHeight - e.touches[0].clientY;
+    // Pointer interaction (mouse / touch)
+    let pointer = { x: -1000, y: -1000 };
+    function handleMove(e) {
+        pointer.x = e.touches ? e.touches[0].clientX : e.clientX;
+        pointer.y = e.touches ? e.touches[0].clientY : e.clientY;
+    }
+    function handleLeave() { pointer.x = -1000; pointer.y = -1000; }
+
+    window.addEventListener('resize', resizeCanvas);
+    window.addEventListener('mousemove', handleMove);
+    window.addEventListener('touchmove', handleMove, { passive: true });
+    window.addEventListener('mouseleave', handleLeave);
+    window.addEventListener('touchend', handleLeave);
+
+    function initParticles() {
+        particles = [];
+        for (let i = 0; i < numParticles; i++) {
+            particles.push({
+                x: Math.random() * window.innerWidth,
+                y: Math.random() * window.innerHeight,
+                vx: 0,
+                vy: 0,
+                speed: Math.random() * 1.5 + 0.5,
+                color: Math.random() > 0.7
+                    ? 'rgba(255, 255, 255, 0.6)'
+                    : 'rgba(150, 150, 150, 0.2)'
+            });
         }
-    }, { passive: true });
-
-    function render(t) {
-        mouseX += (targetMX - mouseX) * 0.015;
-        mouseY += (targetMY - mouseY) * 0.015;
-
-        gl.uniform1f(u_time, t * 0.001);
-        gl.uniform2f(u_resolution, canvas.width, canvas.height);
-        gl.uniform2f(u_mouse, mouseX * dpr, mouseY * dpr);
-
-        gl.clearColor(0, 0, 0, 1);
-        gl.clear(gl.COLOR_BUFFER_BIT);
-        gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
-
-        requestAnimationFrame(render);
     }
 
-    requestAnimationFrame(render);
+    function draw() {
+        // Motion blur — semi-transparent black overlay instead of clearRect
+        ctx.fillStyle = 'rgba(5, 5, 5, 0.1)';
+        ctx.fillRect(0, 0, window.innerWidth, window.innerHeight);
+
+        time += 0.005;
+
+        var w = window.innerWidth;
+        var h = window.innerHeight;
+        var interactionRadius = isMobile ? 120 : 200;
+        var lineWidth = isMobile ? 0.8 : 1.2;
+
+        for (var i = 0, len = particles.length; i < len; i++) {
+            var p = particles[i];
+
+            // Vector field angle (trigonometric flow)
+            var angle = Math.sin(p.x * 0.002 + time) * Math.cos(p.y * 0.002 + time) * Math.PI * 2;
+
+            // Pointer repulsion
+            var dx = pointer.x - p.x;
+            var dy = pointer.y - p.y;
+            var dist = Math.sqrt(dx * dx + dy * dy);
+
+            if (dist < interactionRadius) {
+                var force = (interactionRadius - dist) / interactionRadius;
+                angle -= force * Math.PI * 0.5;
+            }
+
+            // Apply vectors to velocity
+            p.vx += Math.cos(angle) * 0.1;
+            p.vy += Math.sin(angle) * 0.1;
+
+            // Clamp max speed
+            var currentSpeed = Math.sqrt(p.vx * p.vx + p.vy * p.vy);
+            if (currentSpeed > p.speed) {
+                p.vx = (p.vx / currentSpeed) * p.speed;
+                p.vy = (p.vy / currentSpeed) * p.speed;
+            }
+
+            var prevX = p.x;
+            var prevY = p.y;
+
+            p.x += p.vx;
+            p.y += p.vy;
+
+            // Edge teleport
+            if (p.x < 0) { p.x = w; p.vx = 0; }
+            if (p.x > w) { p.x = 0; p.vx = 0; }
+            if (p.y < 0) { p.y = h; p.vy = 0; }
+            if (p.y > h) { p.y = 0; p.vy = 0; }
+
+            // Render short trail line (skip if teleported)
+            if (Math.abs(p.x - prevX) < 50 && Math.abs(p.y - prevY) < 50) {
+                ctx.beginPath();
+                ctx.moveTo(prevX, prevY);
+                ctx.lineTo(p.x, p.y);
+                ctx.lineWidth = lineWidth;
+                ctx.strokeStyle = p.color;
+                ctx.stroke();
+            }
+        }
+
+        animationFrameId = requestAnimationFrame(draw);
+    }
+
+    // Boot
+    resizeCanvas();
+    draw();
 })();
 
 // Google Translate

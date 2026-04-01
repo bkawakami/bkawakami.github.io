@@ -59,7 +59,7 @@ AOS.init({
             float v = 0.0;
             float a = 0.5;
             mat2 rot = mat2(0.866, 0.5, -0.5, 0.866);
-            for (int i = 0; i < 4; i++) {
+            for (int i = 0; i < 3; i++) {
                 v += a * noise(p);
                 p = rot * p * 2.0 + vec2(100.0);
                 a *= 0.5;
@@ -72,7 +72,7 @@ AOS.init({
             float aspect = u_resolution.x / u_resolution.y;
             vec2 p = vec2(uv.x * aspect, uv.y);
 
-            float t = u_time * 0.06;
+            float t = u_time * 0.035;
 
             // Mouse
             vec2 m = u_mouse / u_resolution.xy;
@@ -90,35 +90,35 @@ AOS.init({
 
             // Domain warping - layer 2
             vec2 r = vec2(
-                fbm(st + 3.5 * q + vec2(1.7, 9.2) + t * 0.4),
-                fbm(st + 3.5 * q + vec2(8.3, 2.8) + t * 0.25)
+                fbm(st + 1.8 * q + vec2(1.7, 9.2) + t * 0.4),
+                fbm(st + 1.8 * q + vec2(8.3, 2.8) + t * 0.25)
             );
 
             // Mouse warps the field
-            float mi = 0.3 * exp(-md * 2.5);
-            r += dm / (md + 0.1) * mi;
+            float mi = 0.1 * exp(-md * 4.0);
+            r += dm / (md + 0.2) * mi;
 
             // Final warped noise
-            float f = fbm(st + 3.5 * r);
+            float f = fbm(st + 1.8 * r);
 
             // Contour extraction
-            float band = fract(f * 18.0);
-            float line = smoothstep(0.45, 0.5, abs(band - 0.5));
+            float band = fract(f * 8.0);
+            float line = smoothstep(0.47, 0.50, abs(band - 0.5));
 
             // Brightness variation
-            float brightness = 0.25 + 0.65 * f;
+            float brightness = 0.12 + 0.08 * f;
 
             // Ambient fill
-            float fill = f * f * 0.05;
+            float fill = f * f * 0.015;
 
             float c = line * brightness + fill;
 
             // Subtle mouse glow
-            c += 0.008 / (md + 0.06);
+            c += 0.003 / (md + 0.12);
 
             // Vignette
             vec2 vc = uv - 0.5;
-            c *= max(1.0 - dot(vc, vc) * 0.8, 0.0);
+            c *= max(1.0 - dot(vc, vc) * 1.6, 0.0);
 
             gl_FragColor = vec4(vec3(c), 1.0);
         }
@@ -190,8 +190,8 @@ AOS.init({
     }, { passive: true });
 
     function render(t) {
-        mouseX += (targetMX - mouseX) * 0.03;
-        mouseY += (targetMY - mouseY) * 0.03;
+        mouseX += (targetMX - mouseX) * 0.015;
+        mouseY += (targetMY - mouseY) * 0.015;
 
         gl.uniform1f(u_time, t * 0.001);
         gl.uniform2f(u_resolution, canvas.width, canvas.height);

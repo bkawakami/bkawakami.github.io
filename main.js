@@ -14,8 +14,8 @@ AOS.init({
 
 // ============================================
 // DATA FLOW FIELD
-// Particle-based vector field with motion blur
-// B&W palette — no neon, no color
+// Directional particle flow with motion blur
+// B&W palette — organic current, bottom-left → upper-right
 // ============================================
 (function() {
     'use strict';
@@ -29,17 +29,44 @@ AOS.init({
     let particles = [];
     let time = 0;
     let animationFrameId;
+    let lastWidth = 0;
+    let resizeTimer;
+    let isVisible = true;
 
     function resizeCanvas() {
+        var oldW = lastWidth;
+        var oldH = canvas.style.height ? parseInt(canvas.style.height) : 0;
+        var newW = window.innerWidth;
+        var newH = window.innerHeight;
+
         const dpr = window.devicePixelRatio || 1;
-        canvas.width = window.innerWidth * dpr;
-        canvas.height = window.innerHeight * dpr;
-        canvas.style.width = window.innerWidth + 'px';
-        canvas.style.height = window.innerHeight + 'px';
+        canvas.width = newW * dpr;
+        canvas.height = newH * dpr;
+        canvas.style.width = newW + 'px';
+        canvas.style.height = newH + 'px';
+        // Reset transform before scaling to prevent accumulation
+        ctx.setTransform(1, 0, 0, 1, 0, 0);
         ctx.scale(dpr, dpr);
-        isMobile = window.innerWidth < 768;
+
+        var wasMobile = isMobile;
+        isMobile = newW < 768;
         numParticles = isMobile ? 800 : 2500;
-        initParticles();
+
+        if (particles.length === 0 || wasMobile !== isMobile) {
+            // First boot or crossed mobile/desktop threshold — full init
+            initParticles();
+        } else if (oldW > 0 && newW !== oldW) {
+            // Width changed (real resize, not just address bar) — rescale positions
+            var scaleX = newW / oldW;
+            var scaleY = newH / oldH;
+            for (var i = 0; i < particles.length; i++) {
+                particles[i].x *= scaleX;
+                particles[i].y *= scaleY;
+            }
+        }
+        // Height-only change (mobile address bar) — do nothing to particles
+
+        lastWidth = newW;
     }
 
     // Pointer interaction (mouse / touch)
@@ -50,18 +77,42 @@ AOS.init({
     }
     function handleLeave() { pointer.x = -1000; pointer.y = -1000; }
 
-    window.addEventListener('resize', resizeCanvas);
+    // Debounced resize to avoid flicker from rapid viewport changes
+    window.addEventListener('resize', function() {
+        clearTimeout(resizeTimer);
+        resizeTimer = setTimeout(resizeCanvas, 150);
+    });
     window.addEventListener('mousemove', handleMove);
     window.addEventListener('touchmove', handleMove, { passive: true });
     window.addEventListener('mouseleave', handleLeave);
     window.addEventListener('touchend', handleLeave);
 
+    // Pause animation when hero is not visible (performance)
+    var heroSection = canvas.closest('.hero-section') || canvas.parentElement;
+    if (heroSection && window.IntersectionObserver) {
+        var observer = new IntersectionObserver(function(entries) {
+            isVisible = entries[0].isIntersecting;
+            if (isVisible && !animationFrameId) {
+                draw();
+            }
+        }, { threshold: 0 });
+        observer.observe(heroSection);
+    }
+
     function initParticles() {
         particles = [];
+        var w = window.innerWidth;
+        var h = window.innerHeight;
         for (let i = 0; i < numParticles; i++) {
+            // Density gradient: bias toward bottom-left (where text sits)
+            var rawX = Math.random();
+            var rawY = Math.random();
+            var biasedX = Math.pow(rawX, 1.3);         // clusters toward left
+            var biasedY = 1 - Math.pow(rawY, 1.3);     // clusters toward bottom
+
             particles.push({
-                x: Math.random() * window.innerWidth,
-                y: Math.random() * window.innerHeight,
+                x: biasedX * w,
+                y: biasedY * h,
                 vx: 0,
                 vy: 0,
                 speed: Math.random() * 1.5 + 0.5,
@@ -73,6 +124,12 @@ AOS.init({
     }
 
     function draw() {
+        // Pause when hero is off-screen
+        if (!isVisible) {
+            animationFrameId = null;
+            return;
+        }
+
         // Motion blur — semi-transparent black overlay instead of clearRect
         ctx.fillStyle = 'rgba(5, 5, 5, 0.1)';
         ctx.fillRect(0, 0, window.innerWidth, window.innerHeight);
@@ -87,8 +144,22 @@ AOS.init({
         for (var i = 0, len = particles.length; i < len; i++) {
             var p = particles[i];
 
-            // Vector field angle (trigonometric flow)
-            var angle = Math.sin(p.x * 0.002 + time) * Math.cos(p.y * 0.002 + time) * Math.PI * 2;
+            // Dominant flow direction: bottom-left → upper-right (~-45°)
+            var baseAngle = -Math.PI * 0.25;
+
+            // Organic variation: layered sine waves for natural undulation
+            var variation = Math.sin(p.x * 0.003 + p.y * 0.001 + time) * 0.8
+                          + Math.sin(p.x * 0.001 - p.y * 0.002 + time * 0.7) * 0.5;
+
+            // Subtle spiral influence near center for visual interest
+            var cx = p.x - w * 0.5;
+            var cy = p.y - h * 0.5;
+            var distFromCenter = Math.sqrt(cx * cx + cy * cy);
+            var maxDist = Math.sqrt(w * w + h * h) * 0.5;
+            var spiralInfluence = Math.max(0, 1 - distFromCenter / maxDist) * 0.3;
+            var spiralAngle = Math.atan2(cy, cx) + Math.PI * 0.5;
+
+            var angle = baseAngle + variation + spiralInfluence * (spiralAngle - baseAngle);
 
             // Pointer repulsion
             var dx = pointer.x - p.x;
@@ -117,11 +188,15 @@ AOS.init({
             p.x += p.vx;
             p.y += p.vy;
 
-            // Edge teleport
-            if (p.x < 0) { p.x = w; p.vx = 0; }
-            if (p.x > w) { p.x = 0; p.vx = 0; }
-            if (p.y < 0) { p.y = h; p.vy = 0; }
-            if (p.y > h) { p.y = 0; p.vy = 0; }
+            // Directional edge wrapping — reinforces the flow direction
+            // Particles exiting right re-enter left (bottom half)
+            if (p.x > w)  { p.x = 0; p.y = h * (0.5 + Math.random() * 0.5); p.vx = 0; p.vy = 0; }
+            // Particles exiting top re-enter bottom (left half)
+            if (p.y < 0)  { p.y = h; p.x = w * Math.random() * 0.5; p.vx = 0; p.vy = 0; }
+            // Particles exiting left — nudge back in
+            if (p.x < 0)  { p.x = 0; p.vx = Math.abs(p.vx) * 0.5; }
+            // Particles exiting bottom — nudge back in
+            if (p.y > h)  { p.y = h; p.vy = -Math.abs(p.vy) * 0.5; }
 
             // Render short trail line (skip if teleported)
             if (Math.abs(p.x - prevX) < 50 && Math.abs(p.y - prevY) < 50) {

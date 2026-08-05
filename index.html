@@ -2,12 +2,13 @@
 <html lang="pt-br">
 
 <head>
-    <!-- Google tag (gtag.js) -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-VL5JMCR888"></script>
-
     <!-- Metadados essenciais -->
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#000000" />
+
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-VL5JMCR888"></script>
 
     <!--
         CACHE DESABILITADO
@@ -63,124 +64,124 @@
     </script>
 
     <!-- CSS e bibliotecas -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
-        crossorigin="anonymous" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
         crossorigin="anonymous" referrerpolicy="no-referrer" />
-    <link rel="stylesheet" href="https://unpkg.com/aos@2.3.1/dist/aos.css" />
     <link
         href="https://fonts.googleapis.com/css2?family=Inter:wght@200;300;400;500;600;700&family=JetBrains+Mono:wght@300;400;500&display=swap"
         rel="stylesheet" />
     <link rel="stylesheet" href="main.css" />
 
+    <!-- Marca o documento como "JS ativo" antes da primeira pintura: os reveals de
+         scroll só começam escondidos quando o JS pode revelá-los depois. -->
+    <script>document.documentElement.classList.add('js');</script>
 </head>
 
 <body>
+    <a class="skip-link" href="#home">Pular para o conteúdo</a>
+
     <!-- Navbar -->
-    <nav class="navbar navbar-expand-lg navbar-dark fixed-top">
-        <div class="container">
-            <a class="navbar-brand" href="#">BK</a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
-                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
+    <nav class="site-nav" id="site-nav">
+        <div class="nav-inner">
+            <a class="nav-logo mono" href="#home">BK<span class="nav-logo-cursor">_</span></a>
+
+            <button class="nav-toggle" type="button" id="nav-toggle" aria-controls="nav-menu" aria-expanded="false"
+                aria-label="Abrir menu">
+                <span></span><span></span><span></span>
             </button>
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav ms-auto align-items-center">
-                    <li class="nav-item"><a class="nav-link" href="#sobre">Sobre</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#jornada">Jornada</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#projetos">Projetos</a></li>
-                    <li class="nav-item"><a class="nav-link nav-link--labs" href="https://labs.brunokawakami.com" target="_blank">Labs <i class="fas fa-arrow-up-right-from-square" style="font-size:0.55rem;margin-left:4px;opacity:0.5"></i></a></li>
-                    <li class="nav-item"><a class="nav-link" href="#contato">Contato</a></li>
-                    <li class="nav-item">
-                        <div id="google_translate_element"></div>
-                    </li>
-                </ul>
-            </div>
+
+            <ul class="nav-menu" id="nav-menu">
+                <li><a class="nav-link" href="#sobre"><span class="nav-index mono">01</span>Sobre</a></li>
+                <li><a class="nav-link" href="#jornada"><span class="nav-index mono">02</span>Jornada</a></li>
+                <li><a class="nav-link" href="#projetos"><span class="nav-index mono">03</span>Projetos</a></li>
+                <li><a class="nav-link" href="#contato"><span class="nav-index mono">04</span>Contato</a></li>
+                <li><a class="nav-labs" href="https://labs.brunokawakami.com" target="_blank" rel="noopener">Labs <i
+                            class="fas fa-arrow-up-right-from-square" aria-hidden="true"></i></a></li>
+                <li class="nav-lang">
+                    <div id="google_translate_element"></div>
+                </li>
+            </ul>
         </div>
+        <div class="nav-progress" id="nav-progress" aria-hidden="true"></div>
     </nav>
 
-    <!-- 1. Hero Section -->
+    <!-- 1. Hero -->
     <section class="hero-section" id="home">
-        <canvas id="flow-canvas"></canvas>
-        <div class="hero-overlay"></div>
+        <canvas id="flow-canvas" aria-hidden="true"></canvas>
+        <div class="hero-overlay" aria-hidden="true"></div>
 
         <div class="hero-content">
-            <div class="hero-badge mono" data-aos="fade-up">CTO e Engenheiro de IA</div>
-            <h1 class="hero-title" data-aos="fade-up" data-aos-delay="100">
-                Construo e lidero times de engenharia, dados e IA
-            </h1>
-            <p class="hero-subtitle" data-aos="fade-up" data-aos-delay="200">
+            <div class="hero-badge" data-reveal>
+                <span class="hero-badge-dot" aria-hidden="true"></span>
+                <span class="mono">CTO e Engenheiro de IA</span>
+            </div>
+            <h1 class="hero-title" data-reveal>Construo e lidero times de engenharia, dados e IA</h1>
+            <p class="hero-subtitle" data-reveal>
                 Sou Bruno Kawakami. Mais de uma década em engenharia e, nos últimos anos,
                 liderando times. Fui CTO e sócio da D4Sign até o exit de R$180M para o grupo Zucchetti.
             </p>
-            <div class="hero-actions" data-aos="fade-up" data-aos-delay="300">
-                <a href="#sobre" class="btn btn-glow">
-                    Minha trajetória
+            <div class="hero-actions" data-reveal>
+                <a href="#sobre" class="btn btn--primary" data-magnetic>Minha trajetória</a>
+                <a href="https://labs.brunokawakami.com" target="_blank" rel="noopener" class="btn" data-magnetic>
+                    Labs <i class="fas fa-arrow-up-right-from-square" aria-hidden="true"></i>
                 </a>
-                <a href="https://labs.brunokawakami.com" target="_blank" class="btn btn-glow btn-glow--labs">
-                    Labs <i class="fas fa-arrow-up-right-from-square" style="font-size:0.6rem;margin-left:6px;opacity:0.5"></i>
-                </a>
+            </div>
+        </div>
+
+        <div class="hero-bar mono">
+            <div class="hero-bar-left">
+                <span class="hero-coords">SÃO PAULO — BR · 23°33′S 46°38′W</span>
+                <span class="hero-clock" id="hero-clock"></span>
+            </div>
+            <div class="fx-switcher" id="fx-switcher" role="group" aria-label="Efeito visual do hero">
+                <span class="fx-title">CAMPO_DE_DADOS //</span>
+                <button type="button" class="fx-btn" data-fx="correntes" aria-pressed="false">01 Correntes</button>
+                <button type="button" class="fx-btn" data-fx="profundidade" aria-pressed="false">02 Profundidade</button>
+                <button type="button" class="fx-btn" data-fx="terreno" aria-pressed="false">03 Terreno</button>
+                <span class="fx-hint">+ clique = impulso</span>
             </div>
         </div>
     </section>
 
     <!-- 2. Em números -->
-    <section id="impacto" style="background: var(--section-bg);" data-aos="fade-up">
+    <section class="section section--alt" id="impacto">
         <div class="container">
-            <div class="section-header">
-                <div class="section-badge">// IMPACTO</div>
+            <div class="section-header" data-reveal>
+                <div class="section-badge mono">// IMPACTO — 01</div>
                 <h2 class="section-title">Em números</h2>
-                <p class="section-subtitle">
-                    Alguns marcos da minha trajetória, com o contexto de cada um.
-                </p>
+                <p class="section-subtitle">Alguns marcos da minha trajetória, com o contexto de cada um.</p>
             </div>
 
             <div class="stats-grid">
-                <div class="stat-card" data-aos="zoom-in">
-                    <div class="stat-icon">
-                        <i class="fas fa-rocket"></i>
-                    </div>
-                    <div class="stat-value">R$ 180M</div>
+                <div class="stat-cell" data-reveal>
+                    <div class="stat-index mono">DAT/01</div>
+                    <div class="stat-value" data-countup>R$ 180M</div>
                     <div class="stat-label">Exit da D4Sign para o grupo Zucchetti (2025)</div>
                 </div>
-
-                <div class="stat-card" data-aos="zoom-in" data-aos-delay="100">
-                    <div class="stat-icon">
-                        <i class="fas fa-chart-line"></i>
-                    </div>
-                    <div class="stat-value">400%</div>
+                <div class="stat-cell" data-reveal>
+                    <div class="stat-index mono">DAT/02</div>
+                    <div class="stat-value" data-countup>400%</div>
                     <div class="stat-label">Crescimento no ciclo da D4Sign até o exit</div>
                 </div>
-
-                <div class="stat-card" data-aos="zoom-in" data-aos-delay="200">
-                    <div class="stat-icon">
-                        <i class="fas fa-brain"></i>
-                    </div>
-                    <div class="stat-value">200+</div>
+                <div class="stat-cell" data-reveal>
+                    <div class="stat-index mono">DAT/03</div>
+                    <div class="stat-value" data-countup>200+</div>
                     <div class="stat-label">Algoritmos de IA colocados em produção</div>
                 </div>
-
-                <div class="stat-card" data-aos="zoom-in" data-aos-delay="300">
-                    <div class="stat-icon">
-                        <i class="fas fa-users"></i>
-                    </div>
-                    <div class="stat-value">10M+</div>
+                <div class="stat-cell" data-reveal>
+                    <div class="stat-index mono">DAT/04</div>
+                    <div class="stat-value" data-countup>10M+</div>
                     <div class="stat-label">Usuários atendidos pelas plataformas que liderei</div>
                 </div>
-
-                <div class="stat-card" data-aos="zoom-in" data-aos-delay="400">
-                    <div class="stat-icon">
-                        <i class="fas fa-lightbulb"></i>
-                    </div>
-                    <div class="stat-value">3</div>
+                <div class="stat-cell" data-reveal>
+                    <div class="stat-index mono">DAT/05</div>
+                    <div class="stat-value" data-countup>3</div>
                     <div class="stat-label">Patentes registradas</div>
                 </div>
-
-                <div class="stat-card" data-aos="zoom-in" data-aos-delay="500">
-                    <div class="stat-icon">
-                        <i class="fas fa-code"></i>
-                    </div>
-                    <div class="stat-value">15x</div>
+                <div class="stat-cell" data-reveal>
+                    <div class="stat-index mono">DAT/06</div>
+                    <div class="stat-value" data-countup>15x</div>
                     <div class="stat-label">Ganho de velocidade em projetos com IA</div>
                 </div>
             </div>
@@ -188,31 +189,39 @@
     </section>
 
     <!-- 3. Sobre mim -->
-    <section id="sobre" data-aos="fade-up">
+    <section class="section" id="sobre">
         <div class="container">
             <div class="about-layout">
-                <div class="about-visual" data-aos="fade-up">
-                    <img src="foto_bruno.jpeg" alt="Bruno Kawakami" class="about-photo" />
-                </div>
-                <div class="about-text" data-aos="fade-up" data-aos-delay="100">
-                    <div class="section-badge">// SOBRE MIM</div>
+                <figure class="figure-plate" data-reveal>
+                    <div class="frame">
+                        <span class="frame-corner frame-corner--tl" aria-hidden="true"></span>
+                        <span class="frame-corner frame-corner--tr" aria-hidden="true"></span>
+                        <span class="frame-corner frame-corner--bl" aria-hidden="true"></span>
+                        <span class="frame-corner frame-corner--br" aria-hidden="true"></span>
+                        <img src="foto_bruno.jpeg" alt="Bruno Kawakami" class="plate-img" loading="lazy" />
+                    </div>
+                    <figcaption class="figure-caption mono">FIG.01 — BRUNO KAWAKAMI · SÃO PAULO</figcaption>
+                </figure>
+
+                <div class="about-text" data-reveal>
+                    <div class="section-badge mono">// SOBRE MIM — 02</div>
                     <h2 class="section-title">Sobre mim</h2>
-                    <div class="about-content">
+                    <div class="prose">
                         <p>
                             Trabalho com engenharia de software há mais de uma década. Nos últimos anos,
                             liderando times — arquitetura, dados, IA e segurança — em empresas de portes
                             e setores bem diferentes.
                         </p>
                         <p>
-                            Entre 2021 e 2025 fui
-                            <span class="about-highlight">CTO e sócio da D4Sign</span>, plataforma brasileira
+                            Entre 2021 e 2025 fui <span class="hl">CTO e sócio da D4Sign</span>, plataforma brasileira
                             de assinatura digital. Liderei a engenharia ao longo do ciclo que culminou no
                             exit de R$ 180 milhões para o grupo italiano Zucchetti.
                         </p>
                         <p>
                             Hoje lidero engenharia, dados e IA na Faculdade São Leopoldo Mandic e atuo como
                             partner na BF Holding. Mantenho também um laboratório pessoal de IA em
-                            <a href="https://labs.brunokawakami.com" target="_blank">labs.brunokawakami.com</a>.
+                            <a href="https://labs.brunokawakami.com" target="_blank"
+                                rel="noopener">labs.brunokawakami.com</a>.
                         </p>
                         <p>
                             Gosto de construir <strong>produto de verdade</strong>: sistema que aguenta escala,
@@ -225,66 +234,79 @@
     </section>
 
     <!-- 4. Reconhecimento da Forbes -->
-    <section id="forbes" style="background: var(--section-bg);" data-aos="fade-up">
+    <section class="section section--alt" id="forbes">
         <div class="container">
-            <div class="row align-items-center">
-                <div class="col-lg-6" data-aos="fade-up">
-                    <div class="section-badge">// FORBES</div>
-                    <h2 class="section-title mb-4">Reconhecimento da Forbes</h2>
-                    <p class="mb-4">
-                        Fui convidado pela Forbes e reconhecido entre os
-                        <span class="about-highlight">principais líderes de tecnologia do Brasil</span> —
-                        um espaço reservado a quem está, de fato, ajudando a definir os rumos do setor.
-                    </p>
-                    <p>
-                        Mais do que uma conquista pessoal, enxergo o convite como a validação de uma
-                        trajetória dedicada a transformar tecnologia em resultado real — e como um
-                        incentivo para ir além.
-                    </p>
+            <div class="forbes-layout">
+                <div data-reveal>
+                    <div class="section-badge mono">// FORBES — 03</div>
+                    <h2 class="section-title">Reconhecimento da Forbes</h2>
+                    <div class="prose">
+                        <p>
+                            Fui convidado pela Forbes e reconhecido entre os
+                            <span class="hl">principais líderes de tecnologia do Brasil</span> —
+                            um espaço reservado a quem está, de fato, ajudando a definir os rumos do setor.
+                        </p>
+                        <p>
+                            Mais do que uma conquista pessoal, enxergo o convite como a validação de uma
+                            trajetória dedicada a transformar tecnologia em resultado real — e como um
+                            incentivo para ir além.
+                        </p>
+                    </div>
                 </div>
-                <div class="col-lg-6" data-aos="fade-up">
-                    <img src="forbes_bruno.png" alt="Bruno Kawakami reconhecido pela Forbes" class="img-fluid forbes-image" />
-                </div>
+
+                <figure class="figure-plate" data-reveal>
+                    <div class="frame">
+                        <span class="frame-corner frame-corner--tl" aria-hidden="true"></span>
+                        <span class="frame-corner frame-corner--tr" aria-hidden="true"></span>
+                        <span class="frame-corner frame-corner--bl" aria-hidden="true"></span>
+                        <span class="frame-corner frame-corner--br" aria-hidden="true"></span>
+                        <img src="forbes_bruno.png" alt="Bruno Kawakami reconhecido pela Forbes"
+                            class="plate-img plate-img--raised" loading="lazy" />
+                    </div>
+                    <figcaption class="figure-caption mono">FIG.02 — FORBES BRASIL</figcaption>
+                </figure>
             </div>
         </div>
     </section>
 
     <!-- 5. Na mídia -->
-    <section id="midia" data-aos="fade-up">
+    <section class="section" id="midia">
         <div class="container">
-            <div class="section-header">
-                <div class="section-badge">// MÍDIA</div>
+            <div class="section-header" data-reveal>
+                <div class="section-badge mono">// MÍDIA — 04</div>
                 <h2 class="section-title">Na mídia</h2>
-                <p class="section-subtitle">
-                    Artigos e participações em veículos do setor.
-                </p>
+                <p class="section-subtitle">Artigos e participações em veículos do setor.</p>
             </div>
 
             <div class="media-grid">
-                <a href="https://www.cnnbrasil.com.br/tecnologia/alucinacao-entenda-por-que-e-como-chatbots-de-ia-podem-dar-respostas-erradas/"
-                    target="_blank" class="media-card">
-                    <img src="cnn.png" alt="CNN" class="media-logo" />
+                <a class="media-card" data-reveal target="_blank" rel="noopener"
+                    href="https://www.cnnbrasil.com.br/tecnologia/alucinacao-entenda-por-que-e-como-chatbots-de-ia-podem-dar-respostas-erradas/">
+                    <span class="card-arrow mono" aria-hidden="true">↗</span>
+                    <img src="cnn.png" alt="CNN Brasil" class="media-logo" loading="lazy" />
                     <h5>CNN Brasil</h5>
                     <p>Por que chatbots de IA podem dar respostas erradas</p>
                 </a>
 
-                <a href="https://www.saudebusiness.com/artigos/ia-na-medicina-um-aliado-nao-uma-ameaca/" target="_blank"
-                    class="media-card">
-                    <img src="saude.png" alt="Saúde Business" class="media-logo" />
+                <a class="media-card" data-reveal target="_blank" rel="noopener"
+                    href="https://www.saudebusiness.com/artigos/ia-na-medicina-um-aliado-nao-uma-ameaca/">
+                    <span class="card-arrow mono" aria-hidden="true">↗</span>
+                    <img src="saude.png" alt="Saúde Business" class="media-logo" loading="lazy" />
                     <h5>Saúde Business</h5>
                     <p>IA na medicina: um aliado, não uma ameaça</p>
                 </a>
 
-                <a href="https://olhardigital.com.br/2022/08/17/colunistas/onde-esta-toda-inteligencia-artificial-no-mundo-moderno/"
-                    target="_blank" class="media-card">
-                    <img src="olhar.jpg" alt="Olhar Digital" class="media-logo" />
+                <a class="media-card" data-reveal target="_blank" rel="noopener"
+                    href="https://olhardigital.com.br/2022/08/17/colunistas/onde-esta-toda-inteligencia-artificial-no-mundo-moderno/">
+                    <span class="card-arrow mono" aria-hidden="true">↗</span>
+                    <img src="olhar.jpg" alt="Olhar Digital" class="media-logo" loading="lazy" />
                     <h5>Olhar Digital</h5>
                     <p>Onde está toda a inteligência artificial no mundo moderno</p>
                 </a>
 
-                <a href="https://tiinside.com.br/16/10/2024/de-y-a-alfa-geracoes-mais-novas-estao-sofrendo-o-impacto-da-ai-no-qi/"
-                    target="_blank" class="media-card">
-                    <img src="ti.png" alt="TI Inside" class="media-logo" />
+                <a class="media-card" data-reveal target="_blank" rel="noopener"
+                    href="https://tiinside.com.br/16/10/2024/de-y-a-alfa-geracoes-mais-novas-estao-sofrendo-o-impacto-da-ai-no-qi/">
+                    <span class="card-arrow mono" aria-hidden="true">↗</span>
+                    <img src="ti.png" alt="TI Inside" class="media-logo" loading="lazy" />
                     <h5>TI Inside</h5>
                     <p>O impacto da IA nas novas gerações</p>
                 </a>
@@ -293,22 +315,19 @@
     </section>
 
     <!-- 6. Trajetória -->
-    <section id="jornada" style="background: var(--section-bg);" data-aos="fade-up">
+    <section class="section section--alt" id="jornada">
         <div class="container">
-            <div class="section-header">
-                <div class="section-badge">// JORNADA</div>
+            <div class="section-header" data-reveal>
+                <div class="section-badge mono">// JORNADA — 05</div>
                 <h2 class="section-title">Trajetória</h2>
-                <p class="section-subtitle">
-                    Onde trabalhei e o que fiz em cada lugar.
-                </p>
+                <p class="section-subtitle">Onde trabalhei e o que fiz em cada lugar.</p>
             </div>
 
             <div class="timeline">
-
-                <div class="timeline-item" data-aos="fade-up">
-                    <div class="timeline-dot"></div>
-                    <div class="timeline-content">
-                        <div class="timeline-date">2025 - Atual</div>
+                <div class="timeline-row" data-reveal>
+                    <div class="timeline-date mono">2025 - Atual</div>
+                    <div class="timeline-body">
+                        <span class="timeline-node" aria-hidden="true"></span>
                         <h4 class="timeline-title">Faculdade São Leopoldo Mandic • Head de Engenharia, Dados e IA</h4>
                         <p class="timeline-description">
                             Lidero engenharia, dados e IA. Trabalho em plataformas de aprendizado
@@ -317,11 +336,11 @@
                     </div>
                 </div>
 
-                <div class="timeline-item" data-aos="fade-up">
-                    <div class="timeline-dot"></div>
-                    <div class="timeline-content">
-                        <div class="timeline-date">2025 - Atual</div>
-                        <h4 class="timeline-title">BF Holding • Partner & Executive</h4>
+                <div class="timeline-row" data-reveal>
+                    <div class="timeline-date mono">2025 - Atual</div>
+                    <div class="timeline-body">
+                        <span class="timeline-node" aria-hidden="true"></span>
+                        <h4 class="timeline-title">BF Holding • Partner &amp; Executive</h4>
                         <p class="timeline-description">
                             Partner da holding. Atuo em iniciativas de tecnologia e produto
                             entre as empresas do portfólio.
@@ -329,13 +348,11 @@
                     </div>
                 </div>
 
-
-
-                <div class="timeline-item" data-aos="fade-up">
-                    <div class="timeline-dot"></div>
-                    <div class="timeline-content">
-                        <div class="timeline-date">2021 - 2025</div>
-                        <h4 class="timeline-title">D4Sign • CTO & Sócio</h4>
+                <div class="timeline-row" data-reveal>
+                    <div class="timeline-date mono">2021 - 2025</div>
+                    <div class="timeline-body">
+                        <span class="timeline-node" aria-hidden="true"></span>
+                        <h4 class="timeline-title">D4Sign • CTO &amp; Sócio</h4>
                         <p class="timeline-description">
                             CTO e sócio da plataforma de assinatura digital. Liderei a engenharia
                             ao longo do ciclo que culminou no exit de R$ 180M para o grupo Zucchetti, em 2025.
@@ -343,11 +360,11 @@
                     </div>
                 </div>
 
-                <div class="timeline-item" data-aos="fade-up">
-                    <div class="timeline-dot"></div>
-                    <div class="timeline-content">
-                        <div class="timeline-date">2020 - 2021</div>
-                        <h4 class="timeline-title">dr.consulta • Head de Arquitetura & CISO</h4>
+                <div class="timeline-row" data-reveal>
+                    <div class="timeline-date mono">2020 - 2021</div>
+                    <div class="timeline-body">
+                        <span class="timeline-node" aria-hidden="true"></span>
+                        <h4 class="timeline-title">dr.consulta • Head de Arquitetura &amp; CISO</h4>
                         <p class="timeline-description">
                             Head de arquitetura e CISO. Migrei a infraestrutura para a nuvem e
                             estruturei o programa de segurança da informação, com proteção de dados
@@ -356,10 +373,10 @@
                     </div>
                 </div>
 
-                <div class="timeline-item" data-aos="fade-up">
-                    <div class="timeline-dot"></div>
-                    <div class="timeline-content">
-                        <div class="timeline-date">2018 - 2020</div>
+                <div class="timeline-row" data-reveal>
+                    <div class="timeline-date mono">2018 - 2020</div>
+                    <div class="timeline-body">
+                        <span class="timeline-node" aria-hidden="true"></span>
                         <h4 class="timeline-title">Sodexo • Global Solutions Architect</h4>
                         <p class="timeline-description">
                             Solutions architect no time global. Projetei integrações de pagamento
@@ -369,10 +386,10 @@
                     </div>
                 </div>
 
-                <div class="timeline-item" data-aos="fade-up">
-                    <div class="timeline-dot"></div>
-                    <div class="timeline-content">
-                        <div class="timeline-date">2018</div>
+                <div class="timeline-row timeline-row--last" data-reveal>
+                    <div class="timeline-date mono">2018</div>
+                    <div class="timeline-body">
+                        <span class="timeline-node" aria-hidden="true"></span>
                         <h4 class="timeline-title">Grupo DASA • Líder Técnico</h4>
                         <p class="timeline-description">
                             Líder técnico em plataformas de diagnóstico. Trabalhei na infraestrutura
@@ -385,195 +402,160 @@
     </section>
 
     <!-- 7. Projetos pessoais -->
-    <section id="projetos" data-aos="fade-up">
+    <section class="section" id="projetos">
         <div class="container">
-            <div class="section-header">
-                <div class="section-badge">// PROJETOS PESSOAIS</div>
+            <div class="section-header" data-reveal>
+                <div class="section-badge mono">// PROJETOS PESSOAIS — 06</div>
                 <h2 class="section-title">Projetos pessoais</h2>
-                <p class="section-subtitle">
-                    Coisas que construí e mantenho no ar.
-                </p>
+                <p class="section-subtitle">Coisas que construí e mantenho no ar.</p>
             </div>
 
             <div class="projects-grid">
-                <a href="https://chessframe.com" target="_blank" class="project-card" data-aos="zoom-in">
-                    <div class="project-icon">
-                        <i class="fas fa-chess"></i>
-                    </div>
+                <a class="project-card" data-reveal href="https://chessframe.com" target="_blank" rel="noopener">
+                    <span class="project-index mono" aria-hidden="true">P/01</span>
+                    <span class="project-icon" aria-hidden="true"><i class="fas fa-chess"></i></span>
                     <h4>ChessFrame</h4>
                     <p>
                         Gera vídeos a partir da notação de partidas de xadrez.
                         Você insere a notação e ele monta o vídeo automaticamente —
                         útil para análise, ensino e compartilhamento.
                     </p>
-                    <span class="project-link">
-                        Explorar projeto <i class="fas fa-arrow-right"></i>
-                    </span>
+                    <span class="project-link">Explorar projeto <i class="fas fa-arrow-right"
+                            aria-hidden="true"></i></span>
                 </a>
 
-                <a href="https://gonesheet.com" target="_blank" class="project-card" data-aos="zoom-in"
-                    data-aos-delay="100">
-                    <div class="project-icon">
-                        <i class="fas fa-table"></i>
-                    </div>
+                <a class="project-card" data-reveal href="https://gonesheet.com" target="_blank" rel="noopener">
+                    <span class="project-index mono" aria-hidden="true">P/02</span>
+                    <span class="project-icon" aria-hidden="true"><i class="fas fa-table"></i></span>
                     <h4>GoneSheet</h4>
                     <p>
                         Frontend de planilha temporária, para prototipagem rápida e
                         cálculos pontuais — sem precisar configurar nada para começar.
                     </p>
-                    <span class="project-link">
-                        Explorar projeto <i class="fas fa-arrow-right"></i>
-                    </span>
+                    <span class="project-link">Explorar projeto <i class="fas fa-arrow-right"
+                            aria-hidden="true"></i></span>
                 </a>
 
-                <a href="https://apifastmock.com/" target="_blank" class="project-card" data-aos="zoom-in"
-                    data-aos-delay="200">
-                    <div class="project-icon">
-                        <i class="fas fa-plug"></i>
-                    </div>
+                <a class="project-card" data-reveal href="https://apifastmock.com/" target="_blank" rel="noopener">
+                    <span class="project-index mono" aria-hidden="true">P/03</span>
+                    <span class="project-icon" aria-hidden="true"><i class="fas fa-plug"></i></span>
                     <h4>API Fast Mock</h4>
                     <p>
                         Servidor de mock HTTP leve e sem estado. Em vez de guardar a configuração no servidor,
                         cada endpoint é descrito por um token autossuficiente na própria URL — o que facilita
                         compartilhar, versionar e reproduzir mocks.
                     </p>
-                    <span class="project-link">
-                        Explorar projeto <i class="fas fa-arrow-right"></i>
-                    </span>
+                    <span class="project-link">Explorar projeto <i class="fas fa-arrow-right"
+                            aria-hidden="true"></i></span>
                 </a>
-                <a href="https://kaleidoimages.ai" target="_blank" class="project-card" data-aos="zoom-in"
-                    data-aos-delay="200">
-                    <div class="project-icon">
-                        <i class="fas fa-images"></i>
-                    </div>
+
+                <a class="project-card" data-reveal href="https://kaleidoimages.ai" target="_blank" rel="noopener">
+                    <span class="project-index mono" aria-hidden="true">P/04</span>
+                    <span class="project-icon" aria-hidden="true"><i class="fas fa-images"></i></span>
                     <h4>KaleidoImages</h4>
                     <p>
                         Repositório público com API e mais de 5.000 imagens geradas
                         por IA no meu laboratório. Um recurso aberto para quem precisa
                         de imagens em projetos.
                     </p>
-                    <span class="project-link">
-                        Explorar projeto <i class="fas fa-arrow-right"></i>
-                    </span>
+                    <span class="project-link">Explorar projeto <i class="fas fa-arrow-right"
+                            aria-hidden="true"></i></span>
                 </a>
-                <a href="https://dropp.news" target="_blank" class="project-card" data-aos="zoom-in"
-                    data-aos-delay="300">
-                    <div class="project-icon">
-                        <i class="fas fa-newspaper"></i>
-                    </div>
+
+                <a class="project-card" data-reveal href="https://dropp.news" target="_blank" rel="noopener">
+                    <span class="project-index mono" aria-hidden="true">P/05</span>
+                    <span class="project-icon" aria-hidden="true"><i class="fas fa-newspaper"></i></span>
                     <h4>Dropp.news</h4>
                     <p>
                         Portal de notícias em formato de stories e threads, com conteúdo
                         curado e gerado com apoio de IA.
                     </p>
-                    <span class="project-link">
-                        Explorar projeto <i class="fas fa-arrow-right"></i>
-                    </span>
+                    <span class="project-link">Explorar projeto <i class="fas fa-arrow-right"
+                            aria-hidden="true"></i></span>
                 </a>
+
+                <div class="projects-more">
+                    <a class="mono" href="https://labs.brunokawakami.com" target="_blank" rel="noopener">+ Mais no Labs
+                        ↗</a>
+                </div>
             </div>
         </div>
     </section>
 
     <!-- 8. Fora do trabalho -->
-    <section id="skills" style="background: var(--section-bg);" data-aos="fade-up">
+    <section class="section section--alt" id="skills">
         <div class="container">
-            <div class="section-header">
-                <div class="section-badge">// ALÉM DO CÓDIGO</div>
+            <div class="section-header section-header--tight" data-reveal>
+                <div class="section-badge mono">// ALÉM DO CÓDIGO — 07</div>
                 <h2 class="section-title">Fora do trabalho</h2>
             </div>
 
             <div class="skills-grid">
-                <div class="skill-item">
-                    <i class="fas fa-music skill-icon"></i>
-                    <div>
-                        <h5>Música Clássica & Violino</h5>
-                        <p>Estudo o instrumento; a disciplina ajuda no resto.</p>
-                    </div>
+                <div class="skill-chip" data-reveal>
+                    <i class="fas fa-music" aria-hidden="true"></i>
+                    <h5>Música Clássica &amp; Violino</h5>
                 </div>
-
-                <div class="skill-item">
-                    <i class="fas fa-brain skill-icon"></i>
-                    <div>
-                        <h5>Psicologia da Tecnologia</h5>
-                        <p>Como a tecnologia muda o comportamento das pessoas.</p>
-                    </div>
+                <div class="skill-chip" data-reveal>
+                    <i class="fas fa-brain" aria-hidden="true"></i>
+                    <h5>Psicologia da Tecnologia</h5>
                 </div>
-
-                <div class="skill-item">
-                    <i class="fas fa-flask skill-icon"></i>
-                    <div>
-                        <h5>Laboratório de IA</h5>
-                        <p>Onde testo ideias e protótipos de IA.</p>
-                    </div>
+                <div class="skill-chip" data-reveal>
+                    <i class="fas fa-flask" aria-hidden="true"></i>
+                    <h5>Laboratório de IA</h5>
                 </div>
-
-                <div class="skill-item">
-                    <i class="fas fa-network-wired skill-icon"></i>
-                    <div>
-                        <h5>IoT & Automação</h5>
-                        <p>Automação residencial e projetos de IoT.</p>
-                    </div>
+                <div class="skill-chip" data-reveal>
+                    <i class="fas fa-network-wired" aria-hidden="true"></i>
+                    <h5>IoT &amp; Automação</h5>
                 </div>
-
-                <div class="skill-item">
-                    <i class="fas fa-graduation-cap skill-icon"></i>
-                    <div>
-                        <h5>Aprendizado Contínuo</h5>
-                        <p>Formação na FIAP e no IFSP, e estudo constante.</p>
-                    </div>
+                <div class="skill-chip" data-reveal>
+                    <i class="fas fa-graduation-cap" aria-hidden="true"></i>
+                    <h5>Aprendizado Contínuo</h5>
                 </div>
-
-                <div class="skill-item">
-                    <i class="fas fa-globe skill-icon"></i>
-                    <div>
-                        <h5>Poliglota Digital</h5>
-                        <p>Três idiomas e várias linguagens de programação.</p>
-                    </div>
+                <div class="skill-chip" data-reveal>
+                    <i class="fas fa-globe" aria-hidden="true"></i>
+                    <h5>Poliglota Digital</h5>
                 </div>
             </div>
         </div>
     </section>
 
     <!-- 9. Contato -->
-    <section id="contato" data-aos="fade-up">
+    <section class="section" id="contato">
         <div class="container">
-            <div class="section-header">
-                <div class="section-badge">// CONTATO</div>
+            <div class="section-header" data-reveal>
+                <div class="section-badge mono">// CONTATO — 08</div>
                 <h2 class="section-title">Vamos conversar?</h2>
-                <p class="section-subtitle">
-                    Aberto a conversas sobre tecnologia, projetos e oportunidades.
-                </p>
+                <p class="section-subtitle">Aberto a conversas sobre tecnologia, projetos e oportunidades.</p>
             </div>
 
-            <div class="contact-form">
+            <div class="contact-form" data-reveal>
                 <form action="https://formspree.io/f/xjkkbygp" method="POST" target="_blank">
                     <div class="form-group">
-                        <label class="form-label">Nome</label>
-                        <input type="text" class="form-control" name="nome" required />
+                        <label class="form-label mono" for="form-nome">Nome<span class="us">_</span></label>
+                        <input class="form-control" id="form-nome" type="text" name="nome" required />
                     </div>
                     <div class="form-group">
-                        <label class="form-label">E-mail</label>
-                        <input type="email" class="form-control" name="email" required />
+                        <label class="form-label mono" for="form-email">E-mail<span class="us">_</span></label>
+                        <input class="form-control" id="form-email" type="email" name="email" required />
                     </div>
                     <div class="form-group">
-                        <label class="form-label">Mensagem</label>
-                        <textarea class="form-control" name="mensagem" rows="5" required></textarea>
+                        <label class="form-label mono" for="form-mensagem">Mensagem<span class="us">_</span></label>
+                        <textarea class="form-control" id="form-mensagem" name="mensagem" rows="5" required></textarea>
                     </div>
-                    <button type="submit" class="btn btn-glow w-100">
-                        Enviar mensagem
-                    </button>
+                    <button type="submit" class="btn btn--primary btn--block" data-magnetic>Enviar mensagem</button>
                 </form>
 
-                <div class="text-center mt-5">
-                    <p class="text-muted">Ou conecte-se diretamente:</p>
+                <div class="contact-direct">
+                    <p class="contact-direct-label mono">// ou conecte-se diretamente</p>
                     <p>
-                        <a href="mailto:bru.kawakami@gmail.com" class="contact-link">
-                            <i class="fas fa-envelope"></i> bru.kawakami@gmail.com
+                        <a class="contact-link" href="mailto:bru.kawakami@gmail.com">
+                            <i class="fas fa-envelope" aria-hidden="true"></i> bru.kawakami@gmail.com
                         </a>
                     </p>
                     <p>
-                        <a href="https://www.linkedin.com/in/bruno-akio-kawakami/" target="_blank" class="contact-link">
-                            <i class="fab fa-linkedin"></i> LinkedIn
+                        <a class="contact-link" href="https://www.linkedin.com/in/bruno-akio-kawakami/" target="_blank"
+                            rel="noopener">
+                            <i class="fab fa-linkedin" aria-hidden="true"></i> LinkedIn
                         </a>
                     </p>
                 </div>
@@ -582,16 +564,14 @@
     </section>
 
     <!-- 10. Footer -->
-    <footer>
-        <div class="container">
-            <p class="mb-0">&copy; 2026 Bruno Kawakami • CTO e Engenheiro de IA</p>
+    <footer class="site-footer mono">
+        <div class="container footer-inner">
+            <span>© 2026 BRUNO KAWAKAMI — CTO E ENGENHEIRO DE IA</span>
+            <span>SP — BR · 23°33′S 46°38′W</span>
         </div>
     </footer>
 
     <!-- Scripts -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
-
     <script src="main.js"></script>
 
     <!-- Google Translate -->
@@ -607,7 +587,9 @@
     <script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit">
     </script>
 
-    <script src="https://ordinator-ai-forge-638938248339.southamerica-east1.run.app/widget/agent/agente-brunobot.js" async></script>
+    <!-- BrunoBot: o widget injeta o próprio botão flutuante (canto inferior direito) -->
+    <script src="https://ordinator-ai-forge-638938248339.southamerica-east1.run.app/widget/agent/agente-brunobot.js"
+        async></script>
 </body>
 
 </html>

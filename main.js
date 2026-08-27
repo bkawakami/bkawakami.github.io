@@ -17,10 +17,9 @@ gtag('config', 'G-VL5JMCR888');
     var CONFIG = {
         // 'aleatorio' | 'correntes' | 'profundidade' | 'terreno'
         heroEffect: 'aleatorio',
-        density: 1,      // 0.4 – 2   (multiplica a contagem de partículas)
-        mouseForce: 1,   // 0.2 – 3   (multiplica as forças do ponteiro)
-        showSwitcher: true
-    };
+        density: 1,       // 0.4 – 2    (multiplica a contagem de partículas)
+        mouseForce: 1,    // 0.2 – 3    (multiplica as forças do ponteiro)
+     };
 
     var reduceMotion = window.matchMedia &&
         window.matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -687,45 +686,18 @@ gtag('config', 'G-VL5JMCR888');
         };
     })();
 
-    // ── Switcher de efeito do hero ───────────────────────────
-    function initHero() {
-        var canvas = document.getElementById('flow-canvas');
-        if (!canvas) return;
+     // ── Efeito do hero ──────────────────────────────────────
+     function initHero() {
+         var canvas = document.getElementById('flow-canvas');
+         if (!canvas) return;
 
-        var switcher = document.getElementById('fx-switcher');
-        var buttons = switcher ? switcher.querySelectorAll('.fx-btn') : [];
-
-        if (switcher && !CONFIG.showSwitcher) switcher.style.display = 'none';
-
-        function paint(fx) {
-            for (var i = 0; i < buttons.length; i++) {
-                var on = buttons[i].getAttribute('data-fx') === fx;
-                buttons[i].classList.toggle('is-active', on);
-                buttons[i].setAttribute('aria-pressed', on ? 'true' : 'false');
-            }
-        }
-
-        function select(fx) {
-            heroField.boot(fx);
-            paint(fx);
-        }
-
-        for (var i = 0; i < buttons.length; i++) {
-            (function (btn) {
-                btn.addEventListener('click', function () {
-                    select(btn.getAttribute('data-fx'));
-                });
-            })(buttons[i]);
-        }
-
-        // "aleatorio" sorteia entre correntes e terreno a cada carregamento;
-        // profundidade fica reservada ao switcher.
-        var initial = CONFIG.heroEffect;
-        if (initial === 'aleatorio' || !initial) {
-            initial = Math.random() < 0.5 ? 'correntes' : 'terreno';
-        }
-        select(initial);
-    }
+         // "aleatorio" sorteia entre correntes e terreno a cada carregamento.
+         var initial = CONFIG.heroEffect;
+         if (initial === 'aleatorio' || !initial) {
+             initial = Math.random() < 0.5 ? 'correntes' : 'terreno';
+         }
+         heroField.boot(initial);
+     }
 
     ready(function () {
         initNav();

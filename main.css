@@ -514,43 +514,6 @@ h5 {
     font-variant-numeric: tabular-nums;
 }
 
-.fx-switcher {
-    display: flex;
-    align-items: center;
-    gap: 4px;
-    flex-wrap: wrap;
-}
-
-.fx-title {
-    margin-right: 8px;
-}
-
-.fx-btn {
-    font-family: var(--mono);
-    font-size: 0.62rem;
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-    background: transparent;
-    border: none;
-    cursor: pointer;
-    padding: 6px 8px;
-    color: var(--fg-3);
-    transition: color 0.3s ease;
-}
-
-.fx-btn:hover {
-    color: rgba(255, 255, 255, 0.7);
-}
-
-.fx-btn.is-active {
-    color: #fff;
-}
-
-.fx-hint {
-    margin-left: 10px;
-    opacity: 0.6;
-}
-
 /* ── Impacto (números) ─────────────────────────────────────── */
 .stats-grid {
     display: grid;
@@ -1204,29 +1167,14 @@ iframe.skiptranslate {
         gap: 6px;
     }
 
-    .hero-bar-left {
+     .hero-bar-left {
         gap: 12px;
         width: 100%;
-    }
+     }
 
-    .fx-hint,
-    .fx-title {
-        display: none;
-    }
-
-    .fx-switcher {
-        gap: 0;
-        width: 100%;
-    }
-
-    .fx-btn {
-        padding: 4px 8px 0 0;
-        font-size: 0.58rem;
-    }
-
-    .stats-grid {
+     .stats-grid {
         grid-template-columns: repeat(2, 1fr);
-    }
+     }
 
     .stats-grid .stat-cell:nth-child(n + 4) {
         border-bottom: none;

@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <!-- Metadados essenciais -->
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#000000" />
+
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-VL5JMCR888"></script>
+
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+    <meta http-equiv="Pragma" content="no-cache" />
+    <meta http-equiv="Expires" content="0" />
+    <title>O que faz um ativo de tecnologia passar em due diligence — Bruno Kawakami</title>
+
+    <!-- SEO: Metatags básicas -->
+    <meta name="description"
+        content="Notas das três due diligences técnicas da D4Sign — segurança, estabilidade, qualidade e resiliência — antes da aquisição pelo grupo Zucchetti." />
+    <meta name="author" content="Bruno Kawakami" />
+
+    <!--
+        RASCUNHO: enquanto for só o outline, a página fica fora do índice de busca.
+        Ao publicar o texto, trocar por: <meta name="robots" content="index, follow" />
+        e remover o aviso "Rascunho" do topo.
+    -->
+    <meta name="robots" content="noindex, follow" />
+    <link rel="canonical" href="https://www.brunokawakami.com/engenharia/due-diligence-tecnica/" />
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="article" />
+    <meta property="og:url" content="https://www.brunokawakami.com/engenharia/due-diligence-tecnica/" />
+    <meta property="og:title" content="O que faz um ativo de tecnologia passar em due diligence" />
+    <meta property="og:description"
+        content="Notas das três due diligences técnicas da D4Sign — segurança, estabilidade, qualidade e resiliência." />
+    <meta property="og:image" content="https://www.brunokawakami.com/foto_bruno.jpeg" />
+
+    <!-- Twitter Cards -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:url" content="https://www.brunokawakami.com/engenharia/due-diligence-tecnica/" />
+    <meta name="twitter:title" content="O que faz um ativo de tecnologia passar em due diligence" />
+    <meta name="twitter:description"
+        content="Notas das três due diligences técnicas da D4Sign — segurança, estabilidade, qualidade e resiliência." />
+    <meta name="twitter:image" content="https://www.brunokawakami.com/foto_bruno.jpeg" />
+
+    <!-- CSS e bibliotecas -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@200;300;400;500;600;700&family=JetBrains+Mono:wght@300;400;500&display=swap"
+        rel="stylesheet" />
+    <link rel="stylesheet" href="../../main.css" />
+
+    <script>document.documentElement.classList.add('js');</script>
+</head>
+
+<body>
+    <a class="skip-link" href="#texto">Pular para o conteúdo</a>
+
+    <!-- Navbar -->
+    <nav class="site-nav" id="site-nav">
+        <div class="nav-inner">
+            <a class="nav-logo mono" href="../../">BK<span class="nav-logo-cursor">_</span></a>
+
+            <button class="nav-toggle" type="button" id="nav-toggle" aria-controls="nav-menu" aria-expanded="false"
+                aria-label="Abrir menu">
+                <span></span><span></span><span></span>
+            </button>
+
+            <ul class="nav-menu" id="nav-menu">
+                <li><a class="nav-link" href="../../#sobre"><span class="nav-index mono">01</span>Sobre</a></li>
+                <li><a class="nav-link" href="../../#jornada"><span class="nav-index mono">02</span>Jornada</a></li>
+                <li><a class="nav-link" href="../../#projetos"><span class="nav-index mono">03</span>Projetos</a></li>
+                <li><a class="nav-link" href="../"><span class="nav-index mono">04</span>Engenharia</a></li>
+                <li><a class="nav-link" href="../../#contato"><span class="nav-index mono">05</span>Contato</a></li>
+                <li><a class="nav-labs" href="https://labs.brunokawakami.com" target="_blank" rel="noopener">Labs <i
+                            class="fas fa-arrow-up-right-from-square" aria-hidden="true"></i></a></li>
+                <li class="nav-lang">
+                    <div id="google_translate_element"></div>
+                </li>
+            </ul>
+        </div>
+        <div class="nav-progress" id="nav-progress" aria-hidden="true"></div>
+    </nav>
+
+    <!-- Texto -->
+    <section class="section" id="texto">
+        <div class="container">
+            <div class="section-header" data-reveal>
+                <div class="section-badge mono">// ENGENHARIA — RASCUNHO</div>
+                <h2 class="section-title">O que faz um ativo de tecnologia passar em due diligence</h2>
+                <p class="section-subtitle">
+                    Notas das três auditorias técnicas que a engenharia da D4Sign atravessou antes da
+                    aquisição. O texto está em preparo; abaixo, a estrutura.
+                </p>
+            </div>
+
+            <!--
+                OUTLINE — o conteúdo de cada seção é do Bruno.
+                Cada .timeline-row abaixo é uma seção do texto. Ao escrever, o
+                .timeline-description vira o parágrafo (ou os parágrafos) da seção.
+            -->
+            <div class="timeline">
+                <div class="timeline-row" data-reveal>
+                    <div class="timeline-date mono">01</div>
+                    <div class="timeline-body">
+                        <span class="timeline-node" aria-hidden="true"></span>
+                        <h4 class="timeline-title">Due diligence técnica não é revisão de código</h4>
+                        <p class="timeline-description">
+                            O que o comprador está de fato comprando, e por que a pergunta é sempre sobre risco
+                            futuro — não sobre elegância do que já está escrito.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="timeline-row" data-reveal>
+                    <div class="timeline-date mono">02</div>
+                    <div class="timeline-body">
+                        <span class="timeline-node" aria-hidden="true"></span>
+                        <h4 class="timeline-title">Segurança: o que perguntam primeiro</h4>
+                        <p class="timeline-description">
+                            Controles, evidência e histórico de incidente. O que precisa estar documentado antes
+                            de a sala abrir.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="timeline-row" data-reveal>
+                    <div class="timeline-date mono">03</div>
+                    <div class="timeline-body">
+                        <span class="timeline-node" aria-hidden="true"></span>
+                        <h4 class="timeline-title">Estabilidade: o que dá para medir</h4>
+                        <p class="timeline-description">
+                            Disponibilidade, comportamento sob pico e o que a operação consegue provar com número
+                            em vez de narrativa.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="timeline-row" data-reveal>
+                    <div class="timeline-date mono">04</div>
+                    <div class="timeline-body">
+                        <span class="timeline-node" aria-hidden="true"></span>
+                        <h4 class="timeline-title">Qualidade: o que sustenta preço</h4>
+                        <p class="timeline-description">
+                            Dívida técnica, dependência de pessoa e o custo de manter — os itens que viram
+                            desconto quando aparecem tarde.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="timeline-row" data-reveal>
+                    <div class="timeline-date mono">05</div>
+                    <div class="timeline-body">
+                        <span class="timeline-node" aria-hidden="true"></span>
+                        <h4 class="timeline-title">Resiliência: o que acontece quando cai</h4>
+                        <p class="timeline-description">
+                            Recuperação, continuidade e o que a equipe faz sem o autor original do sistema por
+                            perto.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="timeline-row" data-reveal>
+                    <div class="timeline-date mono">06</div>
+                    <div class="timeline-body">
+                        <span class="timeline-node" aria-hidden="true"></span>
+                        <h4 class="timeline-title">O que eu faria diferente</h4>
+                        <p class="timeline-description">
+                            O que dá para arrumar em uma semana, o que leva um ano, e o que só se resolve antes
+                            de alguém querer comprar.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="timeline-row timeline-row--last" data-reveal>
+                    <div class="timeline-date mono">07</div>
+                    <div class="timeline-body">
+                        <span class="timeline-node" aria-hidden="true"></span>
+                        <h4 class="timeline-title">Checklist</h4>
+                        <p class="timeline-description">
+                            A lista que eu entregaria para um CTO que vai passar por isso pela primeira vez.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="site-footer mono">
+        <div class="container footer-inner">
+            <span>© 2026 BRUNO KAWAKAMI — CTO E ENGENHEIRO DE IA</span>
+            <span>SP — BR · 23°33′S 46°38′W</span>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="../../main.js"></script>
+
+    <!-- Google Translate -->
+    <script type="text/javascript">
+        function googleTranslateElementInit() {
+            new google.translate.TranslateElement({
+                pageLanguage: 'pt',
+                includedLanguages: 'en,es,fr,it',
+                layout: google.translate.TranslateElement.InlineLayout.SIMPLE
+            }, 'google_translate_element');
+        }
+    </script>
+    <script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit">
+    </script>
+</body>
+
+</html>

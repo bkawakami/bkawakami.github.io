@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <!-- Metadados essenciais -->
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#000000" />
+
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-VL5JMCR888"></script>
+
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+    <meta http-equiv="Pragma" content="no-cache" />
+    <meta http-equiv="Expires" content="0" />
+    <title>Engenharia — Bruno Kawakami</title>
+
+    <!-- SEO: Metatags básicas -->
+    <meta name="description"
+        content="Escritos técnicos de Bruno Kawakami sobre construir sistema que aguenta ser auditado: due diligence técnica, arquitetura, segurança e IA em produção." />
+    <meta name="author" content="Bruno Kawakami" />
+    <meta name="robots" content="index, follow" />
+    <link rel="canonical" href="https://www.brunokawakami.com/engenharia/" />
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://www.brunokawakami.com/engenharia/" />
+    <meta property="og:title" content="Engenharia — Bruno Kawakami" />
+    <meta property="og:description"
+        content="Escritos técnicos sobre construir sistema que aguenta ser auditado." />
+    <meta property="og:image" content="https://www.brunokawakami.com/foto_bruno.jpeg" />
+
+    <!-- Twitter Cards -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:url" content="https://www.brunokawakami.com/engenharia/" />
+    <meta name="twitter:title" content="Engenharia — Bruno Kawakami" />
+    <meta name="twitter:description"
+        content="Escritos técnicos sobre construir sistema que aguenta ser auditado." />
+    <meta name="twitter:image" content="https://www.brunokawakami.com/foto_bruno.jpeg" />
+
+    <!-- CSS e bibliotecas -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@200;300;400;500;600;700&family=JetBrains+Mono:wght@300;400;500&display=swap"
+        rel="stylesheet" />
+    <link rel="stylesheet" href="../main.css" />
+
+    <script>document.documentElement.classList.add('js');</script>
+</head>
+
+<body>
+    <a class="skip-link" href="#escritos">Pular para o conteúdo</a>
+
+    <!-- Navbar -->
+    <nav class="site-nav" id="site-nav">
+        <div class="nav-inner">
+            <a class="nav-logo mono" href="../">BK<span class="nav-logo-cursor">_</span></a>
+
+            <button class="nav-toggle" type="button" id="nav-toggle" aria-controls="nav-menu" aria-expanded="false"
+                aria-label="Abrir menu">
+                <span></span><span></span><span></span>
+            </button>
+
+            <ul class="nav-menu" id="nav-menu">
+                <li><a class="nav-link" href="../#sobre"><span class="nav-index mono">01</span>Sobre</a></li>
+                <li><a class="nav-link" href="../#jornada"><span class="nav-index mono">02</span>Jornada</a></li>
+                <li><a class="nav-link" href="../#projetos"><span class="nav-index mono">03</span>Projetos</a></li>
+                <li><a class="nav-link" href="../#engenharia"><span class="nav-index mono">04</span>Engenharia</a></li>
+                <li><a class="nav-link" href="../#contato"><span class="nav-index mono">05</span>Contato</a></li>
+                <li><a class="nav-labs" href="https://labs.brunokawakami.com" target="_blank" rel="noopener">Labs <i
+                            class="fas fa-arrow-up-right-from-square" aria-hidden="true"></i></a></li>
+                <li class="nav-lang">
+                    <div id="google_translate_element"></div>
+                </li>
+            </ul>
+        </div>
+        <div class="nav-progress" id="nav-progress" aria-hidden="true"></div>
+    </nav>
+
+    <!-- Escritos -->
+    <section class="section" id="escritos">
+        <div class="container">
+            <div class="section-header" data-reveal>
+                <div class="section-badge mono">// ENGENHARIA</div>
+                <h2 class="section-title">Engenharia</h2>
+                <p class="section-subtitle">Escritos técnicos sobre construir sistema que aguenta ser auditado.</p>
+            </div>
+
+            <!--
+                Cada escrito novo entra como um .media-card aqui e no bloco #engenharia
+                da home. A rota é o diretório: engenharia/<slug>/index.html
+            -->
+            <div class="media-grid">
+                <a class="media-card" data-reveal href="due-diligence-tecnica/">
+                    <span class="card-arrow mono" aria-hidden="true">↗</span>
+                    <h5>O que faz um ativo de tecnologia passar em due diligence</h5>
+                    <p>
+                        O que três compradores diferentes olharam na engenharia da D4Sign — segurança,
+                        estabilidade, qualidade e resiliência — e o que pesou em cada rodada. Em preparo.
+                    </p>
+                </a>
+
+                <div class="projects-more">
+                    <a class="mono" href="../">← Voltar para o início</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="site-footer mono">
+        <div class="container footer-inner">
+            <span>© 2026 BRUNO KAWAKAMI — CTO E ENGENHEIRO DE IA</span>
+            <span>SP — BR · 23°33′S 46°38′W</span>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="../main.js"></script>
+
+    <!-- Google Translate -->
+    <script type="text/javascript">
+        function googleTranslateElementInit() {
+            new google.translate.TranslateElement({
+                pageLanguage: 'pt',
+                includedLanguages: 'en,es,fr,it',
+                layout: google.translate.TranslateElement.InlineLayout.SIMPLE
+            }, 'google_translate_element');
+        }
+    </script>
+    <script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit">
+    </script>
+</body>
+
+</html>

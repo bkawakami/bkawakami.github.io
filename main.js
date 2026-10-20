@@ -62,8 +62,10 @@ gtag('config', 'G-VL5JMCR888');
     // ── Decode/scramble nos títulos ──────────────────────────
     // O texto final já ocupa o espaço (spans invisíveis), então a
     // animação não provoca reflow nem "pulo" de layout.
+    // Só nos h2: o h1 do hero é a primeira coisa lida na página e
+    // precisa nascer legível, sem caracteres embaralhados por cima.
     function initScramble() {
-        var titles = document.querySelectorAll('h1, h2');
+        var titles = document.querySelectorAll('h2');
         if (!titles.length || reduceMotion || !('IntersectionObserver' in window)) return;
 
         var CHARS = '!<>-_\\/[]{}—=+*#01';
@@ -965,6 +967,11 @@ gtag('config', 'G-VL5JMCR888');
                     var ce = Math.cos(cam.el);
                     lookAt(view, [Math.sin(cam.az) * ce * D, ty + Math.sin(cam.el) * D, Math.cos(cam.az) * ce * D], [0, ty, 0], [0, 1, 0]);
                     perspective(proj, fov, aspect, 0.1, 500);
+                    // Lens shift: em tela larga o texto do hero ocupa a esquerda,
+                    // então o funil desliza para a direita (sem girar a câmera,
+                    // a perspectiva continua a mesma). Em retrato fica centrado.
+                    var wide = Math.min(1, Math.max(0, (aspect - 1) / 0.3));
+                    proj[8] = -0.46 * wide;
                     sizeK = D;
                 }
 

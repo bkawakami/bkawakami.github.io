@@ -282,31 +282,6 @@ h5 {
     margin-right: 5px;
 }
 
-.nav-labs {
-    color: #fff;
-    font-size: 0.7rem;
-    text-transform: uppercase;
-    letter-spacing: 0.15em;
-    margin-left: 1rem;
-    text-decoration: none;
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    padding: 7px 18px;
-    white-space: nowrap;
-    transition: all 0.3s ease;
-}
-
-.nav-labs:hover {
-    background: #fff;
-    color: #000;
-    border-color: #fff;
-}
-
-.nav-labs i {
-    font-size: 0.55rem;
-    margin-left: 4px;
-    opacity: 0.6;
-}
-
 .nav-lang {
     margin-left: 0.9rem;
     display: flex;
@@ -657,6 +632,49 @@ h5 {
     text-transform: uppercase;
     letter-spacing: 0.22em;
     font-size: 0.62rem;
+}
+
+/* "Fã de Zelda": parece texto corrido; no hover, acende e mostra a Triforce */
+.zelda-summon {
+    font: inherit;
+    letter-spacing: inherit;
+    color: inherit;
+    background: none;
+    border: 0;
+    padding: 0;
+    cursor: pointer;
+    text-align: left;
+    transition: color 0.3s ease;
+}
+
+.zelda-summon:hover,
+.zelda-summon:focus-visible {
+    color: #fff;
+}
+
+.zelda-summon-tri {
+    display: inline-block;
+    width: 0.85em;
+    height: 0.74em;
+    margin-left: 0.5em;
+    fill: currentColor;
+    opacity: 0;
+    transform: translateY(2px);
+    transition: opacity 0.3s ease, transform 0.4s var(--ease);
+}
+
+.zelda-summon:hover .zelda-summon-tri,
+.zelda-summon:focus-visible .zelda-summon-tri {
+    opacity: 1;
+    transform: none;
+}
+
+/* Sem hover (celular), a pista fica sempre visível, mais apagada */
+@media (hover: none) {
+    .zelda-summon-tri {
+        opacity: 0.6;
+        transform: none;
+    }
 }
 
 /* Competências com prova */
@@ -1184,13 +1202,52 @@ h5 {
     color: #fff;
 }
 
-/* A célula do Labs fecha a grade com contraste invertido no hover */
-.project-card--labs {
-    background: var(--wash);
+/* Sala secreta (easter egg): fecha a grade de 3 colunas. O botão no rodapé
+   do card estica um ::after por cima do card inteiro — o clique vale em
+   qualquer ponto, e o HTML continua válido (h4/p não cabem dentro de button). */
+.project-card--secret {
+    cursor: pointer;
 }
 
-.project-card--labs:hover {
-    background: rgba(255, 255, 255, 0.05);
+/* baú de 14×12 pixels, a 2px cada */
+.project-card--secret .project-icon svg {
+    width: 28px;
+    height: 24px;
+}
+
+.chest--open,
+.project-card--secret.is-open .chest--closed {
+    display: none;
+}
+
+.project-card--secret.is-open .chest--open {
+    display: block;
+}
+
+.secret-open {
+    align-self: flex-start;
+    background: none;
+    border: 0;
+    padding: 20px 0 0;
+    cursor: pointer;
+    font-size: 0.8rem;
+    line-height: inherit;
+    letter-spacing: 0.3em;
+}
+
+.secret-open::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+}
+
+.secret-open:focus-visible {
+    outline: none;
+}
+
+.secret-open:focus-visible::after {
+    outline: 1px solid #fff;
+    outline-offset: -1px;
 }
 
 /* ── Contato ───────────────────────────────────────────────── */
@@ -1212,6 +1269,26 @@ h5 {
     font-weight: 300;
     max-width: 480px;
     margin-bottom: 44px;
+}
+
+/* Rótulo da lista de contato — a fala do velho da caverna, no estilo dos labels mono */
+.contact-quest {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 16px;
+    font-size: 0.62rem;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--fg-3);
+}
+
+/* 12×5 pixels desenhados a 2px cada (múltiplo inteiro: nada borrado) */
+.pixel-sword {
+    flex: none;
+    width: 24px;
+    height: 10px;
+    color: rgba(255, 255, 255, 0.7);
 }
 
 .contact-direct {
@@ -1316,6 +1393,276 @@ h5 {
 
 .footer-links a:hover {
     color: #fff;
+}
+
+.footer-end {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+}
+
+/* Triforce minúscula: "É um segredo para todo mundo." */
+.footer-triforce {
+    position: relative;
+    display: inline-flex;
+    padding: 6px;
+    margin: -6px -6px -6px 0;
+    background: none;
+    border: 0;
+    color: var(--fg-4);
+    cursor: pointer;
+    transition: color 0.3s ease, transform 0.4s var(--ease);
+}
+
+.footer-triforce svg {
+    width: 11px;
+    height: 9.5px;
+    fill: currentColor;
+}
+
+/* o ícone é minúsculo; o alvo de toque não */
+.footer-triforce::before {
+    content: '';
+    position: absolute;
+    inset: -10px;
+}
+
+.footer-triforce:hover,
+.footer-triforce:focus-visible {
+    color: #fff;
+    transform: translateY(-1px);
+}
+
+/* ── Zelda: o Link companheiro (easter egg) ────────────────── */
+/* A única cor do site é a túnica do Link. O sprite é desenhado no main.js;
+   aqui ele só é ampliado sem suavização (--zl = tamanho de cada pixel). */
+:root {
+    --zl: 4px;
+    --zl-bottom: calc(12px + env(safe-area-inset-bottom, 0px));
+}
+
+.zelda-link {
+    position: fixed;
+    left: 0;
+    bottom: var(--zl-bottom);
+    z-index: 1025;
+    width: calc(16 * var(--zl));
+    height: calc(16 * var(--zl));
+    pointer-events: none;
+    transition: opacity 0.35s ease;
+}
+
+.zelda-link.is-leaving {
+    opacity: 0;
+}
+
+.zelda-link-sprite {
+    position: absolute;
+    inset: 0;
+    padding: 0;
+    border: 0;
+    background: none;
+    cursor: pointer;
+    pointer-events: auto;
+}
+
+.zelda-link canvas {
+    display: block;
+    width: 100%;
+    height: 100%;
+    image-rendering: crisp-edges;
+    image-rendering: pixelated;
+}
+
+.zelda-link.is-left .zelda-link-sprite canvas {
+    transform: scaleX(-1);
+}
+
+/* (dois seletores de classe para vencer o height: 100% de `.zelda-link canvas`) */
+.zelda-link .zelda-link-item {
+    position: absolute;
+    left: 0;
+    bottom: 100%;
+    height: calc(8 * var(--zl));
+    visibility: hidden;
+}
+
+.zelda-link.is-item .zelda-link-item {
+    visibility: visible;
+    animation: zl-rise 0.5s var(--ease) both;
+}
+
+@keyframes zl-rise {
+    from {
+        opacity: 0;
+        transform: translateY(calc(5 * var(--zl)));
+    }
+
+    to {
+        opacity: 1;
+        transform: none;
+    }
+}
+
+.zelda-link-close {
+    position: absolute;
+    top: -18px;
+    right: -22px;
+    width: 24px;
+    height: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    background: #000;
+    border: 1px solid var(--line-3);
+    color: var(--fg-3);
+    font: 400 0.8rem/1 var(--mono);
+    cursor: pointer;
+    pointer-events: auto;
+    transition: color 0.3s ease, border-color 0.3s ease, opacity 0.3s ease;
+}
+
+.zelda-link-close:hover,
+.zelda-link-close:focus-visible {
+    color: #fff;
+    border-color: rgba(255, 255, 255, 0.5);
+}
+
+/* Área de toque de ~38px. Cresce só para cima e para a direita, para longe
+   do sprite: um toque na cabeça do Link continua sendo no Link. */
+.zelda-link-close::before {
+    content: '';
+    position: absolute;
+    top: -10px;
+    right: -10px;
+    bottom: -4px;
+    left: -4px;
+}
+
+/* No toque: sem zoom de duplo toque ao clicar várias vezes, sem o flash cinza */
+.zelda-link-sprite,
+.zelda-link-close,
+.zelda-summon,
+.footer-triforce,
+.secret-open {
+    touch-action: manipulation;
+}
+
+.zelda-link-sprite,
+.zelda-link-close {
+    -webkit-tap-highlight-color: transparent;
+}
+
+/* durante a pose do item, a Triforce ocupa esse canto */
+.zelda-link.is-item .zelda-link-close {
+    opacity: 0;
+    pointer-events: none;
+}
+
+/* Caixa de diálogo: preto, borda branca, caixa alta mono — já é a cara do site */
+.zelda-dialog {
+    position: fixed;
+    left: 0;
+    bottom: calc(var(--zl-bottom) + 24 * var(--zl) + 14px);
+    z-index: 1026;
+    max-width: min(320px, calc(100vw - 24px));
+    padding: 12px 16px;
+    background: #000;
+    border: 2px solid #fff;
+    box-shadow: 0 0 0 3px #000, 0 14px 40px rgba(0, 0, 0, 0.6);
+    font-family: var(--mono);
+    font-size: 0.66rem;
+    line-height: 1.75;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: #fff;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.25s ease;
+}
+
+.zelda-dialog.is-visible {
+    opacity: 1;
+}
+
+.zelda-dialog-rest {
+    visibility: hidden;
+}
+
+/* ▼ piscando: tem mais uma página de fala (o espaço já fica reservado) */
+.zelda-dialog-more {
+    visibility: hidden;
+}
+
+.zelda-dialog:not(.has-more) .zelda-dialog-more {
+    display: none;
+}
+
+.zelda-dialog.has-more.is-done .zelda-dialog-more {
+    visibility: visible;
+    animation: blink 0.9s step-end infinite;
+}
+
+.sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+}
+
+/* ── 404: Lost Woods ───────────────────────────────────────── */
+.lost {
+    min-height: 100vh;
+    min-height: 100svh;
+    display: flex;
+    align-items: center;
+    padding: calc(var(--nav-h) + 48px) 0 72px;
+}
+
+.lost-inner {
+    max-width: 640px;
+}
+
+.lost-link {
+    display: block;
+    width: calc(16 * var(--zl));
+    height: calc(16 * var(--zl));
+    margin-bottom: 44px;
+    image-rendering: crisp-edges;
+    image-rendering: pixelated;
+}
+
+.lost-link.is-left {
+    transform: scaleX(-1);
+}
+
+.lost-title {
+    font-size: clamp(2.4rem, 5vw, 3.8rem);
+    margin-bottom: 1.6rem;
+    text-wrap: balance;
+}
+
+.lost-text {
+    color: var(--fg-2);
+    font-size: 1.05rem;
+    line-height: 1.8;
+    font-weight: 300;
+    max-width: 540px;
+    margin-bottom: 2.6rem;
+}
+
+@media print {
+
+    .zelda-link,
+    .zelda-dialog {
+        display: none !important;
+    }
 }
 
 /* ── Reveals de scroll ─────────────────────────────────────── */
@@ -1436,11 +1783,6 @@ iframe.skiptranslate {
         border-bottom: 1px solid var(--line);
     }
 
-    .nav-labs {
-        display: inline-block;
-        margin: 16px 0 0;
-    }
-
     .nav-lang {
         margin: 16px 0 0;
     }
@@ -1519,6 +1861,7 @@ iframe.skiptranslate {
 @media (max-width: 768px) {
     :root {
         --gutter: 20px;
+        --zl: 3px;
     }
 
     .section {
@@ -1637,7 +1980,9 @@ iframe.skiptranslate {
         transition: none;
     }
 
-    .hero-badge-dot {
+    .hero-badge-dot,
+    .zelda-link.is-item .zelda-link-item,
+    .zelda-dialog.has-more.is-done .zelda-dialog-more {
         animation: none;
     }
 

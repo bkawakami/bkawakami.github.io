@@ -282,31 +282,6 @@ h5 {
     margin-right: 5px;
 }
 
-.nav-labs {
-    color: #fff;
-    font-size: 0.7rem;
-    text-transform: uppercase;
-    letter-spacing: 0.15em;
-    margin-left: 1rem;
-    text-decoration: none;
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    padding: 7px 18px;
-    white-space: nowrap;
-    transition: all 0.3s ease;
-}
-
-.nav-labs:hover {
-    background: #fff;
-    color: #000;
-    border-color: #fff;
-}
-
-.nav-labs i {
-    font-size: 0.55rem;
-    margin-left: 4px;
-    opacity: 0.6;
-}
-
 .nav-lang {
     margin-left: 0.9rem;
     display: flex;
@@ -1184,15 +1159,6 @@ h5 {
     color: #fff;
 }
 
-/* A célula do Labs fecha a grade com contraste invertido no hover */
-.project-card--labs {
-    background: var(--wash);
-}
-
-.project-card--labs:hover {
-    background: rgba(255, 255, 255, 0.05);
-}
-
 /* ── Contato ───────────────────────────────────────────────── */
 .contact-layout {
     display: grid;
@@ -1434,11 +1400,6 @@ iframe.skiptranslate {
         margin: 0;
         padding: 14px 0;
         border-bottom: 1px solid var(--line);
-    }
-
-    .nav-labs {
-        display: inline-block;
-        margin: 16px 0 0;
     }
 
     .nav-lang {

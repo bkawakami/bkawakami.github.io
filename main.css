@@ -669,6 +669,14 @@ h5 {
     transform: none;
 }
 
+/* Sem hover (celular), a pista fica sempre visível, mais apagada */
+@media (hover: none) {
+    .zelda-summon-tri {
+        opacity: 0.6;
+        transform: none;
+    }
+}
+
 /* Competências com prova */
 .cap-grid {
     display: grid;
@@ -1395,6 +1403,7 @@ h5 {
 
 /* Triforce minúscula: "É um segredo para todo mundo." */
 .footer-triforce {
+    position: relative;
     display: inline-flex;
     padding: 6px;
     margin: -6px -6px -6px 0;
@@ -1409,6 +1418,13 @@ h5 {
     width: 11px;
     height: 9.5px;
     fill: currentColor;
+}
+
+/* o ícone é minúsculo; o alvo de toque não */
+.footer-triforce::before {
+    content: '';
+    position: absolute;
+    inset: -10px;
 }
 
 .footer-triforce:hover,
@@ -1490,10 +1506,10 @@ h5 {
 
 .zelda-link-close {
     position: absolute;
-    top: -10px;
-    right: -12px;
-    width: 22px;
-    height: 22px;
+    top: -18px;
+    right: -22px;
+    width: 24px;
+    height: 24px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -1511,6 +1527,31 @@ h5 {
 .zelda-link-close:focus-visible {
     color: #fff;
     border-color: rgba(255, 255, 255, 0.5);
+}
+
+/* Área de toque de ~38px. Cresce só para cima e para a direita, para longe
+   do sprite: um toque na cabeça do Link continua sendo no Link. */
+.zelda-link-close::before {
+    content: '';
+    position: absolute;
+    top: -10px;
+    right: -10px;
+    bottom: -4px;
+    left: -4px;
+}
+
+/* No toque: sem zoom de duplo toque ao clicar várias vezes, sem o flash cinza */
+.zelda-link-sprite,
+.zelda-link-close,
+.zelda-summon,
+.footer-triforce,
+.secret-open {
+    touch-action: manipulation;
+}
+
+.zelda-link-sprite,
+.zelda-link-close {
+    -webkit-tap-highlight-color: transparent;
 }
 
 /* durante a pose do item, a Triforce ocupa esse canto */

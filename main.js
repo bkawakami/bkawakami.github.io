@@ -1273,6 +1273,549 @@ gtag('config', 'G-VL5JMCR888');
          heroField.boot(initial);
      }
 
+    /* ========================================================
+       Easter eggs de Zelda
+       - Link em pixel art 8-bit (estilo NES), desenhado aqui mesmo
+       - Gatilhos: Canção de Ninar da Zelda (← ↑ → ← ↑ →), digitar
+         "hyrule" ou "zelda", e os [data-zelda-summon] da página
+       - Depois de chamado, o Link acompanha a rolagem pela base da tela
+       - Extras: mensagem no console, "Hey! Listen!" no título da aba
+         e o Link perdido na 404 (Lost Woods)
+       ======================================================== */
+    var zelda = (function () {
+        var PALETTE = { G: '#80d010', S: '#fca044', B: '#c84c0c', Y: '#f8b800' };
+
+        // Mapas 16×16 (a Triforce é 16×8). '.' é transparente.
+        var SPRITES = {
+            // de lado, olhando para a direita — dois quadros de caminhada
+            sideA: [
+                '................',
+                '......GGGGG.....',
+                '....GGGGGGGGG...',
+                '..GGGGGGGGGGGG..',
+                '.GGG.SGBBBBBBB..',
+                'GG..SSSBSSSBSS..',
+                'G....SSBSSSBSSS.',
+                'G.....BBSSSSSS..',
+                '.......BBSSSS...',
+                '.....GGGGGGG.BB.',
+                '....GGGGGGGGBSSB',
+                '....SBBBBBBBBSSB',
+                '....GGGGGGGGBSSB',
+                '.....GGGGGGG.BB.',
+                '.....SS..SS.....',
+                '....BBB..BBB....'
+            ],
+            sideB: [
+                '................',
+                '......GGGGG.....',
+                '....GGGGGGGGG...',
+                '..GGGGGGGGGGGG..',
+                '.GGG.SGBBBBBBB..',
+                'GG..SSSBSSSBSS..',
+                'G....SSBSSSBSSS.',
+                'G.....BBSSSSSS..',
+                '.......BBSSSS...',
+                '.....GGGGGGG.BB.',
+                '...SGGGGGGGGBSSB',
+                '...SBBBBBBBBBSSB',
+                '....GGGGGGGGBSSB',
+                '....GGGGGGGGGBB.',
+                '...SS.....SS....',
+                '..BBB......BBB..'
+            ],
+            // de frente, parado
+            front: [
+                '................',
+                '.....GGGGGG.....',
+                '....GGGGGGGG....',
+                '...GGGGGGGGGG...',
+                '...BBBBBBBBBB...',
+                '.SSBSSSSSSSSBSS.',
+                '..SSSBSSSSBSSS..',
+                '....SSSSSSSS....',
+                '.....SSSSSS.....',
+                '....GGGGGGGG....',
+                '...SGGGGGGGGS...',
+                '...SBBBBBBBBS...',
+                '....GGGGGGGG....',
+                '....GGGGGGGG....',
+                '.....SS..SS.....',
+                '....BBB..BBB....'
+            ],
+            // braços para cima: a pose de quem acabou de achar um item
+            cheer: [
+                '.SS..........SS.',
+                '.SS..GGGGGG..SS.',
+                '..S.GGGGGGGG.S..',
+                '..SGGGGGGGGGGS..',
+                '..SBBBBBBBBBBS..',
+                '.SSBSSSSSSSSBSS.',
+                '..SSSBSSSSBSSS..',
+                '..S.SSSSSSSS.S..',
+                '..S..SSSSSS..S..',
+                '...SGGGGGGGGS...',
+                '....GGGGGGGG....',
+                '....BBBBBBBB....',
+                '....GGGGGGGG....',
+                '....GGGGGGGG....',
+                '.....SS..SS.....',
+                '....BBB..BBB....'
+            ],
+            triforce: [
+                '.......Y........',
+                '......YYY.......',
+                '.....YYYYY......',
+                '....YYYYYYY.....',
+                '...Y.......Y....',
+                '..YYY.....YYY...',
+                '.YYYYY...YYYYY..',
+                'YYYYYYY.YYYYYYY.'
+            ]
+        };
+
+        var QUOTES = [
+            'Hey! Listen!',
+            'É perigoso ir sozinho! Pegue isto.',
+            'É um segredo para todo mundo.',
+            'Eu sou Error.',
+            'Dodongo detesta fumaça.',
+            'Zelda é a princesa. Eu sou o Link.'
+        ];
+        var WORDS = {
+            hyrule: 'Bem-vindo a Hyrule!',
+            zelda: 'Zelda é a princesa. Eu sou o Link.'
+        };
+        var SONG = ['ArrowLeft', 'ArrowUp', 'ArrowRight', 'ArrowLeft', 'ArrowUp', 'ArrowRight'];
+        var RESERVE_RIGHT = 112; // canto inferior direito fica livre para o botão do BrunoBot
+
+        function paint(canvas, map, scale) {
+            var c = canvas.getContext('2d');
+            if (!c) return;
+            var k = scale || 1;
+            c.clearRect(0, 0, canvas.width, canvas.height);
+            for (var y = 0; y < map.length; y++) {
+                for (var x = 0; x < map[y].length; x++) {
+                    var col = PALETTE[map[y].charAt(x)];
+                    if (!col) continue;
+                    c.fillStyle = col;
+                    c.fillRect(x * k, y * k, k, k);
+                }
+            }
+        }
+
+        function makeCanvas(w, h, cls) {
+            var cv = document.createElement('canvas');
+            cv.width = w;
+            cv.height = h;
+            if (cls) cv.className = cls;
+            return cv;
+        }
+
+        // ── Som: arpejo 8-bit original em onda quadrada ─────
+        // Só toca em resposta a um gesto (tecla ou clique), e baixinho.
+        var audio = null;
+        function chime(kind) {
+            var AC = window.AudioContext || window.webkitAudioContext;
+            if (!AC) return;
+            try {
+                if (!audio) audio = new AC();
+                if (audio.state === 'suspended') audio.resume();
+                var notes = kind === 'item'
+                    ? [784, 1047, 1319, 1568]
+                    : [523, 659, 831, 1047, 1319, 1661, 2093];
+                var gap = kind === 'item' ? 0.06 : 0.075;
+                var master = audio.createGain();
+                master.gain.value = 0.045;
+                master.connect(audio.destination);
+                var t0 = audio.currentTime + 0.02;
+                for (var i = 0; i < notes.length; i++) {
+                    var t = t0 + i * gap;
+                    var dur = i === notes.length - 1 ? 0.45 : 0.11;
+                    var o = audio.createOscillator();
+                    var g = audio.createGain();
+                    o.type = 'square';
+                    o.frequency.value = notes[i];
+                    g.gain.setValueAtTime(0.0001, t);
+                    g.gain.exponentialRampToValueAtTime(1, t + 0.008);
+                    g.gain.exponentialRampToValueAtTime(0.0001, t + dur);
+                    o.connect(g);
+                    g.connect(master);
+                    o.start(t);
+                    o.stop(t + dur + 0.03);
+                }
+            } catch (err) { /* sem áudio, sem problema */ }
+        }
+
+        // ── Caixa de diálogo: páginas com máquina de escrever ──
+        // O texto inteiro já ocupa o espaço (resto invisível), então a caixa
+        // nasce no tamanho final e não "cresce" enquanto digita.
+        var dialog = null, live = null, typeTimer = null, pageTimer = null;
+
+        function ensureDialog() {
+            if (dialog) return;
+            dialog = document.createElement('div');
+            dialog.className = 'zelda-dialog notranslate';
+            dialog.setAttribute('translate', 'no');
+            dialog.setAttribute('aria-hidden', 'true');
+            dialog.innerHTML = '<span class="zelda-dialog-text"></span><span class="zelda-dialog-rest"></span>' +
+                '<span class="zelda-dialog-more"> ▼</span>';
+            live = document.createElement('div');
+            live.className = 'sr-only';
+            live.setAttribute('role', 'status');
+            document.body.appendChild(dialog);
+            document.body.appendChild(live);
+        }
+
+        function hideDialog() {
+            if (!dialog) return;
+            clearTimeout(pageTimer);
+            clearInterval(typeTimer);
+            dialog.classList.remove('is-visible');
+        }
+
+        function say(pages) {
+            ensureDialog();
+            hideDialog();
+            var textEl = dialog.querySelector('.zelda-dialog-text');
+            var restEl = dialog.querySelector('.zelda-dialog-rest');
+            var i = 0;
+
+            (function page() {
+                var text = pages[i];
+                var more = i < pages.length - 1;
+                var n = reduceMotion ? text.length : 0;
+                var render = function () {
+                    textEl.textContent = text.slice(0, n);
+                    restEl.textContent = text.slice(n);
+                };
+                var finish = function () {
+                    dialog.classList.add('is-done');
+                    pageTimer = setTimeout(function () {
+                        if (more) { i++; page(); } else hideDialog();
+                    }, more ? 1400 : 2800);
+                };
+
+                live.textContent = text;
+                dialog.classList.toggle('has-more', more);
+                dialog.classList.remove('is-done');
+                render();
+                dialog.classList.add('is-visible');
+                place();
+
+                if (n >= text.length) { finish(); return; }
+                typeTimer = setInterval(function () {
+                    n++;
+                    render();
+                    if (n >= text.length) { clearInterval(typeTimer); finish(); }
+                }, 34);
+            })();
+        }
+
+        // Centraliza a caixa sobre o Link, sem sair da tela.
+        function place() {
+            if (!dialog || !link) return;
+            var vw = document.documentElement.clientWidth;
+            var bw = dialog.offsetWidth;
+            var left = link.x + link.size / 2 - bw / 2;
+            left = Math.max(12, Math.min(vw - 12 - bw, left));
+            dialog.style.transform = 'translate3d(' + Math.round(left) + 'px,0,0)';
+        }
+
+        // ── O Link companheiro ──────────────────────────────
+        // A posição dele na base da tela é o progresso da rolagem:
+        // topo da página = canto esquerdo, contato = canto direito.
+        var link = null;
+        var quoteIdx = 0;
+
+        function scrollTarget() {
+            var d = document.documentElement;
+            var min = 16;
+            var max = Math.max(min, d.clientWidth - RESERVE_RIGHT - link.size);
+            var range = Math.max(1, d.scrollHeight - d.clientHeight);
+            var p = Math.min(1, Math.max(0, (window.pageYOffset || d.scrollTop) / range));
+            return min + p * (max - min);
+        }
+
+        function setPose(name) {
+            if (link.pose === name) return;
+            link.pose = name;
+            paint(link.canvas, SPRITES[name]);
+        }
+
+        function setFacing(dir) {
+            if (link.facing === dir) return;
+            link.facing = dir;
+            link.el.classList.toggle('is-left', dir < 0);
+        }
+
+        function moveTo(x) {
+            link.x = x;
+            link.el.style.transform = 'translate3d(' + Math.round(x) + 'px,0,0)';
+            if (dialog && dialog.classList.contains('is-visible')) place();
+        }
+
+        function kick() {
+            if (link && link.raf === null) {
+                link.last = 0;
+                link.raf = requestAnimationFrame(step);
+            }
+        }
+
+        function step(now) {
+            if (!link) return;
+            link.raf = null;
+            if (link.state === 'item') return; // a pose congela tudo, como no jogo
+
+            var dt = link.last ? Math.min(0.1, (now - link.last) / 1000) : 1 / 60;
+            link.last = now;
+            var dx = link.target - link.x;
+
+            if (Math.abs(dx) > 0.5 && !reduceMotion) {
+                var speed = Math.min(680, Math.max(110, Math.abs(dx) * 3));
+                link.state = 'walk';
+                clearTimeout(link.idleTimer);
+                setFacing(dx > 0 ? 1 : -1);
+                link.walkT += dt;
+                setPose(Math.floor(link.walkT / 0.13) % 2 ? 'sideB' : 'sideA');
+                moveTo(link.x + (dx > 0 ? 1 : -1) * Math.min(Math.abs(dx), speed * dt));
+                link.raf = requestAnimationFrame(step);
+                return;
+            }
+
+            moveTo(link.target);
+            if (link.pending) {
+                var pages = link.pending;
+                link.pending = null;
+                itemGet(pages);
+            } else if (link.state === 'walk') {
+                // parou: fica de lado um instante e depois vira para a tela
+                link.state = 'idle';
+                setPose('sideA');
+                link.idleTimer = setTimeout(function () {
+                    if (link && link.state === 'idle') setPose('front');
+                }, 1200);
+            }
+        }
+
+        function itemGet(pages) {
+            link.state = 'item';
+            clearTimeout(link.idleTimer);
+            clearTimeout(link.itemTimer);
+            setPose('cheer');
+            link.el.classList.add('is-item');
+            say(pages);
+            link.itemTimer = setTimeout(function () {
+                if (!link) return;
+                link.el.classList.remove('is-item');
+                link.state = 'idle';
+                setPose('front');
+                kick(); // se a página rolou durante a pose, ele vai atrás
+            }, 2600);
+        }
+
+        function onScroll() {
+            if (!link) return;
+            link.target = scrollTarget();
+            if (reduceMotion) {
+                if (link.state !== 'item') moveTo(link.target);
+                return;
+            }
+            kick();
+        }
+
+        function onResize() {
+            if (!link) return;
+            link.size = link.el.offsetWidth || link.size;
+            onScroll();
+        }
+
+        function create() {
+            var el = document.createElement('div');
+            el.className = 'zelda-link';
+
+            var item = makeCanvas(16, 8, 'zelda-link-item');
+            item.setAttribute('aria-hidden', 'true');
+            paint(item, SPRITES.triforce);
+
+            var sprite = document.createElement('button');
+            sprite.type = 'button';
+            sprite.className = 'zelda-link-sprite';
+            sprite.setAttribute('aria-label', 'Link, em pixel art. Clique para ele falar.');
+            var canvas = makeCanvas(16, 16);
+            sprite.appendChild(canvas);
+
+            var close = document.createElement('button');
+            close.type = 'button';
+            close.className = 'zelda-link-close';
+            close.setAttribute('aria-label', 'Dispensar o Link');
+            close.textContent = '×';
+
+            el.appendChild(item);
+            el.appendChild(sprite);
+            el.appendChild(close);
+            document.body.appendChild(el);
+
+            link = {
+                el: el, canvas: canvas, size: el.offsetWidth || 64,
+                x: 0, target: 0, facing: 1, pose: null, state: 'walk', walkT: 0,
+                pending: null, raf: null, last: 0, idleTimer: null, itemTimer: null
+            };
+            setPose('sideA');
+            moveTo(-link.size); // começa fora da tela, à esquerda
+
+            sprite.addEventListener('click', function () {
+                if (!link || link.state === 'item') return;
+                chime('item');
+                itemGet([QUOTES[quoteIdx++ % QUOTES.length]]);
+            });
+            close.addEventListener('click', dismiss);
+            window.addEventListener('scroll', onScroll, { passive: true });
+            window.addEventListener('resize', onResize);
+        }
+
+        function dismiss() {
+            if (!link) return;
+            var gone = link;
+            link = null;
+            if (gone.raf) cancelAnimationFrame(gone.raf);
+            clearTimeout(gone.idleTimer);
+            clearTimeout(gone.itemTimer);
+            window.removeEventListener('scroll', onScroll);
+            window.removeEventListener('resize', onResize);
+            hideDialog();
+            gone.el.classList.add('is-leaving');
+            setTimeout(function () {
+                if (gone.el.parentNode) gone.el.parentNode.removeChild(gone.el);
+            }, 400);
+        }
+
+        function openChest() {
+            var cards = document.querySelectorAll('.project-card--secret');
+            for (var i = 0; i < cards.length; i++) {
+                cards[i].classList.add('is-open');
+                var title = cards[i].querySelector('.secret-title');
+                if (title) title.textContent = 'Segredo encontrado';
+            }
+        }
+
+        function summon(line) {
+            if (link && link.state === 'item') return; // já está com o item erguido
+            chime('secret');
+            openChest();
+            var pages = [line];
+            var fresh = !link;
+            if (fresh) {
+                pages.push('Role a página: eu vou junto.');
+                create();
+            }
+            link.target = scrollTarget();
+            // entra pelo lado mais perto de onde ele precisa chegar
+            var vw = document.documentElement.clientWidth;
+            if (fresh && link.target > vw / 2) moveTo(vw);
+            if (reduceMotion || Math.abs(link.target - link.x) <= 0.5) {
+                moveTo(link.target);
+                itemGet(pages);
+            } else {
+                link.pending = pages; // ergue o item quando chegar
+                kick();
+            }
+        }
+
+        // ── Gatilhos ────────────────────────────────────────
+        function initTriggers() {
+            var notes = [], typed = '';
+
+            document.addEventListener('keydown', function (e) {
+                if (e.key === 'Escape') { dismiss(); return; }
+                if (e.ctrlKey || e.metaKey || e.altKey) return;
+                // nada de easter egg enquanto alguém digita no formulário (ou no chat)
+                var t = (e.composedPath && e.composedPath()[0]) || e.target;
+                if (t && (t.isContentEditable || /^(INPUT|TEXTAREA|SELECT)$/.test(t.tagName || ''))) return;
+
+                notes.push(e.key);
+                if (notes.length > SONG.length) notes.shift();
+                if (notes.join() === SONG.join()) {
+                    notes = [];
+                    summon('Você tocou a Canção de Ninar da Zelda.');
+                    return;
+                }
+
+                if (e.key && e.key.length === 1) {
+                    typed = (typed + e.key.toLowerCase()).slice(-8);
+                    for (var w in WORDS) {
+                        if (typed.slice(-w.length) === w) {
+                            typed = '';
+                            summon(WORDS[w]);
+                            break;
+                        }
+                    }
+                }
+            });
+
+            document.addEventListener('click', function (e) {
+                var el = e.target && e.target.closest && e.target.closest('[data-zelda-summon]');
+                if (el) summon(el.getAttribute('data-zelda-summon') || 'Você encontrou um segredo!');
+            });
+        }
+
+        // ── Para quem abre o DevTools ───────────────────────
+        function initConsole() {
+            if (!window.console || !console.log) return;
+            try {
+                var cv = makeCanvas(64, 64);
+                paint(cv, SPRITES.front, 4);
+                console.log('%c ', 'font-size:1px;padding:32px;background:url(' + cv.toDataURL() +
+                    ') no-repeat center / 64px 64px;');
+            } catch (err) { /* sem imagem no console, segue só o texto */ }
+            console.log('%cÉ perigoso ir sozinho! Pegue isto: bru.kawakami@gmail.com',
+                'font:600 13px/1.7 ui-monospace,Menlo,monospace;color:#80d010');
+            console.log('%cPsst: toque a Canção de Ninar da Zelda (← ↑ → ← ↑ →) ou digite "hyrule".',
+                'font:12px/1.7 ui-monospace,Menlo,monospace;color:#999');
+        }
+
+        // ── A Navi chama quando você sai da aba ─────────────
+        function initTabTitle() {
+            var saved = null;
+            document.addEventListener('visibilitychange', function () {
+                if (document.hidden) {
+                    saved = document.title;
+                    document.title = 'Hey! Listen! · Bruno Kawakami';
+                } else if (saved !== null) {
+                    document.title = saved;
+                    saved = null;
+                }
+            });
+        }
+
+        // ── 404: o Link perdido na Lost Woods, olhando em volta ──
+        function initLost() {
+            var cv = document.querySelector('[data-zelda-lost]');
+            if (!cv) return;
+            cv.width = 16;
+            cv.height = 16;
+            if (reduceMotion) { paint(cv, SPRITES.front); return; }
+            var seq = [['sideA', 1, 800], ['sideA', -1, 800], ['sideA', 1, 800], ['front', 1, 1500],
+                ['sideA', -1, 800], ['front', 1, 1500]];
+            var i = 0;
+            (function look() {
+                var s = seq[i++ % seq.length];
+                paint(cv, SPRITES[s[0]]);
+                cv.classList.toggle('is-left', s[1] < 0);
+                setTimeout(look, s[2]);
+            })();
+        }
+
+        return {
+            init: function () {
+                initTriggers();
+                initConsole();
+                initTabTitle();
+                initLost();
+            }
+        };
+    })();
+
     ready(function () {
         initNav();
         initChrome();
@@ -1281,5 +1824,6 @@ gtag('config', 'G-VL5JMCR888');
         initCountups();
         initMagnetic();
         initHero();
+        zelda.init();
     });
 })();

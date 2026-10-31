@@ -211,7 +211,12 @@
                     </div>
                     <p class="about-aside mono">
                         <span class="about-aside-label">// Fora do trabalho</span>
-                        Música clássica e violino · IoT e automação · Psicologia da tecnologia
+                        Música clássica e violino · IoT e automação · Psicologia da tecnologia ·
+                        <button type="button" class="zelda-summon" data-zelda-summon="Você encontrou um segredo!">Fã
+                            de The Legend of Zelda<svg class="zelda-summon-tri" viewBox="0 0 20 17.32"
+                                aria-hidden="true">
+                                <path d="M10 0 15 8.66H5zM5 8.66 10 17.32H0zM15 8.66 20 17.32H10z" />
+                            </svg></button>
                     </p>
                 </div>
             </div>
@@ -633,6 +638,34 @@
                     <span class="project-link">dropp.news <i class="fas fa-arrow-right"
                             aria-hidden="true"></i></span>
                 </a>
+
+                <!-- Easter egg: a sala secreta fecha a grade de 3 colunas.
+                     Abre com a Canção de Ninar da Zelda (← ↑ → ← ↑ →) ou com um clique. -->
+                <div class="project-card project-card--secret" data-reveal>
+                    <span class="project-index mono" aria-hidden="true">P/??</span>
+                    <span class="project-icon" aria-hidden="true">
+                        <svg class="chest chest--closed" viewBox="0 0 14 12" fill="currentColor"
+                            shape-rendering="crispEdges">
+                            <path
+                                d="M2 2h10v1h-10zM1 3h1v1h-1zM12 3h1v1h-1zM0 4h1v1h-1zM13 4h1v1h-1zM0 5h14v1h-14zM0 6h1v5h-1zM6 6h2v1h-2zM13 6h1v5h-1zM6 8h2v1h-2zM0 11h14v1h-14z" />
+                            <path opacity="0.28"
+                                d="M2 3h10v1h-10zM1 4h12v1h-12zM1 6h5v3h-5zM8 6h5v3h-5zM1 9h12v2h-12z" />
+                        </svg>
+                        <svg class="chest chest--open" viewBox="0 0 14 12" fill="currentColor"
+                            shape-rendering="crispEdges">
+                            <path
+                                d="M3 0h1v1h-1zM6 0h1v1h-1zM9 0h1v1h-1zM1 1h1v1h-1zM12 1h1v1h-1zM2 2h10v1h-10zM1 3h1v1h-1zM12 3h1v1h-1zM0 4h14v1h-14zM0 5h1v1h-1zM13 5h1v1h-1zM0 6h14v1h-14zM0 7h1v4h-1zM6 7h2v1h-2zM13 7h1v4h-1zM6 9h2v1h-2zM0 11h14v1h-14z" />
+                            <path opacity="0.28" d="M2 3h10v1h-10zM1 7h5v3h-5zM8 7h5v3h-5zM1 10h12v1h-12z" />
+                            <path opacity="0.6" d="M1 5h12v1h-12z" />
+                        </svg>
+                    </span>
+                    <h4 class="secret-title">???</h4>
+                    <p>
+                        Uma sala secreta. Dizem que ela abre com uma canção.
+                    </p>
+                    <button type="button" class="project-link secret-open" data-zelda-summon="Você encontrou a Triforce!"
+                        aria-label="Abrir a sala secreta">← ↑ → ← ↑ →</button>
+                </div>
             </div>
         </div>
     </section>
@@ -647,6 +680,15 @@
                     <p class="contact-lead">
                         Aberto a conversas sobre liderança de engenharia, IA aplicada a produto, due diligence
                         técnica, imprensa e eventos — e a novas oportunidades.
+                    </p>
+
+                    <p class="contact-quest mono">
+                        <svg class="pixel-sword" viewBox="0 0 12 5" fill="currentColor" shape-rendering="crispEdges"
+                            aria-hidden="true">
+                            <path d="M3 0h1v1h-1zM3 1h8v1h-8zM0 2h4v1h-4zM11 2h1v1h-1zM3 3h8v1h-8zM3 4h1v1h-1z" />
+                            <path opacity="0.35" d="M4 2h7v1h-7z" />
+                        </svg>
+                        É perigoso ir sozinho! Pegue isto.
                     </p>
 
                     <ul class="contact-direct">
@@ -695,7 +737,15 @@
                 <a href="https://www.linkedin.com/in/bruno-akio-kawakami/" target="_blank" rel="noopener">LinkedIn</a>
                 <a href="mailto:bru.kawakami@gmail.com">E-mail</a>
             </span>
-            <span>SP — BR · 23°33′S 46°38′W</span>
+            <span class="footer-end">
+                SP — BR · 23°33′S 46°38′W
+                <button type="button" class="footer-triforce" data-zelda-summon="É um segredo para todo mundo."
+                    title="É um segredo para todo mundo." aria-label="É um segredo para todo mundo.">
+                    <svg viewBox="0 0 20 17.32" aria-hidden="true">
+                        <path d="M10 0 15 8.66H5zM5 8.66 10 17.32H0zM15 8.66 20 17.32H10z" />
+                    </svg>
+                </button>
+            </span>
         </div>
     </footer>
 

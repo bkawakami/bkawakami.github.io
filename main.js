@@ -1,9 +1,3 @@
-// Analytics
-window.dataLayer = window.dataLayer || [];
-function gtag() { dataLayer.push(arguments); }
-gtag('js', new Date());
-gtag('config', 'G-VL5JMCR888');
-
 /* ============================================================
    brunokawakami.com — interações
    - Campo de dados do hero (4 engines: 3 em canvas 2D + wormhole em WebGL)
